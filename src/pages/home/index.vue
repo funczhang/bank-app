@@ -107,6 +107,7 @@ export default {
 }
 </script>
 <style lang="less">
+// 首页tab切换
 html, body {
   height: 100%;
   width: 100%;

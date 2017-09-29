@@ -1,0 +1,55 @@
+<template lang="pug">
+  div(style="height:100%;")
+    view-box(ref="viewBox" body-padding-top="46px" body-padding-bottom="50px")
+      x-header(slot="header" title="江苏兴化农村商业银行" :left-options="{showBack:true}" style="width:100%;position:fixed;left:0;top:0;z-index:100;")
+        tab(slot="default")
+          tab-item(selected @on-item-click="onItemClick") 系统公告
+          tab-item(@on-item-click="onItemClick") 活动公告
+      .content  
+        tab
+          tab-item(selected @on-item-click="onItemClick") 系统公告
+          tab-item(@on-item-click="onItemClick") 活动公告
+        scroller(lock-y scrollbar-x height="500px" ref="scrollerEvent")
+          span 111 
+
+</template>
+
+<script>
+import { ViewBox, XHeader, Tab, TabItem, Scroller } from 'vux'
+export default {
+  components: {
+    ViewBox,
+    XHeader,
+    Tab,
+    TabItem,
+    Scroller
+  },
+  data () {
+    return {
+      index: 0
+    }
+  },
+  mounted () {
+  },
+  methods: {
+    onItemClick (index) {
+      console.log('on item click:', index)
+    }
+  }
+}
+</script>
+<style lang="less" scoped>
+html, body {
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+  .content{
+  }
+  .vux-header{
+    .vux-header-title{
+      font-size: 14px;
+    }
+  }
+}
+</style>
+

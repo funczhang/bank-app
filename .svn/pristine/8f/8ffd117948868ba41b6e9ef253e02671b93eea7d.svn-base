@@ -1,0 +1,39 @@
+import Vue from 'vue'
+import Router from 'vue-router'
+Vue.use(Router)
+export default new Router({
+  routes: [
+    {
+      path: '/',
+      name: 'HomePage',
+      components: {
+        'default': resolve => require(['../pages/home/HomePage.vue'], resolve),
+        'tabbar': resolve => require(['../pages/common/tabbar.vue'], resolve)
+      }
+    },
+    {
+      path: '/inform',
+      name: 'Inform',
+      components: {
+        'default': resolve => require(['../pages/home/inform.vue'], resolve),
+        'tabbar': resolve => require(['../pages/common/tabbar.vue'], resolve)
+      }
+    },
+    {
+      path: '/creditApply',
+      name: 'CreditApply',
+      components: {
+        'default': resolve => require(['../pages/home/CreditApply.vue'], resolve),
+        'tabbar': resolve => require(['../pages/common/tabbar.vue'], resolve)
+      }
+    },
+    {
+      path: '/more',
+      name: 'More',
+      components: {
+        'default': resolve => require(['../pages/my/more.vue'], resolve),
+        'tabbar': resolve => require(['../pages/common/tabbar.vue'], resolve)
+      }
+    }
+  ]
+})

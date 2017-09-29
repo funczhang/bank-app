@@ -1,0 +1,266 @@
+﻿/*-------------- reset.css --------------------*/
+html,
+body,
+div,
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+pre,
+form,
+fieldset,
+input,
+lable,
+textarea,
+p,
+blockquote,
+img,
+th,
+td {
+    margin: 0;
+    padding: 0;
+}
+html,body{
+    height:100%;
+    background:#f5f5f5;
+}
+img {
+    border: none;
+    float: none;
+}
+
+fieldset {
+    border: 0;
+}
+
+ol,
+ul {
+    list-style: none;
+}
+a {
+    text-decoration: none;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    cursor: pointer;
+}
+
+select,
+input {
+    vertical-align: middle;
+    padding: 1px 0;
+}
+
+label {
+    cursor: hand;
+}
+
+abbr,
+acronym {
+    border: 0;
+}
+
+button {
+    outline: 0;
+}
+
+
+/*去除边框虚线*/
+
+iframe {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+}
+
+input {
+    margin: 0;
+    padding: 0;
+    outline: none;
+    border: 0;
+}
+
+
+/* 通用 */
+
+::-webkit-input-placeholder {
+    color: #999;
+    font-size: 0.75rem;
+}
+
+::-moz-placeholder {
+    color: #999;
+    font-size: 0.75rem;
+}
+
+
+/* firefox 19+ */
+
+:-ms-input-placeholder {
+    color: #999;
+    font-size: 0.75rem;
+}
+
+
+/* ie */
+
+input:-moz-placeholder {
+    color: #999;
+    font-size: 0.75rem;
+}
+
+
+/*-------------- base.css --------------------*/
+
+.fl {
+    float: left;
+}
+
+.fr {
+    float: right;
+}
+
+.hide {
+    display: none;
+}
+
+.clear {
+    clear: both;
+    height: 0;
+    overflow: hidden;
+}
+
+
+/*清除浮动*/
+
+.clearfix {
+    *zoom: 1;
+}
+
+.clearfix:after {
+    display: block;
+    content: "clear";
+    height: 0;
+    clear: both;
+    overflow: hidden;
+    visibility: hidden;
+}
+
+
+/*单行文字溢出虚点显示*/
+
+.ell {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+/* 修改插件样式 */
+.weui-tab .weui-cell{
+    padding:0;
+    font-size:14px;
+}
+.weui-tab .weui-cell_access .weui-cell__ft:after{
+    border-color:#333;
+}
+.weui-label,
+.weui-cells:after{
+    border:none !important;
+    color:#666;
+}
+#app .vux-cell-box:before{
+    border:none;
+}
+#app .weui-cells:before{
+    border:none;
+}
+.weui-tab .weui-cell{
+    margin-top:0;
+  }
+#app .vux-no-group-title{
+    margin-top:0;
+    background:#f5f5f5;
+}
+#app [class^="weui-icon-"], [class*=" weui-icon-"]{
+    position: relative;
+    top:-1px;
+    line-height: 1.5;
+    font-size:20px;
+}
+#app .vux-popup-picker-value{
+    color:#666;
+  }
+#app .vux-check-icon > .weui-icon-success:before,
+#app .vux-check-icon > .weui-icon-success-circle:before{
+      color:#1f76e2;
+  }
+/* 导航栏字体 */
+  .weui-tab .vux-header .vux-header-title > span {
+    font-size:16px;
+    color:#333;
+  } 
+  /* tab未选中颜色 */
+  #app .weui-tabbar__label{
+      font-size:13px;
+      color:#666;
+  }
+  /* tab选中字体颜色 */
+  #app .weui-tabbar__item.weui-bar__item_on .weui-tabbar__icon, 
+  #app .weui-tabbar__item.weui-bar__item_on .weui-tabbar__icon > i, 
+  #app .weui-tabbar__item.weui-bar__item_on .weui-tabbar__label{
+      color:#1f76e2;
+  }
+  /* tab背景 */
+  #app .weui-tabbar{
+    background:#fff;
+  }
+  /* tab上边框 */
+  #app .weui-tabbar:before{
+    border-top: 1px solid #f0f0f0;
+  }
+  /* 左箭头 */
+  .weui-tab .vux-header .vux-header-left .left-arrow:before{
+    content: "";
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border: 1px solid #333;
+    border-width: 1px 0 0 1px;
+    -webkit-transform: rotate(315deg);
+    transform: rotate(315deg);
+    top: 8px;
+    left: 7px;
+  }
+  /* xswitch */
+  #app  .weui-cell{
+      background:#fff;
+  }
+  #app .weui-switch:checked,#app .weui-switch-cp__input:checked ~ .weui-switch-cp__box{
+    border-color:#1f76e2;
+    background-color:#1f76e2;
+  }
+  #app .vux-x-switch.weui-cell_switch{
+      padding:10px 15px;
+      background:#fff;
+  }
+  #app .vux-label{
+    font-size:14px;
+    color:#333;
+  }
+  #app .weui-label{
+    font-sizse:14px;
+    color:#333; 
+  }
+  /* 蓝色色调1f76e2 */
+  /* tab头颜色 */
+  .vux-tab-ink-bar{
+      background-color:none !important;
+  }
+  /* 现在背景颜色f5f5f5
+  线框是ededed */

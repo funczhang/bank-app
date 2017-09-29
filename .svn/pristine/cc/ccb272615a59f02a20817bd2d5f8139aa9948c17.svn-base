@@ -1,0 +1,149 @@
+<template lang="pug">
+  div(style="height:100%;")
+    view-box(ref="viewBox" body-padding-top="46px" body-padding-bottom="50px")
+      x-header(slot="header" title="江苏兴化农村商业银行" :left-options="{showBack:false}" style="width:100%;position:fixed;left:0;top:0;z-index:100;")
+        img(src="../../assets/imgs/icon-email.png" slot="overwrite-left")
+        img(src="../../assets/imgs/icon-code.png" slot="right")
+      .content
+        swiper(:list="imglist" v-model="index" :auto="true" :loop="true")
+        .inform
+          span 公告:
+            span 兴盛e贷APP上线啦！
+        ul(class="btn-area clearfix")
+          li 
+            img(src="../../assets/imgs/icon-acount.png") 
+            span 我的账户
+          li 
+            img(src="../../assets/imgs/icon-myloan.png") 
+            span 我的贷款
+          li 
+            img(src="../../assets/imgs/icon-myrepay.png") 
+            span 我的还款
+          li 
+            img(src="../../assets/imgs/icon-mycard.png") 
+            span 我的信用卡
+          li 
+            img(src="../../assets/imgs/icon-myservice.png") 
+            span 理财服务
+          li 
+            img(src="../../assets/imgs/icon-myrate.png") 
+            span 利率查询 
+          li 
+            img(src="../../assets/imgs/icon-btnadd.png") 
+            span 添加功能 
+        .btn-loan
+          img(src="../../assets/imgs/pic05.png")
+        ul(class="btn-classify clearfix")
+          li
+            img(src="../../assets/imgs/pic06.png")
+          li
+            img(src="../../assets/imgs/pic07.png")
+          li
+            img(src="../../assets/imgs/pic08.png")   
+</template>
+
+<script>
+import { ViewBox, XHeader, Tabbar, TabbarItem, Swiper } from 'vux'
+
+export default {
+  components: {
+    ViewBox,
+    XHeader,
+    Tabbar,
+    TabbarItem,
+    Swiper
+  },
+  data () {
+    return {
+      imglist: [
+        { url: '../../assets/imgs/pic01.png',
+          img: 'https://static.vux.li/demo/1.jpg'
+        },
+        { url: '../../assets/imgs/pic02.png',
+          img: 'https://static.vux.li/demo/2.jpg'
+        },
+        { url: '../../assets/imgs/pic03.png',
+          img: 'https://static.vux.li/demo/3.jpg'
+        },
+        { url: '../../assets/imgs/pic04.png',
+          img: 'https://static.vux.li/demo/1.jpg'
+        }
+      ],
+      index: 0
+    }
+  },
+  mounted () {
+  },
+  methods: {}
+}
+</script>
+<style lang="less">
+html, body {
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+  .content{
+    .inform {
+      padding:10px;
+      background:#eaeaea;
+    }
+    .btn-area {
+      padding:2%;
+      border-top:1px solid #000;
+      border-bottom:1px solid #000;
+      li {
+        padding-top:20px;
+        float:left;
+        width:25%;
+        text-align: center;
+        img {
+          display: block;
+          margin:0 auto;
+          padding-bottom:5px;
+          width:50px;
+          height:50px;
+        }
+        span {
+          display: block;
+          text-align: center;
+          font-size:12px;
+        }
+      }
+    }
+    .btn-loan{
+      padding:2%;
+      img{
+        display: block;
+        width:100%;
+        height:100%;
+        border-radius: 8px;
+      }
+    }
+    .btn-classify{
+      li{
+        float: left;
+        margin:2%;
+        width:29%;
+        img {
+          width:100%;
+          height:100%;
+          border-radius: 8px;
+        }
+      }
+    }
+  }
+  .vux-header{
+    .vux-header-title{
+      font-size: 14px;
+    }
+    img{
+      position:relative;
+      top:0;
+      left:-3px;
+      width:20px;
+      height:20px;
+    }
+  }
+}
+</style>
+

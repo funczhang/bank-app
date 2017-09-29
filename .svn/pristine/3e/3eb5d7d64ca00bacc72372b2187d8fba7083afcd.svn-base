@@ -1,0 +1,44 @@
+<template lang="pug">
+  div(style="height:100%;")
+    view-box(ref="viewBox" body-padding-top="46px" body-padding-bottom="50px")
+      x-header(slot="header" title="授信申请" :left-options="{showBack:true}" style="width:100%;position:fixed;left:0;top:0;z-index:100;")
+      .content  
+
+</template>
+
+<script>
+import { ViewBox, XHeader, Tab, TabItem, Scroller } from 'vux'
+export default {
+  components: {
+    ViewBox,
+    XHeader,
+    Tab,
+    TabItem,
+    Scroller
+  },
+  data () {
+    return {
+      index: 0
+    }
+  },
+  mounted () {
+  },
+  methods: {
+  }
+}
+</script>
+<style lang="less" scoped>
+html, body {
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+  .content{
+  }
+  .vux-header{
+    .vux-header-title{
+      font-size: 14px;
+    }
+  }
+}
+</style>
+

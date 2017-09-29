@@ -1,0 +1,32 @@
+<template lang="pug">
+  tabbar
+    tabbar-item
+      img(slot="icon" src="../../assets/imgs/icon-home.png")
+      span(slot="label") 首页
+    tabbar-item(show-dot)
+      img(slot="icon" src="../../assets/imgs/icon-loan.png")
+      span(slot="label") 贷款
+    tabbar-item(selected)
+      img(slot="icon" src="../../assets/imgs/icon-rate.png")
+      span(slot="label") 利率
+    tabbar-item()
+      img(slot="icon" src="../../assets/imgs/icon-my.png")
+      span(slot="label") 我的
+</template>
+
+<script>
+import { Tabbar, TabbarItem } from 'vux'
+
+export default {
+  components: {
+    Tabbar,
+    TabbarItem
+  },
+  mounted () {
+  },
+  methods: {}
+}
+</script>
+<style lang="less">
+</style>
+

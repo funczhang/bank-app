@@ -4,6 +4,7 @@
     router-view(name="tabbar")
 </template>
 <script>
+// 主入口
 import { ViewBox, XHeader, Tabbar, TabbarItem } from 'vux'
 export default {
   name: 'app',

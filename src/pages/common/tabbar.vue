@@ -27,11 +27,12 @@ export default {
   },
   data () {
     return {
-      toTab: 0
+      toTab: this.$store.state.tabItem
     }
   },
   mounted () {
     let path = this.$route.path
+    // debugger
     if (path === '/') {
       this.toTab = 0
     } else if (path === '/loan') {
@@ -43,6 +44,7 @@ export default {
     }
   },
   activated () {
+    console.log('111')
   },
   methods: {
     loan () {

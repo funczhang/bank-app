@@ -1,6 +1,8 @@
 <template lang="pug">
   div(id="app")
-    router-view
+    transition
+      keep-alive
+        router-view
     router-view(name="tabbar")
 </template>
 <script>
@@ -14,7 +16,13 @@ export default {
     Tabbar,
     TabbarItem
   },
+  mounted () {
+    // let path = this.$route.path
+    // console.log(path)
+    // debugger
+  },
   activated () {
+    console.log('1111')
   }
 }
 </script>

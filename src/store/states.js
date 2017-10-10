@@ -6,7 +6,8 @@ import * as getters from './getters'
 const state = {
   userInfo: {
     name: 'nick'
-  }
+  },
+  tabItem: 0
 }
 Vue.use(Vuex)
 export default new Vuex.Store({

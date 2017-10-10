@@ -20,7 +20,6 @@
 
 <script>
 import { Tabbar, TabbarItem } from 'vux'
-
 export default {
   components: {
     Tabbar,
@@ -50,7 +49,6 @@ export default {
       console.log('1111')
     },
     toPage (flag) {
-      debugger
       if (flag === 0) {
         this.$router.push('/')
       } else if (flag === 1) {

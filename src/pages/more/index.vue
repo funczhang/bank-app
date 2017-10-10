@@ -7,33 +7,27 @@
           div(slot="content" class="msg-box")
         group
           cell(title="常见问题" is-link style="margin-top:15px;border-bottom:none" link="/myGurantee")
-            img(src="../../assets/imgs/icon-danbao.png" slot="icon")
+            img(src="../../assets/imgs/icon-usual-question.png" slot="icon")
           cell(title="咨询服务" is-link link="/bankCardList")
-            img(src="../../assets/imgs/icon-bank.png" slot="icon")
+            img(src="../../assets/imgs/icon-consult-service.png" slot="icon")
           cell(title="给予评价" is-link link="/couponList" style="margin-top:15px;border-bottom:none")
-            img(src="../../assets/imgs/icon-juan.png" slot="icon")
+            img(src="../../assets/imgs/icon-give-evaluate.png" slot="icon")
           cell(title="分享给好友" is-link link="/setting")
-            img(src="../../assets/imgs/icon-setting.png" slot="icon")
-          cell(title="意见反馈" is-link link="/myGurantee" style="margin-top:15px;border-bottom:none")
-            img(src="../../assets/imgs/icon-setting.png" slot="icon")
-          cell(title="意见反馈" is-link link="/myGurantee")
-            img(src="../../assets/imgs/icon-setting.png" slot="icon")
+            img(src="../../assets/imgs/icon-share-friends.png" slot="icon")
+          cell(title="意见反馈" is-link link="/suggest" style="margin-top:15px;border-bottom:none")
+            img(src="../../assets/imgs/icon-suggest-feedback.png" slot="icon")
+          cell(title="关于" is-link link="/myGurantee")
+            img(src="../../assets/imgs/icon-about.png" slot="icon")
         .btn-exit 退出
 </template>
 
 <script>
-import { ViewBox, XHeader, Tab, TabItem, Scroller, Cell, Group, PopupPicker, XInput, CheckIcon, Masker } from 'vux'
+import { ViewBox, XHeader, Cell, Group, Masker } from 'vux'
 export default {
   components: {
     ViewBox,
     XHeader,
-    Tab,
-    TabItem,
-    Scroller,
     Group,
-    PopupPicker,
-    XInput,
-    CheckIcon,
     Masker,
     Cell
   },

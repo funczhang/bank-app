@@ -191,6 +191,13 @@ export default new Router({
         'default': resolve => require(['../pages/common/iframe.vue'], resolve)
         // 'tabbar': resolve => require(['../pages/common/tabbar.vue'], resolve)
       }
+    },
+    {
+      path: '/about', // 关于页面
+      name: 'about',
+      components: {
+        'default': resolve => require(['../pages/more/about.vue'], resolve)
+      }
     }
   ]
 })

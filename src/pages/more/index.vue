@@ -6,7 +6,7 @@
         masker(style="border-radius: 2px;" color="#000" :opacity="0.5" fullscreen=true v-show="false")
           div(slot="content" class="msg-box")
         group
-          cell(title="常见问题" is-link style="margin-top:15px;border-bottom:none" link="/myGurantee")
+          cell(title="常见问题" is-link style="margin-top:15px;border-bottom:none" link="/about")
             img(src="../../assets/imgs/icon-danbao.png" slot="icon")
           cell(title="咨询服务" is-link link="/bankCardList")
             img(src="../../assets/imgs/icon-bank.png" slot="icon")

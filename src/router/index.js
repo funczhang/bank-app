@@ -178,6 +178,13 @@ export default new Router({
       }
     },
     {
+      path: '/suggest', // 我的模块
+      name: 'Suggest',
+      components: {
+        'default': resolve => require(['../pages/more/suggest.vue'], resolve)
+      }
+    },
+    {
       path: '/iframe', // 内嵌页面
       name: 'Iframe',
       components: {

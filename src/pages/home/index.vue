@@ -68,21 +68,20 @@ export default {
     }
   },
   mounted () {
-    let self = this
-    let path = 'http://192.168.2.100:8080/xsyd-app-manager/app/xsyd/quickLogin.do'
-    let data = {
-      path: path,
-      params: {
-        callback: 'init'
-      }
-    }
-    self.$store.dispatch('initInfo', data).then(res => {
-      alert(res)
-    })
+  },
+  activated () {
+    // 获取设备信息和token
+    this.getBaseInfo()
+    this.getPicList()
   },
   methods: {
     toInform () {
-      this.$router.push('/inform')
+      let token = this.$store.state.userInfo.token
+      if (token !== '') {
+        this.$router.push('/inform')
+      } else {
+        this.$vux.toast.text('请登录后查看公告哦~')
+      }
     },
     toAccount () {
       this.$router.push('/bankCardList')
@@ -101,6 +100,32 @@ export default {
       this.$vux.toast.show({
         type: 'text',
         text: '该项暂未开通哦!'
+      })
+    },
+    getBaseInfo () {
+      let self = this
+      let path = ''
+      let data = {
+        path: path,
+        params: {
+        }
+      }
+      // 获取设备信息
+      self.$store.dispatch('getRequest', data).then(res => {
+        let data = JSON.parse(res)
+        // 存用户信息
+        self.$store.commit('INIT_USER_INFO', data)
+      })
+    },
+    getPicList () {
+      let self = this
+      let path = self.$store.state.baseUrl + '/app/xsyd/getAppCarouseList.do'
+      let data = {
+        path: path,
+        params: {
+        }
+      }
+      self.$store.dispatch('initRequest', data).then(res => {
       })
     }
   }

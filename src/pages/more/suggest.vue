@@ -7,16 +7,16 @@
           div(slot="content" class="msg-box")
         ul(class="classify clearfix")
           li
-            check-icon(:value.sync="isConfirm")
+            check-icon(:value.sync="qType[0]")
             span 提个建议
           li
-            check-icon(:value.sync="isConfirm")
+            check-icon(:value.sync="qType[1]")
             span 出错误啦
           li
-            check-icon(:value.sync="isConfirm")
+            check-icon(:value.sync="qType[2]")
             span 不好用
           li
-            check-icon(:value.sync="isConfirm")
+            check-icon(:value.sync="qType[3]")
             span 其他
         x-textarea(v-model="value" show-counter=true placeholder="您的反馈帮助我们成长" :rows=7 style="padding:10px")
         .btn-submit 提交
@@ -38,13 +38,33 @@ export default {
   data () {
     return {
       index: 0,
-      isConfirm: false,
+      qType: [false, false, false, false],
       value: ''
     }
   },
   mounted () {
   },
   methods: {
+    submit () {
+      let self = this
+      let path = self.$store.state.baseUrl + '/app/xsyd/feedback.do'
+      let token = self.$store.state.userInfo.token
+      let data = {
+        path: path,
+        params: {
+          userToken: token,
+          qType: ''
+        }
+      }
+      // 显示
+      this.$vux.loading.show({
+        text: 'Loading'
+      })
+      self.$store.dispatch('initRequest', data).then(res => {
+        // 隐藏
+        this.$vux.loading.hide()
+      })
+    }
   }
 }
 </script>

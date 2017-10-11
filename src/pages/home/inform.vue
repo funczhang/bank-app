@@ -6,25 +6,20 @@
           tab-item(selected @on-item-click="onItemClick") 系统公告
           tab-item(@on-item-click="onItemClick") 活动公告
       .content  
-        ul(class="inform-list")
+        ul(v-show="isSystemInform" class="inform-list")
+          li(class="clearfix")
+            .left
+              img(src="../../assets/imgs/icon-inform-list.png")
+            .right
+              h3 系统公告
+              p 尊敬的用户，由于最近上线需要，服务会在晚上7点以后停止，很抱歉给您带来不便，希望您能够谅解！
+        ul(v-show="!isSystemInform" class="inform-list")
           li(class="clearfix")
             .left
               img(src="../../assets/imgs/icon-inform-list.png")
             .right
               h3 活动公告
               p 尊敬的用户，由于最近上线需要，服务会在晚上7点以后停止，很抱歉给您带来不便，希望您能够谅解！
-          li(class="clearfix")
-            .left
-              img(src="../../assets/imgs/icon-inform-list.png")
-            .right
-              h3 活动公告
-              p 尊敬的用户，由于最近上线需要，服务会在晚上7点以后停止，很抱歉给您带来不便，希望您能够谅解！
-          li(class="clearfix")
-            .left
-              img(src="../../assets/imgs/icon-inform-list.png")
-            .right
-              h3 活动公告
-              p 尊敬的用户，由于最近上线需要，服务会在晚上7点以后停止，很抱歉给您带来不便，希望您能够谅解！  
 
 
 </template>
@@ -41,14 +36,43 @@ export default {
   },
   data () {
     return {
-      index: 0
+      index: 0,
+      isSystemInform: true,
+      systemInform: [],
+      userInform: []
     }
   },
   mounted () {
   },
+  activated () {
+    this.getInformList()
+  },
   methods: {
     onItemClick (index) {
-      console.log('on item click:', index)
+      index === 0 ? this.isSystemInform = true : this.isSystemInform = false
+    },
+    getInformList () {
+      let self = this
+      let path = self.$store.state.baseUrl + '/app/xsyd/getAppNoticeList.do'
+      let token = self.$store.state.userInfo.token
+      let data = {
+        path: path,
+        params: {
+          userToken: token
+        }
+      }
+      // 显示
+      this.$vux.loading.show({
+        text: 'Loading'
+      })
+      self.$store.dispatch('initRequest', data).then(res => {
+        // let data = JSON.parse(res)
+        // alert('1111')
+        // alert(res)
+        // 隐藏
+        this.$vux.loading.hide()
+      })
+      this.$vux.loading.hide()
     }
   }
 }

@@ -4,7 +4,7 @@
       x-header(slot="header" title="个人设置" :left-options="{showBack:true,backText:''}" style="width:100%;position:absolute;left:0;top:0;z-index:100;background:#fff;padding-bottom:0;color:#000;")
       .content(style="margin-top:15px;")
         group(style="background:green;")
-          cell(title="账户资料" is-link link="/verfied")
+          cell(title="账户资料" is-link link="/mydata")
             img(src="../../assets/imgs/icon-setting-data.png" style="width:16px;height:18px;" slot="icon")
           cell(title="我的密码" is-link style="margin-top:15px;border-bottom:none;" link="/managePwd")
             img(src="../../assets/imgs/icon-setting-pwd.png" style="width:16px;height:18px;" slot="icon")

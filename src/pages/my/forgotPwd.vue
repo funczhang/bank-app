@@ -1,30 +1,22 @@
 <template lang="pug">
   div(style="height:100%;")
     view-box(ref="viewBox" body-padding-top="46px" body-padding-bottom="0" style="background:#fff;s")
-      x-header(slot="header" title="注册" :left-options="{showBack:true,backText:''}" style="width:100%;position:absolute;left:0;top:0;z-index:100;background:#fff;color:#000;")
+      x-header(slot="header" title="忘记密码" :left-options="{showBack:true,backText:''}" style="width:100%;position:absolute;left:0;top:0;z-index:100;background:#fff;color:#000;")
       .content
         group(style="margin-top:15px;")
-          x-input(placeholder="请输入手机号" v-model="phone" style="border-bottom:none;" type="number")
+          x-input(placeholder="请输入手机号" v-model="phone" style="border-bottom:none;")
             img(src="../../assets/imgs/icon-setting-phone.png" style="width:13px;height:18px;" slot="label")
-          x-input(placeholder="请输入短信验证" v-model="code" :show-clear="showClear" type="number")
+          x-input(placeholder="请输入短信验证" v-model="code" :show-clear="showClear")
             img(src="../../assets/imgs/icon-key.png" style="width:18px;height:18px;" slot="label")
             .btn-send-code(slot="right" @click="getCode" id="code") 发送验证码
         group(style="margin-top:15px;")
-          x-input(placeholder="请输入密码" style="border-bottom:none;" v-model="pwd1" type="password")
+          x-input(placeholder="请输入新密码" style="border-bottom:none;" v-model="pwd1" type="password" :max="max")
             img(src="../../assets/imgs/icon-pwd.png" style="width:16px;height:20px;" slot="label")
-          x-input(placeholder="请再次输入密码" v-model="pwd2" type="password")
+          x-input(placeholder="请再次输入新密码" v-model="pwd2" type="password" :max="max")
             img(src="../../assets/imgs/icon-pwd.png" style="width:16px;height:20px;" slot="label")
-        .confirm-area
-          check-icon(:value.sync="isConfirm")
-          span 我已经阅读并同意
-          a(href="javascript:void(null)") 《用户注册协议》
         .clear
         .btn-area
-          button(class="btn-submit" @click="rigister" :disabled="!isConfirm" :class="{active:!isConfirm}") 提交
-        .warm-tip
-          h3 温馨提示：
-          p 您在借款申请过程中，“兴盛e贷”不会通过电话、短信、邮件等任何形式，以担保费，咨询费等任何名义向您收取费用。请您保管好个人信息，谨防诈骗。
-           
+          button(class="btn-submit" @click="changePwd") 提交
 </template>
 
 <script>
@@ -45,7 +37,7 @@ export default {
   data () {
     return {
       index: 0,
-      isConfirm: false,
+      max: 20,
       phone: '',
       code: '',
       pwd1: '',
@@ -57,9 +49,9 @@ export default {
   mounted () {
   },
   methods: {
-    rigister () {
+    changePwd () {
       let self = this
-      let path = self.$store.state.baseUrl + '/app/xsyd/register.do'
+      let path = self.$store.state.baseUrl + '/app/xsyd/retrievePassword.do'
       let data = {
         path: path,
         params: {
@@ -81,7 +73,7 @@ export default {
               self.$store.dispatch('register', data).then(res => {
                 let response = JSON.parse(res)
                 if (response.response === 'success') {
-                  this.$vux.toast.text('注册成功请登录~')
+                  this.$vux.toast.text('新密码设置成功，请重新登录~')
                   this.phone = ''
                   this.code = ''
                   this.pwd1 = ''
@@ -254,8 +246,8 @@ export default {
 
   }
   .warm-tip{
-    // position: absolute;
-    // bottom:0;
+    position: absolute;
+    bottom:0;
     padding:20px 15px;
     h3{
       font-size:15px;

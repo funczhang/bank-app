@@ -3,16 +3,16 @@
     view-box(ref="viewBox" body-padding-top="46px" body-padding-bottom="0")
       x-header(slot="header" title="实名认证" :left-options="{showBack:true,backText:''}" style="width:100%;position:absolute;left:0;top:0;z-index:100;background:#fff;color:#000;")
       .content
-        ul(v-show="false")
+        ul(v-show="hasVerfied")
           li(class="clearfix")
             label 真实姓名
             span 张超
           li(class="clearfix" style="border-bottom:1px solid #ededed;")
             label 身份证号
             span(class="ell") 23348494848484494848484
-        .template
+        .template(v-show="!hasVerfied")
           .positive
-            .img
+            .img(@click="getPhoto")
             .tip 上传身份证正面照（人像面）
           .negative
             .img
@@ -36,9 +36,26 @@ export default {
       index: 0
     }
   },
+  computed: {
+    hasVerfied () {
+      return this.$store.state.userInfo.isAuth
+    }
+  },
   mounted () {
   },
   methods: {
+    getPhoto () {
+      let self = this
+      let data = {
+        path: '',
+        params: {
+        }
+      }
+      self.$store.dispatch('photoRequest', data).then(res => {
+        this.$store.state.userInfo.base64 = res
+        this.$router.push('/my')
+      })
+    }
   }
 }
 </script>

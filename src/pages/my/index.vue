@@ -4,11 +4,12 @@
       .container
         .header
           a(class="btn-code" href="javascript:void(null)")
-          .head-img(src="head-img")
+          .head-img(@click="uploadHeadImg")
             //- img(src="../../assets/imgs/person.png")
-            img(src="../../assets/imgs/default-img.png")
-          p(v-show="false" class="phone") 152****3456
-          p(class="phone" @click="login") 登录/注册
+            img(v-show="!hasHeadImg" src="../../assets/imgs/default-img.png")
+            img(v-show="hasHeadImg" :src="'data:image/jpeg;base64,' + base64")
+          p(v-show="isLogin" class="phone") {{ phoneNum }}
+          p(v-show="!isLogin" class="phone" @click="login") 登录/注册
         .content
           group(style="background:green;")
             cell(title="我的担保" is-link link="/myGurantee")
@@ -39,7 +40,6 @@ export default {
   },
   data () {
     return {
-      index: 0
     }
   },
   mounted () {
@@ -52,9 +52,61 @@ export default {
     // }, 1000)
     // 隐藏
   },
+  activated () {
+    this.showUserInfo()
+  },
+  computed: {
+    phoneNum () {
+      return this.$store.state.userInfo.cellphone
+    },
+    isLogin () {
+      // 判断是否登录 通过token
+      return this.$store.state.userInfo.token !== ''
+    },
+    hasHeadImg () {
+      return this.$store.state.userInfo.base64 !== ''
+    },
+    base64 () {
+      return this.$store.state.userInfo.base64
+    }
+  },
   methods: {
     login () {
       this.$router.push('/login')
+    },
+    showUserInfo () {
+      // alert(JSON.stringify(this.$store.state.userInfo))
+      let self = this
+      let token = self.$store.state.userInfo.token
+      // 绑定银行卡和头像接口
+      let path = self.$store.state.baseUrl + '/app/xsyd/loginPageInit.do'
+      let data = {
+        path: path,
+        params: {
+          userToken: token
+        }
+      }
+      if (token !== '') {
+        // 获取银行卡列表
+        self.$store.dispatch('initRequest', data).then(res => {
+          let data = JSON.parse(res)
+          if (data.response === 'success') {
+            self.$store.commit('INIT_BANKCARD_LIST', data.data)
+          } else {
+            self.$vux.toast.text('初始化展示用户信息失败')
+          }
+        })
+      } else {
+        self.$vux.toast.text('请先登录哦~')
+      }
+    },
+    uploadHeadImg () {
+      // let self = this
+      // let data = {
+      //   path: '',
+      //   params: {
+      //   }
+      // }
     }
   }
 }

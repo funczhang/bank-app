@@ -150,6 +150,13 @@ const router = new Router({
       }
     },
     {
+      path: '/forgotPwd', // 我的模块
+      name: 'ForgotPwd',
+      components: {
+        'default': resolve => require(['../pages/my/forgotPwd.vue'], resolve)
+      }
+    },
+    {
       path: '/changePhone', // 我的模块
       name: 'ChangePhone',
       components: {
@@ -190,6 +197,13 @@ const router = new Router({
       components: {
         'default': resolve => require(['../pages/common/iframe.vue'], resolve)
         // 'tabbar': resolve => require(['../pages/common/tabbar.vue'], resolve)
+      }
+    },
+    {
+      path: '/mydata', // 关于页面
+      name: 'MyData',
+      components: {
+        'default': resolve => require(['../pages/my/myData.vue'], resolve)
       }
     },
     {

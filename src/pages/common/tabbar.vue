@@ -31,17 +31,18 @@ export default {
     }
   },
   mounted () {
-    let path = this.$route.path
-    // debugger
-    if (path === '/') {
-      this.toTab = 0
-    } else if (path === '/loan') {
-      this.toTab = 1
-    } else if (path === '/my') {
-      this.toTab = 2
-    } else if (path === '/more') {
-      this.toTab = 3
-    }
+    // let self = this
+    // let path = this.$route.path
+    // // debugger
+    // if (path === '/') {
+    //   this.$store.state.tabItem = 0
+    // } else if (path === '/loan') {
+    //   this.toTab = 1
+    // } else if (path === '/my') {
+    //   this.toTab = 2
+    // } else if (path === '/more') {
+    //   this.toTab = 3
+    // }
   },
   activated () {
     console.log('111')

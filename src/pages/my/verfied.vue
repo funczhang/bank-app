@@ -64,17 +64,17 @@ export default {
   padding:0.1px;
   background:#f5f5f5;
   ul{
-    margin-top:15px;
+    margin-top:0.75rem;
     background:#fff;
   }
   li{
-    padding:15px;
+    padding:0.75rem;
     border-top:1px solid #ededed;
     label{
       float:left;
       width:30%;
       text-align: left;
-      line-height: 20px;
+      line-height: 1rem;
       color:#333;
       overflow: hidden;
     }
@@ -82,24 +82,24 @@ export default {
       float: right;
       width:70%;
       text-align: right;
-      line-height: 20px;
+      line-height: 1rem;
       color:#333;
       overflow: hidden;
     }
   }
   .positive,.negative,.scanning{
-    margin:15px auto;
-    width:305px;
-    height: 175px;
+    margin:0.75rem auto;
+    width:15.25rem;
+    height: 8.75rem;
     border:1px solid #ededed;
     background:#fff;
     .img{
-      margin:30px auto 10px;
-      width:155px;
-      height: 80px;
+      margin:1.5rem auto 0.5rem;
+      width:7.75rem;
+      height: 4rem;
     }
     .tip{
-      font-size:14px;
+      font-size:0.7rem;
       color:#44464f;
       text-align: center;
     }

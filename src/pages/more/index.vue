@@ -46,14 +46,14 @@ export default {
 .content{
   .btn-exit{
     display: block;
-    margin:50px auto;
+    margin:2.5rem auto;
     width:80%;
-    height: 40px;
-    border-radius: 20px;
+    height: 2rem;
+    border-radius: 1rem;
     background:#ffffff;
-    font-size:15px;
+    font-size:0.75rem;
     color:#333;
-    line-height: 40px;
+    line-height: 2rem;
     text-align: center;
   }
 }
@@ -61,20 +61,20 @@ export default {
     border-top:none;
   }
  .weui-tab .weui-cell{
-    padding:10px 15px;
+    padding:0.5rem 0.75rem;
     background: #fff; 
     border-top:1px solid #ededed;
     border-bottom:1px solid #ededed;
   .vux-cell-primary{
-    padding:10px 15px;
+    padding:0.5rem 0.75rem;
     background: #fff;
   }
   .weui-cell__hd img{
     position: relative;
     top:2px;
-    margin-right:10px;
-    width:30px;
-    height:30px;
+    margin-right:0.5rem;
+    width:1.5rem;
+    height:1.5rem;
   }
 }
 .weui-tab .weui-cells{

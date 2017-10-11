@@ -139,7 +139,7 @@ html, body {
   overflow-x: hidden;
   .content{
     .inform {
-      height:30px;
+      height:1.5rem;
       background:#f5f5f5;
       .label{
         position: relative;
@@ -149,9 +149,9 @@ html, body {
       .line{
         display:inline-block;
         position:absolute;
-        top:6px;
-        bottom:6px;
-        margin-right:6px;
+        top:0.3rem;
+        bottom:0.3rem;
+        margin-right:0.3rem;
         border-left:1px solid #ededed;
       }
       .news{
@@ -161,26 +161,26 @@ html, body {
       img{
         position: relative;
         top:2px;
-        padding:0 15px;
-        width:51px;
-        height:14px;
+        padding:0 0.75rem;
+        width:2.5rem;
+        height:0.75rem;
         vertical-align: middle;
       }
       i{
         position: relative;
-        top:-12px;
-        margin-right:5px;
-        width:5px;
-        height: 5px;
+        top:-0.6rem;
+        margin-right:0.25rem;
+        width:0.25rem;
+        height: 0.25rem;
         border-radius: 50%;
         display: inline-block;
         background:#f32f2f;
       }
       span{
         display: inline-block;
-        font-size:13px;
+        font-size:0.65rem;
         color:#333;
-        line-height: 30px;
+        line-height: 1.5rem;
         overflow: hidden;
       }
     }
@@ -189,22 +189,22 @@ html, body {
       // border-bottom:1px solid #000;
       background:#fff;
       li {
-        padding-top:20px;
+        padding-top:1rem;
         float:left;
         width:25%;
         text-align: center;
         img {
           display: block;
           margin:0 auto;
-          width:45px;
-          height:45px;
+          width:2.25rem;
+          height:2.25rem;
         }
         span {
           display: block;
-          margin-top:10px;
-          margin-bottom:20px;
+          margin-top:0.5rem;
+          margin-bottom:1rem;
           text-align: center;
-          font-size:13px;
+          font-size:0.65rem;
           color:#666;
         }
       }
@@ -212,30 +212,30 @@ html, body {
     .btn-loan{
       background:#fff;
       div{
-        padding:0 15px;
+        padding:0 0.75rem;
       }
       img{
         display: block;
         margin:0 auto;
         width:100%;
-        height:110px;
+        height:5.5rem;
         border-radius: 3px;
       }
     }
     .btn-classify{
-      padding-top:8px;
-      padding:8px 15px 15px;
+      padding-top:0.4rem;
+      padding:0.4rem 0.75rem 0.75rem;
       background:#fff;
       li{
         float: left;
         width:30%;
-        height:105px;
+        height:5.25rem;
         border-radius: 3px;
         span {
           display: block;
-          padding-top:18px;
+          padding-top:0.9rem;
           text-align: center;
-          font-size:15px;
+          font-size:0.75rem;
           color:#333;
         }
       }
@@ -256,7 +256,7 @@ html, body {
   }
   .vux-slider > .vux-indicator, .vux-slider .vux-indicator-right{
     left:50%;
-    margin-left:-24px;
+    margin-left:-1.2rem;
   }
   .vux-slider > .vux-indicator > a > .vux-icon-dot, .vux-slider .vux-indicator-right > a > .vux-icon-dot{
     background:#65bfff;
@@ -266,7 +266,7 @@ html, body {
   }
   .vux-header{
     .vux-header-title{
-      font-size: 16px;
+      font-size: 0.8rem;
       color:#333;
     }
     .vux-header-title > span
@@ -276,14 +276,14 @@ html, body {
     }
     .icon-title{
       position: relative;
-      top:5px;
+      top:0.25rem;
       width:100%;
       vertical-align: middle;
     }
     .icon-email{
-      right:5px;
-      width:18px;
-      height:14px;
+      right:0.25rem;
+      width:0.9rem;
+      height:0.7rem;
     }
   }
 }

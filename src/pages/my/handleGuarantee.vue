@@ -73,10 +73,10 @@ export default {
   padding:0.1px;
   background:#f5f5f5;
     .module-head{
-      padding:5px 15px;
-      height:25px;
-      font-size:13px;
-      line-height: 25px;
+      padding:0.25rem 0.75rem;
+      height:1.25rem;
+      font-size:0.65rem;
+      line-height: 1.25rem;
       color:#333;
     }
     .module-content{
@@ -89,20 +89,20 @@ export default {
         color:#666;
       }
       .option{
-        margin:0 15px;
-        padding:15px 0;
-        font-size:14px;
+        margin:0 0.75rem;
+        padding:0.75rem 0;
+        font-size:0.7rem;
         color:#333;
-        line-height: 20px;
+        line-height: 1rem;
         border-bottom:1px solid #ededed;
       }
       background:#fff;
     }
     .confirm-area{
-      margin-top:15px;
-    padding:10px 15px;
+      margin-top:0.75rem;
+    padding:0.5rem 0.75rem;
     background:#fff;
-    font-size:14px;
+    font-size:0.7rem;
     line-height: 1.5;
     color:#666;
     a{
@@ -110,17 +110,17 @@ export default {
     }
   }
   .btn-area{
-    padding:20px 0;
+    padding:1rem 0;
     background:#fff;
   }
   .btn-submit,.btn-cancel{
     width:40%;
-    height:36px;
-    border-radius: 18px;
-    font-size:15px;
+    height:1.8rem;
+    border-radius: 0.9rem;
+    font-size:0.75rem;
     text-align: center;
-    line-height: 36px;
-    box-shadow: 0px 0px 20px rgba(39,128,237,.5);
+    line-height: 1.8rem;
+    box-shadow: 0px 0px 1rem rgba(39,128,237,.5);
   }
   .btn-submit{
     margin-left:5%;

@@ -132,19 +132,19 @@ export default {
 .content{
   padding:0.1px;
   .progerss{
-    margin-top:15px;
-    padding:10px 15px;
-    height:50px;
+    margin-top:0.75rem;
+    padding:0.5rem 0.75rem;
+    height:2.5rem;
     background:#257eeb;
     img{
-      padding-bottom:5px;
+      padding-bottom:0.25rem;
       width:100%;
     }
     span{
       float:left;
       width:30%;
       text-align: center;
-      font-size:14px;
+      font-size:0.7rem;
       color:#fff;
     }
     .first{
@@ -161,13 +161,13 @@ export default {
     img{
       display: block;
       margin:0 auto;
-      padding:20px;
-      width:108px;
-      height:90px;
+      padding:1rem;
+      width:5.4rem;
+      height:4.5rem;
     }
     p{
-      padding:0 30px 20px;
-      font-size:13px;
+      padding:0 1.5rem 1rem;
+      font-size:0.65rem;
       color:#333;
       line-height: 1.5;
       text-align: center;
@@ -183,24 +183,24 @@ export default {
     }
   }
   .module-head{
-      padding:5px 15px;
-      height:25px;
-      font-size:13px;
-      line-height: 25px;
+      padding:0.25rem 0.75rem;
+      height:1.25rem;
+      font-size:0.65rem;
+      line-height: 1.25rem;
       color:#333;
     }
   .module-content{
     background:#fff;
     .tip{
-      padding:15px 0;
+      padding:0.75rem 0;
       margin:0 auto;
       width:94%;
-      font-size:12px;
+      font-size:0.6rem;
       color:#f32f2f;
       line-height: 1.5;
     }
     ul{
-      padding:15px 0;
+      padding:0.75rem 0;
       width:94%;
       margin:0 auto;
       border-bottom:1px solid #ededed;
@@ -210,14 +210,14 @@ export default {
       width:33%;
     }
     .title{
-      padding:10px 0;
-      font-size:13px;
+      padding:0.5rem 0;
+      font-size:0.65rem;
       color:#666;
       text-align: center;
     }
     .value{
-      padding:5px 0 10px;
-      font-size:18px;
+      padding:0.25rem 0 0.5rem;
+      font-size:0.9rem;
       font-weight: bold;
       text-align: center;
     }
@@ -226,16 +226,16 @@ export default {
       border-right:1px solid #ededed;
     }
     .btn-guarantee,.btn-zhima{
-      padding-top:10px;
+      padding-top:0.5rem;
       color:#333;
-      font-size:13px;
+      font-size:0.65rem;
       text-align: center;
     }
     .add img{
       display: block;
       margin:0 auto;
-      width:25px;
-      height:25px;
+      width:1.25rem;
+      height:1.25rem;
     }
     .add li{
       float: left;
@@ -244,25 +244,25 @@ export default {
     .coupon-count{
       span{
         float:left;
-        line-height: 24px;
+        line-height: 1.2rem;
         color:#333;
       }
       .count{
-        margin-left:10px;
-        width:85px;
-        height:24px;
+        margin-left:0.5rem;
+        width:4.25rem;
+        height:1.2rem;
         border:1px solid #1f76e2;
-        border-radius: 12px;
-        line-height: 24px;
-        font-size:14px;
+        border-radius: 0.6rem;
+        line-height: 1.2rem;
+        font-size:0.7rem;
         text-align: center;
         color:#1f76e2;
       }
     }
     .icon-card{
-      padding:10px 15px;
-      width:23px;
-      height: 17px;
+      padding:0.5rem 0.75rem;
+      width:1.15rem;
+      height: 0.85rem;
       vertical-align: middle;
     }
     .line{
@@ -272,17 +272,17 @@ export default {
     }
   }
   .btn-area{
-    padding:20px 0;
+    padding:1rem 0;
     background:#fff;
   }
   .btn-submit,.btn-cancel{
     width:40%;
-    height:36px;
-    border-radius: 18px;
-    font-size:15px;
+    height:1.8rem;
+    border-radius: 0.9rem;
+    font-size:0.75rem;
     text-align: center;
-    line-height: 36px;
-    box-shadow: 0px 0px 20px rgba(39,128,237,.5);
+    line-height: 1.8rem;
+    box-shadow: 0px 0px 1rem rgba(39,128,237,.5);
   }
   .btn-submit{
     margin-left:5%;
@@ -301,32 +301,32 @@ export default {
     position: relative;
     top:50%;
     margin:0 auto;
-    margin-top:-117px;
+    margin-top:-5.85rem;
     width:80%;
     background:#fff;
     border-radius: 3px;
     .head{
-      padding: 10px 15px;
-      height:22px;
+      padding: 0.5rem 0.75rem;
+      height:1.1rem;
       background:#1f76e2;
-      box-shadow: 0px 0px 20px rgba(39,128,237,.5);
-      font-size:17px;
-      line-height: 22px;
+      box-shadow: 0px 0px 1rem rgba(39,128,237,.5);
+      font-size:0.85rem;
+      line-height: 1.1rem;
       text-align: center;
       color:#fff;
       border-radius: 3px 3px 0 0;
       img{
         position: absolute;
-        top:12px;
-        right:15px;
-        width:14px;
-        height:14px;
+        top:0.6rem;
+        right:0.75rem;
+        width:0.7rem;
+        height:0.7rem;
       }
     }
     .icon-card{
-      padding:10px 5px;
-      width:23px;
-      height: 17px;
+      padding:0.5rem 0.25rem;
+      width:1.15rem;
+      height: 0.85rem;
       vertical-align: middle;
     }
     .line{
@@ -334,20 +334,20 @@ export default {
       width:100%;
       border-bottom:1px solid #ededed;
       background:url(../../assets/imgs/icon-arrow.png) no-repeat right;
-      background-size:8px 13px;
+      background-size:0.4rem 0.85rem;
     }
     .weui-cell:before{
       border-top:none;
     }
     .content{
-      padding:10px 15px 20px;
+      padding:0.5rem 0.75rem 1rem;
       .card{
-        padding:10px 5px;
+        padding:0.5rem 0.25rem;
         border-bottom:1px solid #ededed;
       }
     }
   .btn-area{
-    padding:20px 0 0;
+    padding:1rem 0 0;
     background:#fff;
     a{
       display: block;
@@ -355,12 +355,12 @@ export default {
   }
   .btn-submit,.btn-cancel{
     width:40%;
-    height:36px;
-    border-radius: 18px;
-    font-size:15px;
+    height:1.8rem;
+    border-radius: 0.9rem;
+    font-size:0.75rem;
     text-align: center;
-    line-height: 36px;
-    box-shadow: 0px 0px 20px rgba(39,128,237,.5);
+    line-height: 1.8rem;
+    box-shadow: 0px 0px 1rem rgba(39,128,237,.5);
   }
   .btn-submit{
     margin-left:5%;
@@ -380,7 +380,7 @@ export default {
   }
 }
 .weui-tab .weui-cell{
-  padding:15px 0;
+  padding:0.75rem 0;
   border-bottom:1px solid #ededed;
 }
 .weui-tab .weui-label{

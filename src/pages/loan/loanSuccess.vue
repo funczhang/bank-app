@@ -76,19 +76,19 @@ export default {
 .content{
   padding:0.1px;
   .progerss{
-    margin-top:15px;
-    padding:10px 15px;
-    height:50px;
+    margin-top:0.75rem;
+    padding:0.5rem 0.75rem;
+    height:2.5rem;
     background:#257eeb;
     img{
-      padding-bottom:5px;
+      padding-bottom:0.25rem;
       width:100%;
     }
     span{
       float:left;
       width:30%;
       text-align: center;
-      font-size:14px;
+      font-size:0.7rem;
       color:#fff;
     }
     .first{
@@ -105,13 +105,13 @@ export default {
     img{
       display: block;
       margin:0 auto;
-      padding:20px;
-      width:108px;
-      height:90px;
+      padding:1rem;
+      width:5.4rem;
+      height:4.5rem;
     }
     p{
-      padding:0 30px 20px;
-      font-size:13px;
+      padding:0 1.5rem 1rem;
+      font-size:0.65rem;
       color:#333;
       line-height: 1.5;
       text-align: center;
@@ -127,16 +127,16 @@ export default {
     }
   }
   .module-head{
-      padding:5px 15px;
-      height:25px;
-      font-size:13px;
-      line-height: 25px;
+      padding:0.25rem 0.75rem;
+      height:1.25rem;
+      font-size:0.65rem;
+      line-height: 1.25rem;
       color:#333;
     }
   .module-content{
     background:#fff;
     ul{
-      padding:15px 0;
+      padding:0.75rem 0;
       width:94%;
       margin:0 auto;
       // border-bottom:1px solid #f0f0f0;
@@ -146,14 +146,14 @@ export default {
       width:33%;
     }
     .title{
-      padding:10px 0;
-      font-size:13px;
+      padding:0.5rem 0;
+      font-size:0.65rem;
       color:#666;
       text-align: center;
     }
     .value{
-      padding:5px 0 10px;
-      font-size:18px;
+      padding:0.25rem 0 0.5rem;
+      font-size:0.9rem;
       font-weight: bold;
       text-align: center;
     }
@@ -162,9 +162,9 @@ export default {
       border-right:1px solid #ededed;
     }
     .icon-card{
-      padding:10px 15px;
-      width:23px;
-      height: 17px;
+      padding:0.5rem 0.75rem;
+      width:1.15rem;
+      height: 0.85rem;
       vertical-align: middle;
     }
     .line{
@@ -174,17 +174,17 @@ export default {
     }
   }
   .check-contract{
-    margin-top:15px;
-    padding:16px 15px;
+    margin-top:0.75rem;
+    padding:0.8rem 0.75rem;
     background:#fff;
     a{
-      font-size:15px;
+      font-size:0.75rem;
       color:#1f76e2;
     }
   }
 }
 .weui-tab .weui-cell{
-  padding:15px 0;
+  padding:0.75rem 0;
   border-bottom:1px solid #ededed;
 }
 .weui-tab .weui-label{

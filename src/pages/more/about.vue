@@ -28,9 +28,9 @@ export default {
 .content{
   .imgbg{
     img{
-      width: 211px;
-      height: 87px;
-      margin:60px auto;
+      width: 10.55rem;
+      height: 4.35rem;
+      margin:3rem auto;
       display: block;
     }
   }
@@ -46,27 +46,27 @@ export default {
     border-top:none;
 }
 .weui-tab .weui-cell{
-  padding:16px 15px;
+  padding:0.8rem 0.75rem;
   background: #fff; 
   border-top:1px solid #ededed;
   border-bottom:1px solid #ededed;
   .vux-cell-primary{
-    padding:10px 15px;
+    padding:0.5rem 0.75rem;
     background: #fff;
   }
   .weui-cell__hd img{
     position: relative;
     top:2px;
-    margin-right:10px;
-    width:30px;
-    height:30px;
+    margin-right:0.5rem;
+    width:1.5rem;
+    height:1.5rem;
   }
 }
 .weui-tab .weui-cells{
   background:#f5f5f5 !important;
 }
 .weui-cells .weui-cell .vux-tap-active .weui-cell_access{
-  margin-top: 125px; 
+  margin-top: 6.25rem; 
 }
 </style>
 

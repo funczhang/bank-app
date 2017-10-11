@@ -77,13 +77,13 @@ export default {
   padding:0.1px;
   background:#f5f5f5;
   .card-list{
-    margin-top:15px;
-    padding:10px 20px;
+    margin-top:0.75rem;
+    padding:0.5rem 1rem;
     background:#fff;
     li{
       position: relative;
-      margin:0 auto 15px;
-      height:90px;
+      margin:0 auto 0.75rem;
+      height:4.5rem;
       overflow: hidden;
       img {
         position: absolute;
@@ -98,30 +98,30 @@ export default {
       }
       .left{
         float:left;
-        padding:30px 0;
+        padding:1.5rem 0;
         width:32%;
-        height: 30px;
-        line-height: 30px;
+        height: 1.5rem;
+        line-height: 1.5rem;
         text-align: center;
         overflow: hidden;
       }
       .right{
         float:left;
-        padding:20px 3%;
+        padding:1rem 3%;
         width:60%;
         overflow: hidden;
         h5{
-          height:25px;
-          font-size:15px;
-          line-height: 25px;
+          height:1.25rem;
+          font-size:0.75rem;
+          line-height: 1.25rem;
         }
         p{
-          height:25px;
-          font-size:12px;
-          line-height: 25px;
+          height:1.25rem;
+          font-size:0.6rem;
+          line-height: 1.25rem;
         }
         span{
-          font-size:12px;
+          font-size:0.6rem;
           line-height: 1.5;
         }
       }

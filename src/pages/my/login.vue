@@ -7,21 +7,21 @@
           tab-item(selected style="border-right:1px solid #ededed;" @on-item-click="handler(0)") 账号登录
           tab-item(@on-item-click="handler(1)") 短信登录
         .template(v-show="loginByAccount")
-          group(style="margin-top:15px;")
+          group(style="margin-top:0.75rem;")
             x-input(placeholder="请输入手机号" style="border-bottom:none;" v-model="phoneNum" type="number")
-              img(src="../../assets/imgs/icon-setting-phone.png" style="width:13px;height:18px;" slot="label")
+              img(src="../../assets/imgs/icon-setting-phone.png" style="width:0.65rem;height:0.9rem;" slot="label")
             x-input(placeholder="请输入密码" v-model="pwd" type="password")
-              img(src="../../assets/imgs/icon-pwd.png" style="width:16px;height:20px;" slot="label")
+              img(src="../../assets/imgs/icon-pwd.png" style="width:0.8rem;height:1rem;" slot="label")
           a(class="btn-forgetpwd" href="javascript:void(null)" @click="forgetPwd") 忘记密码
           //- .clear
           //- .btn-login 登录
           //- .btn-register(@click="toRegister") 注册
         .template(v-show="!loginByAccount")
-          group(style="margin-top:15px;")
+          group(style="margin-top:0.75rem;")
             x-input(placeholder="请输入手机号" style="border-bottom:none;" v-model="phoneNum" type="number")
-              img(src="../../assets/imgs/icon-setting-phone.png" style="width:13px;height:18px;" slot="label")
+              img(src="../../assets/imgs/icon-setting-phone.png" style="width:0.65rem;height:0.9rem;" slot="label")
             x-input(placeholder="请输入短信验证" v-model="verifyCode" :show-clear="showClear" type="number")
-              img(src="../../assets/imgs/icon-key.png" style="width:18px;height:18px;" slot="label")
+              img(src="../../assets/imgs/icon-key.png" style="width:0.9rem;height:0.9rem;" slot="label")
               .btn-send-code(slot="right" id="code" @click="getCode") 发送验证码
         .template(style="background:#fff;")
           .clear
@@ -220,31 +220,31 @@ export default {
     position: relative;
     img{
       position: relative;
-      top:3px;
-      margin-right:10px;
+      top:0.15rem;
+      margin-right:0.5rem;
     }
   }
   .weui-cell{
-    padding:15px;
+    padding:0.75rem;
     border-bottom:1px solid #ededed;
   }
   .weui-label{
-    font-size:14px;
+    font-size:0.7rem;
     color:#333;
   }
   .weui-input{
-    font-size:14px;
+    font-size:0.7rem;
     color:#333; 
   }
   input[placeholder], [placeholder], *[placeholder] {
-   font-size:14px;
+   font-size:0.7rem;
    color:#999;
  }
   .weui-cell:before{
     border-top:none;
   }
  .vux-x-input{
-  padding:15px;
+  padding:0.75rem;
   border-top:1px solid #ededed;
   border-bottom:1px solid #ededed;
   background:#fff;
@@ -253,7 +253,7 @@ export default {
   border-bottom:1px solid #ededed;
 }
 .vux-no-group-title{
-  margin-top:15px;
+  margin-top:0.75rem;
 }
 }
 
@@ -262,59 +262,59 @@ export default {
   background:#f5f5f5;
   .btn-forgetpwd{
     float:right;
-    margin:10px 15px;
-    font-size:14px;
+    margin:0.5rem 0.75rem;
+    font-size:0.7rem;
     color:#1f76e2;
   }
   .btn-login{
     display: block;
-    margin:20px auto;
+    margin:1rem auto;
     width:80%;
-    height: 40px;
-    border-radius: 20px;
+    height: 2rem;
+    border-radius: 1rem;
     background:#1f76e2;
-    box-shadow: 0px 0px 20px rgba(39,128,237,.5);
-    font-size:15px;
+    box-shadow: 0px 0px 1rem rgba(39,128,237,.5);
+    font-size:0.75rem;
     color:#fff;
-    line-height: 40px;
+    line-height: 2rem;
     text-align: center;
   }
   .btn-register{
     display: block;
-    margin:20px auto;
+    margin:1rem auto;
     width:80%;
-    height: 40px;
-    border-radius: 20px;
+    height: 2rem;
+    border-radius: 1rem;
     background:#fff;
     border:1px solid #1f76e2;
-    box-shadow: 0px 0px 20px rgba(39,128,237,.5);
-    font-size:15px;
+    box-shadow: 0px 0px 1rem rgba(39,128,237,.5);
+    font-size:0.75rem;
     color:#1f76e2;
-    line-height: 40px;
+    line-height: 2rem;
     text-align: center;
   }
   .btn-send-code{
-    width:80px;
-    height:25px;
+    width:4rem;
+    height:1.25rem;
     border:1px solid #1f76e2;
-    border-radius: 15px;
-    font-size:12px;
+    border-radius: 0.75rem;
+    font-size:0.6rem;
     color:#1f76e2;
-    line-height: 25px;
+    line-height: 1.25rem;
     text-align: center;
 
   }
   .warm-tip{
     // position: absolute;
     // bottom:0;
-    padding:20px 15px;
+    padding:1rem 0.75rem;
     h3{
-      font-size:15px;
+      font-size:0.75rem;
       color:#333;
       line-height: 2;
     }
     p{
-      font-size:13px;
+      font-size:0.65rem;
       color:#666;
       line-height: 1.5;
     }

@@ -2,14 +2,14 @@
   div(style="height:100%;")
     view-box(ref="viewBox" body-padding-top="40px" body-padding-bottom="0")
       x-header(slot="header" title="个人设置" :left-options="{showBack:true,backText:''}" style="width:100%;position:absolute;left:0;top:0;z-index:100;background:#fff;padding-bottom:0;color:#000;")
-      .content(style="margin-top:15px;")
+      .content(style="margin-top:0.75rem;")
         group(style="background:green;")
           cell(title="账户资料" is-link link="/mydata")
-            img(src="../../assets/imgs/icon-setting-data.png" style="width:16px;height:18px;" slot="icon")
-          cell(title="我的密码" is-link style="margin-top:15px;border-bottom:none;" link="/managePwd")
-            img(src="../../assets/imgs/icon-setting-pwd.png" style="width:16px;height:18px;" slot="icon")
+            img(src="../../assets/imgs/icon-setting-data.png" style="width:0.8rem;height:0.9rem;" slot="icon")
+          cell(title="我的密码" is-link style="margin-top:0.75rem;border-bottom:none;" link="/managePwd")
+            img(src="../../assets/imgs/icon-setting-pwd.png" style="width:0.8rem;height:0.9rem;" slot="icon")
           cell(title="更换手机号" is-link link="/changePhone")
-            img(src="../../assets/imgs/icon-setting-phone.png" style="width:13px;height:16px;" slot="icon")
+            img(src="../../assets/imgs/icon-setting-phone.png" style="width:0.65rem;height:0.8rem;" slot="icon")
 </template>
 
 <script>
@@ -47,20 +47,20 @@ export default {
     border-top:none;
   }
  .weui-tab .weui-cell{
-    padding:10px 15px;
+    padding:0.5rem 0.75rem;
     background: #fff; 
     border-top:1px solid #ededed;
     border-bottom:1px solid #ededed;
   .vux-cell-primary{
-    padding:10px 15px;
+    padding:0.5rem 0.75rem;
     background: #fff;
   }
   .weui-cell__hd img{
     position: relative;
     top:2px;
-    margin-right:10px;
-    width:30px;
-    height:30px;
+    margin-right:0.5rem;
+    width:1.5rem;
+    height:1.5rem;
   }
 }
 .weui-tab .weui-cells{

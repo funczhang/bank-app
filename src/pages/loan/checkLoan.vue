@@ -87,8 +87,8 @@ export default {
   padding:0.1px;
   background:#f5f5f5;
   .progerss{
-    padding:10px 15px;
-    height:50px;
+    padding:0.5rem 0.75rem;
+    height:2.5rem;
     background:#257eeb;
     img{
       width:100%;
@@ -97,7 +97,7 @@ export default {
       float:left;
       width:30%;
       text-align: center;
-      font-size:14px;
+      font-size:0.7rem;
       color:#fff;
     }
     .first{
@@ -116,7 +116,7 @@ export default {
   .module-content{
     background:#fff;
     ul{
-      padding:15px 0;
+      padding:0.75rem 0;
       width:94%;
       margin:0 auto;
     }
@@ -125,14 +125,14 @@ export default {
       width:33%;
     }
     .title{
-      padding:10px 0;
-      font-size:13px;
+      padding:0.5rem 0;
+      font-size:0.65rem;
       color:#666;
       text-align: center;
     }
     .value{
-      padding:5px 0 10px;
-      font-size:18px;
+      padding:0.25rem 0 0.5rem;
+      font-size:0.9rem;
       font-weight: bold;
       text-align: center;
     }

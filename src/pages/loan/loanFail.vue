@@ -42,19 +42,19 @@ export default {
   background:#f5f5f5;
   .progerss{
     position: absolute;
-    margin-top:15px;
-    padding:10px 15px;
-    height:50px;
+    margin-top:0.75rem;
+    padding:0.5rem 0.75rem;
+    height:2.5rem;
     background:#257eeb;
     img{
-      padding-bottom:5px;
+      padding-bottom:0.25rem;
       width:100%;
     }
     span{
       float:left;
       width:30%;
       text-align: center;
-      font-size:14px;
+      font-size:0.7rem;
       color:#fff;
     }
     .first{
@@ -68,26 +68,26 @@ export default {
   }
   .tip{
     position: absolute;
-    top:130px;
+    top:7.5rem;
     bottom:0;
     background:#fff;
     img{
       display: block;
       margin:0 auto;
-      padding:20px;
-      width:108px;
-      height:90px;
+      padding:1rem;
+      width:5.4rem;
+      height:4.5rem;
     }
     p{
-      padding:0 30px 20px;
-      font-size:13px;
+      padding:0 1.5rem 1rem;
+      font-size:0.65rem;
       color:#333;
       line-height: 1.5;
       text-align: center;
 
     }
     a{
-      font-size:13px;
+      font-size:0.65rem;
       color:#1f76e2;
     }
   }

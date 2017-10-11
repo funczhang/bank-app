@@ -14,11 +14,11 @@
           group(style="background:green;")
             cell(title="我的担保" is-link link="/myGurantee")
               img(src="../../assets/imgs/icon-danbao.png" slot="icon")
-            cell(title="银行卡" is-link style="margin-top:15px;border-bottom:none;" link="/bankCardList")
+            cell(title="银行卡" is-link style="margin-top:0.75rem;border-bottom:none;" link="/bankCardList")
               img(src="../../assets/imgs/icon-bank.png" slot="icon")
             cell(title="优惠券" is-link link="/couponList")
               img(src="../../assets/imgs/icon-juan.png" slot="icon")
-            cell(title="个人设置" is-link style="margin-top:15px;" link="/setting")
+            cell(title="个人设置" is-link style="margin-top:0.75rem;" link="/setting")
               img(src="../../assets/imgs/icon-setting.png" slot="icon")
 </template>
 
@@ -116,28 +116,28 @@ export default {
   .header{
     position: relative;
     padding:0.1px;
-    height:150px;
+    height:7.5rem;
     background:url(../../assets/imgs/bg-my.png);
     background-size: 100% 100%;
     .btn-code{
       position: absolute;
       display: block;
-      right: 15px;
-      top:15px;
-      width:20px;
-      height:20px;
+      right: 0.75rem;
+      top:0.75rem;
+      width:1rem;
+      height:1rem;
       background:url(../../assets/imgs/icon-ma.png);
-      background-size:20px 20px;
+      background-size:1rem 1rem;
     }
     .head-img{
       position: relative;
       top:50%;
       margin:0 auto;
-      margin-top:-40px;
-      width:80px;
-      height: 80px;
+      margin-top:-2rem;
+      width:4rem;
+      height: 4rem;
       border-radius: 50%;
-      box-shadow: 0px 0px 20px rgba(255,255,255,.5);
+      box-shadow: 0px 0px 1rem rgba(255,255,255,.5);
       overflow: hidden;
       background:#f5f5f5;
       img{
@@ -150,7 +150,7 @@ export default {
       top:53%;
       margin:0 auto;
       width:50%;
-      font-size:16px;
+      font-size:0.8rem;
       color:#fff;
       text-align: center;
     }
@@ -162,20 +162,20 @@ export default {
     border-top:none;
   }
  .weui-tab .weui-cell{
-    padding:10px 15px;
+    padding:0.5rem 0.75rem;
     background: #fff; 
     border-top:1px solid #ededed;
     border-bottom:1px solid #ededed;
   .vux-cell-primary{
-    padding:10px 15px;
+    padding:0.5rem 0.75rem;
     background: #fff;
   }
   .weui-cell__hd img{
     position: relative;
     top:2px;
-    margin-right:10px;
-    width:30px;
-    height:30px;
+    margin-right:0.5rem;
+    width:1.5rem;
+    height:1.5rem;
   }
 }
 .weui-tab .weui-cells{

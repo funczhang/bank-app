@@ -82,18 +82,18 @@ export default {
 .weui-tab{
   .vux-header{
     .vux-header-title{
-      font-size: 14px;
+      font-size: 0.7rem;
     }
     .vux-tab{
       position: relative;
-      top:5px;
+      top:0.25rem;
       border:1px solid #1f76e2;
       border-radius: 3px;
-      height:30px;
+      height:1.5rem;
     }
     .vux-tab .vux-tab-item{
       border:none;
-      line-height: 30px;
+      line-height: 1.5rem;
       color:#1f76e2;
     }
     .vux-tab .vux-tab-item.vux-tab-selected{
@@ -104,19 +104,19 @@ export default {
 }
 .content{
   .inform-list{
-    margin-top:15px;
+    margin-top:0.75rem;
     border-bottom:1px solid #ededed;
     li{
       border-top:1px solid #ededed;
-      padding:20px 15px;
+      padding:1rem 0.75rem;
       background:#fff;
       h3{
-        font-size:15px;
+        font-size:0.75rem;
         font-weight: normal;
         color:#333;
       }
       p{
-        font-size:13px;
+        font-size:0.65rem;
         color:#666;
       }
     }
@@ -129,8 +129,8 @@ export default {
       width:80%;
     }
     img{
-      width:40px;
-      height:40px;
+      width:2rem;
+      height:2rem;
     }
   }
 }

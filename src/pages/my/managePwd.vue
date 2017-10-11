@@ -7,14 +7,14 @@
           tab-item(selected style="border-right:1px solid #ededed;" @on-item-click="handler(0)") 修改登录密码
           tab-item(@on-item-click="handler(1)") 手势密码
         .template(v-show="isChangePwd")
-          group(style="margin-top:15px;")
+          group(style="margin-top:0.75rem;")
             x-input(placeholder="请输入旧密码" v-model="oldPwd" type="password")
-            x-input(placeholder="请输入新密码" v-model="newPwd" style="margin-top:15px;border-bottom:none;" type="password")
+            x-input(placeholder="请输入新密码" v-model="newPwd" style="margin-top:0.75rem;border-bottom:none;" type="password")
             x-input(placeholder="请再次输入新密码" v-model="reNewPwd" type="password")
           .tip 密码必须为数字和字母组合，长度为6-12位
           .btn-submit(@click="changePwd") 提交
         group(v-show="!isChangePwd")
-          x-switch(title="手势密码" v-model="isOpenGesture" style="margin-top:15px;border-top:1px solid #ededed;")
+          x-switch(title="手势密码" v-model="isOpenGesture" style="margin-top:0.75rem;border-top:1px solid #ededed;")
           cell(v-show="isOpenGesture" title="修改手势密码" is-link)
 </template>
 
@@ -88,26 +88,26 @@ export default {
 <style lang="less" scoped>
 .weui-tab{
   .weui-cell{
-    padding:15px;
+    padding:0.75rem;
     border-bottom:1px solid #ededed;
   }
   .weui-label{
-    font-size:14px;
+    font-size:0.7rem;
     color:#333;
   }
   .weui-input{
-    font-size:14px;
+    font-size:0.7rem;
     color:#333; 
   }
   input[placeholder], [placeholder], *[placeholder] {
-   font-size:14px;
+   font-size:0.7rem;
    color:#999;
  }
   .weui-cell:before{
     border-top:none;
   }
  .vux-x-input{
-  padding:15px;
+  padding:0.75rem;
   border-top:1px solid #ededed;
   border-bottom:1px solid #ededed;
   background:#fff;
@@ -116,7 +116,7 @@ export default {
   border-bottom:1px solid #ededed;
 }
 .vux-no-group-title{
-  margin-top:15px;
+  margin-top:0.75rem;
 }
 }
 
@@ -125,20 +125,20 @@ export default {
   background:#f5f5f5;
   .btn-submit{
     display: block;
-    margin:40px auto;
+    margin:2rem auto;
     width:80%;
-    height: 40px;
-    border-radius: 20px;
+    height: 2rem;
+    border-radius: 1rem;
     background:#1f76e2;
-    box-shadow: 0px 0px 20px rgba(39,128,237,.5);
-    font-size:15px;
+    box-shadow: 0px 0px 1rem rgba(39,128,237,.5);
+    font-size:0.75rem;
     color:#fff;
-    line-height: 40px;
+    line-height: 2rem;
     text-align: center;
   }
   .tip{
-    padding:10px 0;
-    font-size:13px;
+    padding:0.5rem 0;
+    font-size:0.65rem;
     color:#1f76e2;
     text-align: center;
   }

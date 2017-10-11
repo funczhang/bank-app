@@ -77,30 +77,30 @@ export default {
   border-bottom:1px solid #ededed;
 }
   .icon-refresh{
-    width:20px;
-    height:20px;
+    width:1rem;
+    height:1rem;
   }
   .content{
     padding:0.1px;
     background:#f5f5f5;
     .for-me,.for-other{
-      margin-top:15px;
-      padding:0 15px;
+      margin-top:0.75rem;
+      padding:0 0.75rem;
       background:#fff;
       border-top:1px solid #ededed;
       border-bottom:1px solid #ededed;
     }
     .amount{
-      padding:15px 0;
+      padding:0.75rem 0;
       border-bottom:1px solid #ededed;
       .title{
-        font-size:15px;
+        font-size:0.75rem;
         color:#333;
         text-align: center;
         line-height: 1.5;
       }
       .account{
-        font-size:20px;
+        font-size:1rem;
         color:#f32f2f;
         font-weight: bold;
         text-align: center;
@@ -108,12 +108,12 @@ export default {
       }
     }
     .applyer,.guaranteer{
-      padding:15px 0;
+      padding:0.75rem 0;
       border-bottom:1px solid #ededed;
       label{
         float:left;
         width:35%;
-        font-size:15px;
+        font-size:0.75rem;
         color:#666;
         text-align: left;
         line-height: 1.5;
@@ -122,7 +122,7 @@ export default {
       span{
         float:right;
         width:65%;
-        font-size:15px;
+        font-size:0.75rem;
         color:#333;
         text-align: right;
         line-height: 1.5;

@@ -47,41 +47,41 @@ export default {
   padding:0.1px;
   background:#f5f5f5;
   .card-list{
-    margin-top:15px;
-    padding:15px;
+    margin-top:0.75rem;
+    padding:0.75rem;
     background:#fff;
     li{
       position: relative;
-      margin:0 auto 15px;
-      padding:10px;
-      height:113px;
-      border-radius: 5px;
+      margin:0 auto 0.75rem;
+      padding:0.5rem;
+      height:5.65rem;
+      border-radius: 0.125rem;
       overflow: hidden;
       background:url(../../assets/imgs/bg-card.png);
       background-size:100% 100%;
       .btn-del{
         position: absolute;
-        right: 10px;
-        top:10px;
-        width:25px;
-        height:25px;
+        right: 0.5rem;
+        top:0.5rem;
+        width:1.25rem;
+        height:1.25rem;
         background:url(../../assets/imgs/icon-del.png);
         background-size:100% 100%;
       }
       h3{
-        font-size:15px;
+        font-size:0.75rem;
         line-height: 1.5;
         color:#fff;
         font-weight: normal;
       }
       .card-num{
-        font-size:20px;
+        font-size:1rem;
         line-height: 1.5;
         color:#fff;
         font-weight: normal;
       }
       .type{
-         font-size:12px;
+         font-size:0.6rem;
         line-height: 1.5;
         color:#fff;
         font-weight: normal;
@@ -89,17 +89,17 @@ export default {
     }
   }
   .btn-add{
-    padding:15px 0;
-    height:20px;
+    padding:0.75rem 0;
+    height:1rem;
     background:#f5f5f5;
     border-top:1px solid #ededed;
     border-bottom:1px solid #ededed;
     .title{
-      font-size:15px;
+      font-size:0.75rem;
       color:#333;
       text-align: center;
       background:url(../../assets/imgs/icon-add.png) no-repeat 30% center;
-      background-size:20px 20px;
+      background-size:1rem 1rem;
     }
     img{
 

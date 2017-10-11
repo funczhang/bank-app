@@ -53,8 +53,8 @@ export default {
 <style lang="less" scoped>
 .content{
   .record{
-    padding:15px 25px;
-    margin-top:15px;
+    padding:0.75rem 1.25rem;
+    margin-top:0.75rem;
     border-top:1px solid #ededed;
     border-bottom:1px solid #ededed;
     background:#fff;
@@ -63,7 +63,7 @@ export default {
         float: left;
         width:30%;
         overflow: hidden;
-        font-size:15px;
+        font-size:0.75rem;
         color:#666;
         line-height: 2;
       }
@@ -71,7 +71,7 @@ export default {
         float: left;
         width:70%;
         overflow: hidden;
-        font-size:15px;
+        font-size:0.75rem;
         color:#000;
         line-height: 2;
       }

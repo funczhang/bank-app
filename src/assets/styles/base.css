@@ -167,7 +167,7 @@ input:-moz-placeholder {
 /* 修改插件样式 */
 .weui-tab .weui-cell{
     padding:0;
-    font-size:14px;
+    font-size:0.7rem;
 }
 .weui-tab .weui-cell_access .weui-cell__ft:after{
     border-color:#333;
@@ -194,7 +194,7 @@ input:-moz-placeholder {
     position: relative;
     top:-1px;
     line-height: 1.5;
-    font-size:20px;
+    font-size:1rem;
 }
 #app .vux-popup-picker-value{
     color:#666;
@@ -205,12 +205,12 @@ input:-moz-placeholder {
   }
 /* 导航栏字体 */
   .weui-tab .vux-header .vux-header-title > span {
-    font-size:16px;
+    font-size:0.8rem;
     color:#333;
   } 
   /* tab未选中颜色 */
   #app .weui-tabbar__label{
-      font-size:13px;
+      font-size:0.65rem;
       color:#666;
   }
   /* tab选中字体颜色 */
@@ -231,14 +231,14 @@ input:-moz-placeholder {
   .weui-tab .vux-header .vux-header-left .left-arrow:before{
     content: "";
     position: absolute;
-    width: 12px;
-    height: 12px;
+    width: 0.6rem;
+    height: 0.6rem;
     border: 1px solid #333;
     border-width: 1px 0 0 1px;
     -webkit-transform: rotate(315deg);
     transform: rotate(315deg);
-    top: 8px;
-    left: 7px;
+    top: 0.4rem;
+    left: 0.35rem;
   }
   /* xswitch */
   #app  .weui-cell{
@@ -249,15 +249,15 @@ input:-moz-placeholder {
     background-color:#1f76e2;
   }
   #app .vux-x-switch.weui-cell_switch{
-      padding:10px 15px;
+      padding:0.5rem 0.75rem;
       background:#fff;
   }
   #app .vux-label{
-    font-size:14px;
+    font-size:0.7rem;
     color:#333;
   }
   #app .weui-label{
-    font-sizse:14px;
+    font-sizse:0.7rem;
     color:#333; 
   }
   /* 蓝色色调1f76e2 */

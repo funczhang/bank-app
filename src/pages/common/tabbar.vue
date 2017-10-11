@@ -70,9 +70,9 @@ export default {
   .weui-tabbar__icon{
     img{
       position: relative;
-      top:3px;
-      width:20px;
-      height:20px;
+      top:0.15rem;
+      width:1rem;
+      height:1rem;
     }
   }
 }

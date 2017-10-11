@@ -95,19 +95,19 @@ export default {
 html, body {
   .content{
     .progerss{
-      margin-top:15px;
-      padding:10px 15px;
-      height:50px;
+      margin-top:0.75rem;
+      padding:0.5rem 0.75rem;
+      height:2.5rem;
       background:#1f76e2;
       img{
-        padding-bottom:5px;
+        padding-bottom:0.25rem;
         width:100%;
       }
       span{
         float:left;
         width:30%;
         text-align: center;
-        font-size:14px;
+        font-size:0.7rem;
         color:rgba(255,255,255,.8);
       }
       .first{
@@ -120,10 +120,10 @@ html, body {
       }
     }
     .module-head{
-      padding:5px 15px;
-      height:25px;
-      font-size:13px;
-      line-height: 25px;
+      padding:0.25rem 0.75rem;
+      height:1.25rem;
+      font-size:0.65rem;
+      line-height: 1.25rem;
       color:#333;
     }
     .module-content{
@@ -141,46 +141,46 @@ html, body {
         // border-bottom:1px solid #f5f5f5;
       }
       .option{
-        margin:0 15px;
-        padding:15px 0;
-        font-size:14px;
+        margin:0 0.75rem;
+        padding:0.75rem 0;
+        font-size:0.7rem;
         color:#333;
-        line-height: 20px;
+        line-height: 1rem;
         border-bottom:1px solid #ededed;
       }
       background:#fff;
     }
   }
   .title{
-    margin-top:15px;
-    padding:15px 0;
+    margin-top:0.75rem;
+    padding:0.75rem 0;
     border-bottom:1px solid #ededed;
-    line-height: 20px;
+    line-height: 1rem;
     background:#fff;
     span{
-      padding-left:15px;
-      font-size:14px;
+      padding-left:0.75rem;
+      font-size:0.7rem;
       color:#666;
     }
     i{
       position: relative;
-      top:3px;
-      left:5px;
-      width:14px;
-      height: 14px;
+      top:0.15rem;
+      left:0.25rem;
+      width:0.7rem;
+      height: 0.7rem;
       background:url(../../assets/imgs/icon-more.png);
       background-size:100% 100%;
     }
   }
   .option{
-     padding:15px;
+     padding:0.75rem;
      border-bottom:1px solid #ededed;
      background:#fff;
   }
   .confirm-area{
-    padding:10px 15px;
+    padding:0.5rem 0.75rem;
     background:#fff;
-    font-size:14px;
+    font-size:0.75rem;
     line-height: 1.5;
     color:#666;
     a{
@@ -188,17 +188,17 @@ html, body {
     }
   }
   .btn-area{
-    padding:20px 0;
+    padding:1rem 0;
     background:#fff;
   }
   .btn-submit,.btn-cancel{
     width:40%;
-    height:36px;
-    border-radius: 18px;
-    font-size:15px;
+    height:1.8rem;
+    border-radius: 0.9rem;
+    font-size:0.75rem;
     text-align: center;
-    line-height: 36px;
-    box-shadow: 0px 0px 20px rgba(39,128,237,.5);
+    line-height: 1.8rem;
+    box-shadow: 0px 0px 1rem rgba(39,128,237,.5);
   }
   .btn-submit{
     margin-left:5%;

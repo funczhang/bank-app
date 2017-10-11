@@ -71,17 +71,17 @@ export default {
 <style lang="less" scoped>
 .content{
   .classify{
-    padding:15px 30px;
+    padding:0.75rem 1.5rem;
     li{
-      padding:5px 0;
+      padding:0.25rem 0;
       float: left;
       width:50%;
-      font-size:15px;
+      font-size:0.75rem;
       color:#333;
     }
   }
   ::-webkit-input-placeholder{
-    font-size:15px;
+    font-size:0.75rem;
     color: #999;
   }
   .weui-cell:before{
@@ -89,15 +89,15 @@ export default {
   }
   .btn-submit{
     display: block;
-    margin:50px auto;
+    margin:2.5rem auto;
     width:80%;
-    height: 40px;
-    border-radius: 20px;
+    height: 2rem;
+    border-radius: 1rem;
     background:#1f76e2;
-    box-shadow: 0px 0px 20px rgba(39,128,237,.5);
-    font-size:15px;
+    box-shadow: 0px 0px 1rem rgba(39,128,237,.5);
+    font-size:0.75rem;
     color:#fff;
-    line-height: 40px;
+    line-height: 2rem;
     text-align: center;
   }
 }

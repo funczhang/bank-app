@@ -1,17 +1,19 @@
-# y
+# 安装步骤
 
-> y
+> 普惠金融项目
 
 ## Build Setup
 
 ``` bash
-# install dependencies
-npm install
+# 安装yarn
+npm install yarn 
+# 安装依赖
+yarn install
 
-# serve with hot reload at localhost:8080
+# 运行服务 at localhost:8080
 npm run dev
 
-# build for production with minification
+# 前端代码打包
 npm run build
 
 # build for production and view the bundle analyzer report

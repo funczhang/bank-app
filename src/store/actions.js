@@ -155,3 +155,19 @@ export const photoRequest = ({ commit }, data) => {
     })
   })
 }
+// 通用原生信息请求
+export const generalRequest = ({ commit }, data) => {
+  data.path = data.path | ''
+  data.params = data.params | {}
+  return new Promise((resolve, reject) => {
+    fly.data({
+      action: 'baseComponents.' + data.action,
+      callback: true,
+      args: [{'path': data.path, 'params': data.params}]
+    }).done(response => {
+      resolve(response)
+    }).fail(response => {
+      reject(response)
+    })
+  })
+}

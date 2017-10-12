@@ -160,7 +160,7 @@ html, body {
       }
       img{
         position: relative;
-        top:2px;
+        top:-0.1rem;
         padding:0 0.75rem;
         width:2.5rem;
         height:0.75rem;

@@ -17,12 +17,15 @@ export default {
     TabbarItem
   },
   mounted () {
+    // alert('app mounted')
+    console.log('app mounted')
     // let path = this.$route.path
     // console.log(path)
     // debugger
   },
   activated () {
-    console.log('1111')
+    // alert('app activited')
+    console.log('app activited')
   }
 }
 </script>

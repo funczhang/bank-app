@@ -1,6 +1,6 @@
 <template lang="pug">
   div(style="height:100%;")
-    view-box(ref="viewBox" body-padding-top="46px")
+    view-box(ref="viewBox" body-padding-top="46px" body-padding-bottom="0")
       x-header(slot="header" title="意见反馈" :left-options="{showBack:true,backText:''}" style="width:100%;position:absolute;left:0;top:0;z-index:100;background:#fff;")
       .content  
         masker(style="border-radius: 2px;" color="#000" :opacity="0.5" fullscreen=true v-show="false")

@@ -1,6 +1,6 @@
 <template lang="pug">
   div(style="height:100%;")
-    view-box(ref="viewBox" body-padding-bottom="50px")
+    view-box(ref="viewBox" body-padding-top="0" body-padding-bottom="50px")
       .container
         .header
           a(class="btn-code" href="javascript:void(null)")
@@ -87,13 +87,14 @@ export default {
         }
       }
       if (token !== '') {
+        // alert(this.$store.state.userInfo.cellphone)
         // 获取银行卡列表
         self.$store.dispatch('initRequest', data).then(res => {
           let data = JSON.parse(res)
           if (data.response === 'success') {
             self.$store.commit('INIT_BANKCARD_LIST', data.data)
           } else {
-            self.$vux.toast.text('初始化展示用户信息失败')
+            // self.$vux.toast.text('初始化展示用户信息失败')
           }
         })
       } else {

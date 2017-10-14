@@ -16,22 +16,22 @@
             li
               .option(class="clearfix")  
                 label 申请人
-                span 张超
+                span {{name}}
             li
               .option(class="clearfix" style="border-bottom:none;")  
                 label 身份证号
-                span 11111111111111111111
+                span {{idCard}}
         .module
           .module-head 借款信息
           ul(class="module-content")
             li
               .option(class="clearfix")  
                 label 申请期限
-                span 24个月
+                span {{applyTerm}}个月
             li
               .option(class="clearfix")      
                 group
-                  popup-picker(title="申请用途" :data="list2" v-model="value2")
+                  popup-picker(title="申请用途" :data="loanUseList" v-model="value1" @on-show="onShow" @on-hide="onHide" @on-change="onChange")
         .get-more
           .module-head 获取更高额度
           .module-content
@@ -81,9 +81,15 @@ export default {
   data () {
     return {
       index: 0,
-      list2: [['小米', 'iPhone', '华为', '情怀', '三星', '其他', '不告诉你'], ['小米1', 'iPhone2', '华为3', '情怀4', '三星5', '其他6', '不告诉你7']],
-      value2: ['iPhone', '华为3'],
-      isConfirm: false
+      list2: [['小米', 'iPhone', '华为', '情怀', '三星', '其他', '不告诉你']],
+      value1: ['请选择用途'],
+      value2: ['请选择地址'],
+      isConfirm: false,
+      name: '',
+      listad: [],
+      loanUseList: [],
+      applyTerm: '',
+      idCard: ''
     }
   },
   mounted () {
@@ -96,7 +102,7 @@ export default {
     initView () {
       // 页面初始化
       let self = this
-      let path = self.$store.state.baseUrl + '/app/xsyd/myLoanInit.do'
+      let path = self.$store.state.baseUrl + '/app/xsyd/creditApplyInit.do'
       let data = {
         path: path,
         params: {
@@ -104,11 +110,26 @@ export default {
           token: 'e2e9e2dc-07c6-41f0-9b80-0486a1c0f5b4'
         }
       }
-      // 我为他人担保信息
+      // 贷款申请初始化
       self.$store.dispatch('initRequest', data).then(res => {
         let data = JSON.parse(res)
-        alert(res)
+       // alert('dd  ' + data.data.loanUseList[0].name)
         if (data.response === 'success') {
+          if (data.data.idCard !== '') {
+            self.idCard = data.data.idCard
+            self.name = data.data.name
+          }
+          if (data.data.loanUseList.length !== 0) {
+            // 遍历取申请用途列表的的name值
+            for (var i = 0; i < data.data.loanUseList.length; i++) {
+              self.listad[i] = data.data.loanUseList[i].name
+            }
+            // 构建双重数组结构
+            self.loanUseList.push(self.listad)
+          }
+          if (data.data.applyTerm !== '') {
+            self.applyTerm = data.data.applyTerm
+          }
         } else {
           this.$vux.toast.text('我的贷款页面初始化失败~')
         }

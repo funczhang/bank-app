@@ -5,10 +5,17 @@ import router from './router'
 import store from './store/states'
 import Vuex from 'vuex'
 import './assets/styles/base.css'
+import './assets/styles/animate.min.css'
 import { ToastPlugin, LoadingPlugin } from 'vux'
-// const FastClick = require('fastclick')
 import FastClick from 'fastclick'
-// Vue.use(AlertPlugin)
+// router.beforeEach(function (to, from, next) {
+//   // alert('to:' + JSON.stringify(to))
+//   // alert('from:' + JSON.stringify(from))
+//   // alert('next:' + JSON.stringify(next))
+// })
+router.afterEach(function (to) {
+  store.commit('UPDATE_LOADING', false)
+})
 Vue.use(ToastPlugin)
 Vue.use(LoadingPlugin)
 Vue.config.productionTip = false

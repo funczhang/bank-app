@@ -118,6 +118,7 @@ export default {
       if (self.checkPhone(self.phone)) {
         self.$store.dispatch('getVerifyCode', data).then(res => {
           let response = JSON.parse(res)
+          // alert(res)
           if (response.response === 'success') {
             this.$vux.toast.text('验证码已成功发送')
             document.getElementById('code').style.color = '#999'

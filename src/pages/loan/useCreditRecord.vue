@@ -3,26 +3,29 @@
     view-box(ref="viewBox" body-padding-top="46px" body-padding-bottom="0")
       x-header(slot="header" title="我的用信" :left-options="{showBack:true,backText:''}" style="width:100%;position:absolute;left:0;top:0;z-index:100;background:#fff;")
       .content
-        template(v-for="x in 3")
+        template(v-for="item in spendList")
           ul(class="record")
             li(class="clearfix") 
               label 合同号 
-              span 2018987656788333
+              span {{item.contractNo}}
             li(class="clearfix")  
               label 借款人 
-              span 张超
+              span {{item.borrName}}
             li(class="clearfix")  
               label 借款号 
-              span(style="color:#f32f2f;") 2018987656788333
+              span(style="color:#f32f2f;") {{item.iousNo}}
             li(class="clearfix")  
               label 月利率 
-              span 4.537%
+              span {{item.payMonthRate}}%
             li(class="clearfix") 
               label 用款金额 
-              span(style="color:#f32f2f;") 12,000,00元
+              span(style="color:#f32f2f;") {{item.payAmount}}元
             li(class="clearfix") 
               label 用款时间 
-              span 2018-08-27 23:01:01
+              span {{item.payTime}}
+      .content(v-show="spendList.length ===0")
+        img(class="empty" src="../../assets/imgs/icon-no-apply.png")
+        .tip 您暂无用信记录哦~
 </template>
 
 <script>
@@ -39,6 +42,11 @@ export default {
   data () {
     return {
       index: 0
+    }
+  },
+  computed: {
+    spendList () {
+      return this.$store.state.spendList
     }
   },
   mounted () {
@@ -73,6 +81,19 @@ export default {
         line-height: 2;
       }
     }
+  }
+  .empty{
+    display: block;
+    margin:5rem auto 3rem;
+    width:10rem;
+    height:6rem;
+  }
+  .tip{
+    padding:1rem;
+    font-size:0.75rem;
+    color:#999;
+    line-height: 1.5;
+    text-align: center;
   }
 }
 </style>

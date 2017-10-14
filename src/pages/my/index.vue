@@ -3,7 +3,7 @@
     view-box(ref="viewBox" body-padding-top="0" body-padding-bottom="50px")
       .container
         .header
-          a(class="btn-code" href="javascript:void(null)")
+          a(class="btn-code" @click="shareCodePic" href="javascript:void(null)")
           .head-img(@click="uploadHeadImg")
             //- img(src="../../assets/imgs/person.png")
             img(v-show="!hasHeadImg" src="../../assets/imgs/default-img.png")
@@ -20,6 +20,10 @@
               img(src="../../assets/imgs/icon-juan.png" slot="icon")
             cell(title="个人设置" is-link style="margin-top:0.75rem;" link="/setting")
               img(src="../../assets/imgs/icon-setting.png" slot="icon")
+        masker(color="#000" :opacity="0.4" fullscreen=true v-show="showHeadImg")
+          .box(slot="content" @click="hideHeadImg")
+            img(v-show="!hasHeadImg" src="../../assets/imgs/default-head-photo.png")
+            img(v-show="hasHeadImg" :src="'data:image/jpeg;base64,' + base64")
 </template>
 
 <script>
@@ -40,9 +44,11 @@ export default {
   },
   data () {
     return {
+      showHeadImg: false
     }
   },
   mounted () {
+    // alert(JSON.stringify(this.$store.state.userInfo))
     // 显示
     // this.$vux.loading.show({
     //   text: 'Loading'
@@ -54,6 +60,7 @@ export default {
   },
   activated () {
     this.showUserInfo()
+    // alert(JSON.stringify(this.$store.state.userInfo))
   },
   computed: {
     phoneNum () {
@@ -102,12 +109,22 @@ export default {
       }
     },
     uploadHeadImg () {
-      // let self = this
-      // let data = {
-      //   path: '',
-      //   params: {
-      //   }
-      // }
+      this.showHeadImg = true
+    },
+    hideHeadImg () {
+      this.showHeadImg = false
+    },
+    shareCodePic () {
+       // 分享二维码
+      let self = this
+      let data = {
+        action: 'jump_qr_show',
+        path: '',
+        params: {
+        }
+      }
+      self.$store.dispatch('shareCodePic', data).then(res => {
+      })
     }
   }
 }
@@ -157,6 +174,23 @@ export default {
     }
   }
   .content{
+  }
+  .box{
+    position: absolute;
+    top:0;
+    bottom:0;
+    left: 0;
+    right:0;
+    img{
+      position: absolute;
+      z-index: 99;
+      top:50%;
+      left:50%;
+      display: block;
+      width:5rem;
+      height:5rem;
+      margin:-2.5rem;
+    }
   }
 }
   .weui-tab .weui-cell:before{

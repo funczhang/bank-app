@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 Vue.use(Router)
 const router = new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
@@ -19,6 +20,13 @@ const router = new Router({
         'tabbar': resolve => require(['../pages/common/tabbar.vue'], resolve)
       }
     },
+    // {
+    //   path: '/tabbar', // 底部
+    //   name: 'Tabbar',
+    //   components: {
+    //     'tabbar': resolve => require(['../pages/common/tabbar.vue'], resolve)
+    //   }
+    // },
     {
       path: '/quotaEvaluation', // 额度评估中
       name: 'QuotaEvaluation',
@@ -208,9 +216,16 @@ const router = new Router({
     },
     {
       path: '/about', // 关于页面
-      name: 'about',
+      name: 'About',
       components: {
         'default': resolve => require(['../pages/more/about.vue'], resolve)
+      }
+    },
+    {
+      path: '/progress', // 进度页面
+      name: 'Progress',
+      components: {
+        'default': resolve => require(['../pages/common/progress.vue'], resolve)
       }
     }
   ]

@@ -68,11 +68,30 @@ export default {
     }
   },
   mounted () {
+    // this.$vux.loading.show({
+    //   text: 'Loading'
+    // })
+    // // 获取设备信息和token
+    // this.getBaseInfo()
+    // this.getPicList()
+    // // 隐藏
+    // setTimeout(() => {
+    // this.$vux.loading.hide()
+    // }, 0)
+    this.init()
   },
   activated () {
+    // 显示
+    this.$vux.loading.show({
+      text: 'Loading'
+    })
     // 获取设备信息和token
     this.getBaseInfo()
     this.getPicList()
+    // // 隐藏
+    setTimeout(() => {
+      this.$vux.loading.hide()
+    }, 0)
   },
   methods: {
     toInform () {
@@ -127,6 +146,23 @@ export default {
       }
       self.$store.dispatch('initRequest', data).then(res => {
       })
+    },
+    init () {
+      let self = this
+      window.toLogin = (res) => {
+        // alert(JSON.stringify(res))
+        let data = JSON.parse(JSON.stringify(res))
+        // alert('token:' + data.token)
+        self.$store.commit('INIT_USER_INFO', data)
+        // if (res instanceof Object) {
+        //   // alert(JSON.stringify(res))
+        //   self.$store.commit('INIT_USER_INFO', res)
+        // } else {
+        //   let data = JSON.parse(res)
+        //   self.$store.commit('INIT_USER_INFO', data)
+        // }
+        self.$router.replace('/login')
+      }
     }
   }
 }

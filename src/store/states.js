@@ -4,6 +4,8 @@ import * as actions from './actions'
 import mutations from './mutations'
 import * as getters from './getters'
 const state = {
+  isLoading: true,
+  direction: 'forward',
   baseUrl: 'http://192.168.2.200:8080',
   userInfo: {
     isAuth: '',
@@ -15,6 +17,11 @@ const state = {
     avatarUploaded: '', // 是否上传头像 0:未上传 1:已上传
     base64: ''
   },
+  applyState: '', // 申请进度
+  spendList: [], // 我的用信
+  repaymentList: [], // 我的还款
+  creditList: [], // 我的授信
+  isOpenGesture: false,
   tabItem: 0,
   channel: '1', // 渠道 1:安卓手机APP 2:IOS版手机APP 3:网页
   imei: '11111', // 设备imei

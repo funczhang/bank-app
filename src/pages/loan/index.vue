@@ -1,7 +1,7 @@
 <template lang="pug">
   div(style="height:100%;")
     view-box(ref="viewBox" body-padding-top="46px" body-padding-bottom="50px")
-      x-header(slot="header" title="授信申请" :left-options="{showBack:false,backText:''}" style="width:100%;position:absolute;left:0;top:0;z-index:100;background:#fff;")
+      x-header(slot="header" title="授信申请" :left-options="{showBack:true,backText:''}" style="width:100%;position:absolute;left:0;top:0;z-index:100;background:#fff;")
       .content  
         .progerss
           img(src="../../assets/imgs/progress00.png")
@@ -32,6 +32,16 @@
               .option(class="clearfix")      
                 group
                   popup-picker(title="申请用途" :data="list2" v-model="value2")
+        .get-more
+          .module-head 获取更高额度
+          .module-content
+            ul(class="add clearfix" style="padding:20px 0 15px;")
+              //- li(style="border-right:1px solid #ededed;") 
+              //-   img(src="../../assets/imgs/icon-addfriend.png")
+              //-   p(class="btn-guarantee") 添加担保人
+              li 
+                img(src="../../assets/imgs/icon-zhima.png")
+                p(class="btn-zhima") 芝麻信用分
         .title(class="clearfix") 
           span(class="fl") 法律文书送达地址
           i(class="fl" @click="showMsg")
@@ -46,7 +56,7 @@
           a(href="javascript:void(null)") 《综合查询授权书》
           a(href="javascript:void(null)") 《法律文书送达地址确认书》
         .btn-area(class="clearfix")
-          a(href="javascript:void(null)" class="btn-submit fl" @click="submit") 提交申请
+          button(class="btn-submit fl" @click="submit" :disabled="!isConfirm" :class="{active:!isConfirm}") 提交申请
           a(href="javascript:void(null)" class="btn-cancel fr" @click="cancel") 下次再说
       masker(style="border-radius: 2px;" color="#000" :opacity="0.5" fullscreen=true v-show="false")
         div(slot="content" class="msg-box")
@@ -77,10 +87,32 @@ export default {
     }
   },
   mounted () {
+    this.initView()
   },
   methods: {
     showMsg () {
       alert('展示更多')
+    },
+    initView () {
+      // 页面初始化
+      let self = this
+      let path = self.$store.state.baseUrl + '/app/xsyd/myLoanInit.do'
+      let data = {
+        path: path,
+        params: {
+          // token: this.$store.state.userInfo.token
+          token: 'e2e9e2dc-07c6-41f0-9b80-0486a1c0f5b4'
+        }
+      }
+      // 我为他人担保信息
+      self.$store.dispatch('initRequest', data).then(res => {
+        let data = JSON.parse(res)
+        alert(res)
+        if (data.response === 'success') {
+        } else {
+          this.$vux.toast.text('我的贷款页面初始化失败~')
+        }
+      })
     },
     submit () {
       alert('提交表单')
@@ -211,6 +243,50 @@ html, body {
     background:#fff;
     color:#1f76e2;
     border:1px solid #1f76e2;
+  }
+  .get-more{
+    ul{
+      padding:0.75rem 0;
+      // width:94%;
+      margin:0 auto;
+      border-bottom:1px solid #ededed;
+    }
+    .title{
+      padding:0.5rem 0;
+      font-size:0.65rem;
+      color:#666;
+      text-align: center;
+    }
+    .value{
+      padding:0.25rem 0 0.5rem;
+      font-size:0.9rem;
+      font-weight: bold;
+      text-align: center;
+    }
+    .mid{
+      border-left:1px solid #ededed;
+      border-right:1px solid #ededed;
+    }
+    .btn-guarantee,.btn-zhima{
+      padding-top:0.5rem;
+      color:#333;
+      font-size:0.65rem;
+      text-align: center;
+    }
+    .add img{
+      display: block;
+      margin:0 auto;
+      width:1.25rem;
+      height:1.25rem;
+    }
+    .add li{
+      margin:0 auto;
+    }
+  }
+  .active{
+    background:#f5f5f5;
+    color:#999;
+    box-shadow: none;
   }
   // .weui-tab{
   //   .vux-header .vux-header-title > span{

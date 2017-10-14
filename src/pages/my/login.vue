@@ -1,7 +1,7 @@
 <template lang="pug">
   div(style="height:100%;")
     view-box(ref="viewBox" body-padding-top="46px" body-padding-bottom="0" style="background:#fff;")
-      x-header(slot="header" title="登录" :left-options="{showBack:true,backText:''}" style="width:100%;position:absolute;left:0;top:0;z-index:100;background:#fff;color:#000;")
+      x-header(slot="header" title="登录" :left-options="{showBack:true,backText:'',preventGoBack:true}" @on-click-title="clickTitle" @on-click-back="backToMy" style="width:100%;position:absolute;left:0;top:0;z-index:100;background:#fff;color:#000;")
       .content
         tab(active-color="#1f76e2")
           tab-item(selected style="border-right:1px solid #ededed;" @on-item-click="handler(0)") 账号登录
@@ -61,6 +61,11 @@ export default {
   mounted () {
   },
   methods: {
+    backToMy () {
+      this.$router.replace('/my')
+    },
+    clickTitle () {
+    },
     handler (flag) {
       if (flag === 0) {
         this.loginByAccount = true
@@ -100,6 +105,7 @@ export default {
         })
         self.$store.dispatch('loginByAccount', data).then(res => {
           let data = JSON.parse(res)
+          // alert(res)
           // 存用户信息
           self.$store.commit('INIT_USER_INFO', data)
           // 隐藏
@@ -114,6 +120,7 @@ export default {
         this.$vux.loading.hide()
         this.$vux.toast.text('密码不为空')
       }
+      this.$vux.loading.hide()
     },
     loginByVerifyCodeWays () {
       let self = this

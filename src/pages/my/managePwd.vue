@@ -16,6 +16,7 @@
         group(v-show="!isChangePwd")
           x-switch(title="手势密码" v-model="isOpenGesture" style="margin-top:0.75rem;border-top:1px solid #ededed;")
           cell(v-show="isOpenGesture" title="修改手势密码" is-link)
+            .child(slot="child" @click="updataGesture")
 </template>
 
 <script>
@@ -36,7 +37,7 @@ export default {
     return {
       index: 0,
       isChangePwd: true,
-      isOpenGesture: false,
+      // isOpenGesture: false,
       oldPwd: '',
       newPwd: '',
       reNewPwd: '',
@@ -44,6 +45,25 @@ export default {
     }
   },
   mounted () {
+  },
+  watch: {
+    isOpenGesture (newval) {
+      if (newval) {
+        this.openGesture()
+      } else {
+        this.closeGesture()
+      }
+    }
+  },
+  computed: {
+    isOpenGesture: {
+      set (val) {
+        this.$store.state.isOpenGesture = val
+      },
+      get () {
+        return this.$store.state.isOpenGesture
+      }
+    }
   },
   methods: {
     handler (flag) {
@@ -81,6 +101,51 @@ export default {
       } else {
         this.$vux.toast.text('旧密码不能为空')
       }
+    },
+    updataGesture () {
+       // 重新设置手势密码
+      let self = this
+      let data = {
+        action: 'jump_ges_update',
+        path: '',
+        params: {
+        }
+      }
+      self.$store.dispatch('controlGestureRequest', data).then(res => {
+        this.$vux.toast.text('修改手势密码成功~')
+      })
+    },
+    openGesture () {
+      // 打开手势密码
+      let self = this
+      let data = {
+        action: 'jump_ges_lock',
+        path: '',
+        params: {
+        }
+      }
+      self.$store.dispatch('controlGestureRequest', data).then(res => {
+        let data = JSON.parse(res)
+        if (data.isOpenGesture) {
+          this.$store.state.isOpenGesture = true
+        } else {
+          this.$store.state.isOpenGesture = false
+          // this.$vux.toast.text('开启手势密码失败~')
+        }
+      })
+    },
+    closeGesture () {
+       // 关闭手势密码
+      let self = this
+      let data = {
+        action: 'jump_ges_close',
+        path: '',
+        params: {
+        }
+      }
+      self.$store.dispatch('controlGestureRequest', data).then(res => {
+        this.$vux.toast.text('关闭手势密码成功~')
+      })
     }
   }
 }
@@ -141,6 +206,13 @@ export default {
     font-size:0.65rem;
     color:#1f76e2;
     text-align: center;
+  }
+  .child{
+    position: absolute;
+    top:0;
+    left: 0;
+    right: 0;
+    bottom:0;
   }
 }
 </style>

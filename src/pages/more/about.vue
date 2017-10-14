@@ -10,7 +10,8 @@
         .version
           span 版本号：v1.0
         group
-          cell(title="版本更新" is-link style="margin-top:15px;border-bottom:none" link="/myGurantee")
+          cell(title="版本更新" is-link style="margin-top:15px;border-bottom:none")
+            .child(slot="child" @click="updateVersion")
 </template>
 <script>
 import { ViewBox, XHeader, Masker, Group, Cell } from 'vux'
@@ -21,6 +22,21 @@ export default {
     Masker,
     Group,
     Cell
+  },
+  methods: {
+    updateVersion () {
+      // 页面初始化
+      let self = this
+      let data = {
+        action: 'version_request',
+        path: '',
+        params: {
+        }
+      }
+      // 版本更新
+      self.$store.dispatch('controlGestureRequest', data).then(res => {
+      })
+    }
   }
 }
 </script>
@@ -40,6 +56,14 @@ export default {
       margin:0px auto;
       display: block;
     }
+  }
+  .child {
+    position: absolute;
+    top:0;
+    left: 0;
+    right: 0;
+    bottom:0;
+    z-index: 99;
   }
 }
 .weui-tab .weui-cell:before{

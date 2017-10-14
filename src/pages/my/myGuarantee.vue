@@ -1,72 +1,182 @@
 <template lang="pug">
   div(style="height:100%;")
-    view-box(ref="viewBox" body-padding-top="46px" body-padding-bottom="0")
+    view-box(ref="viewBox" body-padding-top="46px" body-padding-bottom="0" style="background:#fff;")
       x-header(slot="header" title="我的担保" :left-options="{showBack:true,backText:''}" style="width:100%;position:absolute;left:0;top:0;z-index:100;background:#fff;color:#000;")
-        img(class="icon-refresh" src="../../assets/imgs/icon-refresh.png" slot="right")
+        img(class="icon-refresh" src="../../assets/imgs/icon-refresh.png" slot="right" @click="refresh")
       .content
         tab(active-color="#1f76e2")
           tab-item(selected style="border-right:1px solid #ededed;" @on-item-click="handler(0)") 我为他人担保
           tab-item(@on-item-click="handler(1)") 他人为我担保
-        .for-other(v-show="isForOther")
-          .applyer
-            p(class="clearfix")
-              label 申请人
-              span 张超
-            p(class="clearfix")
-              label 申请时间
-              span 2019-09-12 19:00:21
-          .amount
-            p(class="title") 申请金额(元)
-            p(class="account") 10,000.00
-        .for-me(v-show="!isForOther")
-          .amount
-            p(class="title") 申请金额(元)
-            p(class="account") 10,000.00
-          .applyer
-            p(class="clearfix")
-              label 申请人
-              span 张超
-            p(class="clearfix")
-              label 申请时间
-              span 2019-09-12 19:00:21
-          .guaranteer(style="border-bottom:none;")
-            p(class="clearfix")
-              label 担保人姓名
-              span 张超
-            p(class="clearfix")
-              label 担保人手机
-              span 13245654323
-            p(class="clearfix")
-              label 担保人身份证号
-              span 345665433252627288   
+        //- scroller(id="myscroll" ref="myScroller" :value="status" :lock-x="true"  :bounce="true" :use-pulldown="true" :pulldown-config="pulldownConfig" @on-pulldown-loading="onPulldownLoading")
+        .template(v-show="isForOther")
+          .for-other(v-for="item in myList")
+            .applyer
+              p(class="clearfix")
+                label 申请人
+                span {{item.manName}}
+              p(class="clearfix")
+                label 申请人身份证号
+                span {{item.idCard}}
+            .amount
+              p(class="title") 申请金额(元)
+              p(class="account") {{item.amount}}
+          img(v-show="myList.length===0" src="../../assets/imgs/icon-empty.png")
+          p(v-show="myList.length===0" style="padding:2rem 1rem;text-align:center;font-size:0.75rem;color:#999;") 没有我为他人担保信息
+        .template(v-show="!isForOther")
+          .for-me(v-for="item in othersList")
+            .amount
+              p(class="title") 申请金额(元)
+              p(class="account") {{item.amount}}
+            .applyer
+              p(class="clearfix")
+                label 申请人
+                span {{item.manName}}
+              p(class="clearfix")
+                label 申请时间
+                span {{item.applyTime}}
+            .guaranteer(style="border-bottom:none;")
+              p(class="clearfix")
+                label 担保人姓名
+                span {{item.assName}}
+              p(class="clearfix")
+                label 担保人手机
+                span {{item.assPhone}}
+              p(class="clearfix")
+                label 担保人身份证号
+                span {{item.assIdCard}}
+          img(v-show="othersList.length===0" src="../../assets/imgs/icon-empty.png")
+          p(v-show="othersList.length===0" style="padding:2rem 1rem;text-align:center;font-size:0.75rem;color:#999;") 没有他人为我担保信息
 </template>
 
 <script>
 // 219 187
-import { ViewBox, XHeader, Masker, Tab, TabItem } from 'vux'
+import { ViewBox, XHeader, Masker, Tab, TabItem, Scroller } from 'vux'
 export default {
   components: {
     ViewBox,
     XHeader,
     Masker,
     Tab,
-    TabItem
+    TabItem,
+    Scroller
   },
   data () {
     return {
       index: 0,
-      isForOther: true
+      status: {
+        pullupStatus: 'default'
+      },
+      isForOther: true,
+      myList: [],
+      othersList: [],
+      pulldownConfig: {
+        content: '下拉刷新~',
+        height: 60,
+        autoRefresh: false,
+        downContent: '下拉刷新~',
+        upContent: '释放刷新~',
+        loadingContent: '加载中...',
+        clsPrefix: 'xs-plugin-pulldown-'
+      }
     }
   },
   mounted () {
+    this.guaranteeForOther()
+    this.$nextTick(() => {
+      // document.getElementById('myscroll').reset({ top: 0 })
+      // this.$refs.scroller.reset({
+      //   top: 0
+      // })
+    })
+  },
+  activated () {
+    // 重置高度
+    // this.$refs.myScroller.reset()
   },
   methods: {
     handler (flag) {
       if (flag === 0) {
         this.isForOther = true
+        this.guaranteeForOther()
       } else {
         this.isForOther = false
+        this.guaranteeForMe()
       }
+    },
+    refresh () {
+      if (this.isForOther) {
+        this.guaranteeForOther()
+      } else {
+        this.guaranteeForMe()
+      }
+    },
+    onPulldownLoading () {
+      this.isForOther ? this.guaranteeForOther() : this.guaranteeForMe()
+      // this.$nextTick(() => {
+      //   // 视图更新完成后停止刷新或加载动作
+      this.$refs.myScroller.donePulldown()
+      // })
+    },
+    guaranteeForOther () {
+      // 我为别人担保
+      let self = this
+      let path = self.$store.state.baseUrl + '/app/xsyd/assureForOthers.do'
+      let data = {
+        path: path,
+        params: {
+          // token: this.$store.state.userInfo.token
+          token: 'e2e9e2dc-07c6-41f0-9b80-0486a1c0f5b4'
+        }
+      }
+      // 显示
+      this.$vux.loading.show({
+        text: 'Loading'
+      })
+      // 我为他人担保信息
+      self.$store.dispatch('initRequest', data).then(res => {
+        let data = JSON.parse(res)
+        if (data.response === 'success') {
+          self.myList = data.data.myList
+        } else {
+          this.$vux.toast.text('我为他人担保接口返回信息有误~')
+        }
+        this.$vux.loading.hide()
+        // this.$nextTick(() => {
+        // // 视图更新完成后停止刷新或加载动作
+        //   this.$refs.myScroller.donePulldown()
+        // })
+      })
+      // this.$vux.loading.hide()
+    },
+    guaranteeForMe () {
+      // 别人为我担保
+      let self = this
+      let path = self.$store.state.baseUrl + '/app/xsyd/assureForMe.do'
+      let data = {
+        path: path,
+        params: {
+          // token: this.$store.state.userInfo.token
+          token: 'e2e9e2dc-07c6-41f0-9b80-0486a1c0f5b4'
+        }
+      }
+       // 显示
+      this.$vux.loading.show({
+        text: 'Loading'
+      })
+      // 别人为我担保信息
+      self.$store.dispatch('initRequest', data).then(res => {
+        let data = JSON.parse(res)
+        if (data.response === 'success') {
+          self.othersList = data.data.othersList
+        } else {
+          this.$vux.toast.text('他人为我担保接口返回信息有误~')
+        }
+        // self.$nextTick(() => {
+        //   // 视图更新完成后停止刷新或加载动作
+        //   self.$refs.myScroller.donePulldown()
+        // })
+        this.$vux.loading.hide()
+      })
     }
   }
 }
@@ -82,9 +192,9 @@ export default {
   }
   .content{
     padding:0.1px;
-    background:#f5f5f5;
+    background:#fff;
     .for-me,.for-other{
-      margin-top:0.75rem;
+      // margin-top:0.75rem;
       padding:0 0.75rem;
       background:#fff;
       border-top:1px solid #ededed;
@@ -130,7 +240,14 @@ export default {
       }
     }
     .guaranteer{
-
+    }
+    .template{
+      img{
+        display: block;
+        margin:5rem auto 0;
+        width:6.5rem;
+        height:6.75rem;
+      }
     }
 }
 }

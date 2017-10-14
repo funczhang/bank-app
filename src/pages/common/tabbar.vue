@@ -4,7 +4,7 @@
       img(slot="icon" src="../../assets/imgs/icon-home.png")
       img(slot="icon-active" src="../../assets/imgs/icon-home-active.png")
       span(slot="label") 首页
-    tabbar-item(on-item-click="toPage(1)" link="/loan")
+    tabbar-item(on-item-click="toPage(1)" link="/checkLoan")
       img(slot="icon" src="../../assets/imgs/icon-loan2.png")
       img(slot="icon-active" src="../../assets/imgs/icon-loan-active.png")
       span(slot="label") 贷款

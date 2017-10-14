@@ -6,7 +6,7 @@
         .progerss
           img(src="../../assets/imgs/progress01.png")
           div
-            span(class="first") 待申请
+            span(class="first") 已申请
             span 待审批
             span 待签约
             span(class="last") 待完成

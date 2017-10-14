@@ -1,9 +1,9 @@
 <template lang="pug">
   div(style="height:100%;")
-    view-box(ref="viewBox" body-padding-top="46px" body-padding-bottom="0" style="background:#fff;")
+    view-box(ref="viewBox" body-padding-top="46px" body-padding-bottom="0")
       x-header(slot="header" title="我的担保" :left-options="{showBack:true,backText:''}" style="width:100%;position:absolute;left:0;top:0;z-index:100;background:#fff;color:#000;")
         img(class="icon-refresh" src="../../assets/imgs/icon-refresh.png" slot="right" @click="refresh")
-      .content
+      .content()
         tab(active-color="#1f76e2")
           tab-item(selected style="border-right:1px solid #ededed;" @on-item-click="handler(0)") 我为他人担保
           tab-item(@on-item-click="handler(1)") 他人为我担保
@@ -136,6 +136,7 @@ export default {
       self.$store.dispatch('initRequest', data).then(res => {
         let data = JSON.parse(res)
         if (data.response === 'success') {
+          data.data.myList.length === 0 ? self.color = '#fff' : self.color = ''
           self.myList = data.data.myList
         } else {
           this.$vux.toast.text('我为他人担保接口返回信息有误~')
@@ -146,7 +147,7 @@ export default {
         //   this.$refs.myScroller.donePulldown()
         // })
       })
-      // this.$vux.loading.hide()
+      this.$vux.loading.hide()
     },
     guaranteeForMe () {
       // 别人为我担保
@@ -159,7 +160,7 @@ export default {
           token: 'e2e9e2dc-07c6-41f0-9b80-0486a1c0f5b4'
         }
       }
-       // 显示
+      // 显示
       this.$vux.loading.show({
         text: 'Loading'
       })
@@ -167,6 +168,8 @@ export default {
       self.$store.dispatch('initRequest', data).then(res => {
         let data = JSON.parse(res)
         if (data.response === 'success') {
+          // data.data.othersList = []
+          data.data.othersList.length === 0 ? self.color = '#fff' : self.color = ''
           self.othersList = data.data.othersList
         } else {
           this.$vux.toast.text('他人为我担保接口返回信息有误~')
@@ -192,9 +195,9 @@ export default {
   }
   .content{
     padding:0.1px;
-    background:#fff;
+    // background:#fff;
     .for-me,.for-other{
-      // margin-top:0.75rem;
+      margin-bottom:0.75rem;
       padding:0 0.75rem;
       background:#fff;
       border-top:1px solid #ededed;
@@ -202,7 +205,7 @@ export default {
     }
     .amount{
       padding:0.75rem 0;
-      border-bottom:1px solid #ededed;
+      // border-bottom:1px solid #ededed;
       .title{
         font-size:0.75rem;
         color:#333;

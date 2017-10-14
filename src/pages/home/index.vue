@@ -106,7 +106,7 @@ export default {
       this.$router.push('/bankCardList')
     },
     toLoan () {
-      this.$router.push('/useCreditRecord')
+      this.$router.push('/checkLoan')
     },
     toRepay () {
       this.$router.push('/repaymentRecord')

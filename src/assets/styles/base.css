@@ -260,6 +260,9 @@ input:-moz-placeholder {
     font-sizse:0.7rem;
     color:#333; 
   }
+  #app .vux-header {
+    border-bottom:1px solid #ededed;
+  }
   /* 蓝色色调1f76e2 */
   /* tab头颜色 */
   .vux-tab-ink-bar{

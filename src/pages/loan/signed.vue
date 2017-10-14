@@ -4,10 +4,10 @@
       x-header(slot="header" title="签约" :left-options="{showBack:true,backText:''}" style="width:100%;position:absolute;left:0;top:0;z-index:100;background:#fff;color:#000;")
       .content  
         .progerss
-          img(src="../../assets/imgs/icon-progress.png")
+          img(src="../../assets/imgs/progress02.png")
           div
-            span(class="first") 待申请
-            span 待审批
+            span(class="first") 已申请
+            span 已审批
             span 待签约
             span(class="last") 待完成
         .tip
@@ -71,7 +71,7 @@
             .btn-area(class="clearfix")
               a(href="javascript:void(null)" class="btn-submit fl" @click="confirm") 确定
               a(href="javascript:void(null)" class="btn-cancel fr" @click="cancel") 取消
-      masker(color="#000" :opacity="0.4" fullscreen=true v-show="status")
+      masker(color="#000" :opacity="0.4" fullscreen=true v-show="status" style="position:relative;")
         .box(slot="content")
           .head 绑定银行卡
             img(src="../../assets/imgs/arrow-right.png" @click="isShow")
@@ -111,6 +111,7 @@ export default {
     }
   },
   mounted () {
+    this.initPage()
   },
   methods: {
     isShow () {
@@ -124,6 +125,27 @@ export default {
     },
     bindCard () {
       this.status = true
+    },
+    initPage () {
+       // 页面初始化
+      let self = this
+      let path = self.$store.state.baseUrl + '/app/xsyd/applicantSignPageInit.do'
+      let data = {
+        path: path,
+        params: {
+          // token: this.$store.state.userInfo.token
+          token: 'e2e9e2dc-07c6-41f0-9b80-0486a1c0f5b4'
+        }
+      }
+      // 初始化我的贷款
+      self.$store.dispatch('initRequest', data).then(res => {
+        let data = JSON.parse(res)
+        alert(res)
+        if (data.response === 'success') {
+        } else {
+          this.$vux.toast.text('签约接口数据初始化失败')
+        }
+      })
     }
   }
 }
@@ -301,7 +323,8 @@ export default {
     position: relative;
     top:50%;
     margin:0 auto;
-    margin-top:-5.85rem;
+    margin-top:7rem;
+    // margin-top:-5.85rem;
     width:80%;
     background:#fff;
     border-radius: 3px;

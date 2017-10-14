@@ -12,14 +12,18 @@
           p(v-show="!isLogin" class="phone" @click="login") 登录/注册
         .content
           group(style="background:green;")
-            cell(title="我的担保" is-link link="/myGurantee")
+            cell(title="我的担保" is-link)
               img(src="../../assets/imgs/icon-danbao.png" slot="icon")
-            cell(title="银行卡" is-link style="margin-top:0.75rem;border-bottom:none;" link="/bankCardList")
+              .child(slot="child" @click="toGuarantee")
+            cell(title="银行卡" is-link style="margin-top:0.75rem;border-bottom:none;")
               img(src="../../assets/imgs/icon-bank.png" slot="icon")
-            cell(title="优惠券" is-link link="/couponList")
+              .child(slot="child" @click="toBankCardList")
+            cell(title="优惠券" is-link )
               img(src="../../assets/imgs/icon-juan.png" slot="icon")
+              .child(slot="child" @click="toCouponList")
             cell(title="个人设置" is-link style="margin-top:0.75rem;" link="/setting")
               img(src="../../assets/imgs/icon-setting.png" slot="icon")
+              .child(slot="child" @click="")
         masker(color="#000" :opacity="0.4" fullscreen=true v-show="showHeadImg")
           .box(slot="content" @click="hideHeadImg")
             img(v-show="!hasHeadImg" src="../../assets/imgs/default-head-photo.png")
@@ -125,6 +129,27 @@ export default {
       }
       self.$store.dispatch('shareCodePic', data).then(res => {
       })
+    },
+    toGuarantee () {
+      if (this.$store.state.userInfo.isAuth === true) {
+        this.$router.push('/myGurantee')
+      } else {
+        this.$vux.toast.text('请先实名认证哦~')
+      }
+    },
+    toBankCardList () {
+      if (this.$store.state.userInfo.isAuth === true) {
+        this.$router.push('/bankCardList')
+      } else {
+        this.$vux.toast.text('请先实名认证哦~')
+      }
+    },
+    toCouponList () {
+      if (this.$store.state.userInfo.isAuth === true) {
+        this.$router.push('/couponList')
+      } else {
+        this.$vux.toast.text('请先实名认证哦~')
+      }
     }
   }
 }
@@ -174,6 +199,13 @@ export default {
     }
   }
   .content{
+    .child{
+      position: absolute;
+      top:0;
+      bottom:0;
+      left: 0;
+      right:0;
+    }
   }
   .box{
     position: absolute;

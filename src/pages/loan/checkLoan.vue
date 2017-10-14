@@ -8,13 +8,6 @@
           group(style="margin-top:15px")
             cell(title="申请进度" is-link=true style="padding:12px 15px;font-size:15px;color:#222;" link="/sign")  
           rate(:state="step")
-          //- .progerss
-          //-   img(src="../../assets/imgs/progress01.png")
-          //-   div
-          //-     span(class="first") 待申请
-          //-     span 待审批
-          //-     span 待签约
-          //-     span(class="last") 待完成
         .template(v-show="!isLoanFinsh")
           //- 贷款已完成无进度
           group(style="margin-top:15px")
@@ -24,13 +17,13 @@
               ul(class="clearfix")
                 li 
                   p(class="title") 授信额度（元）
-                  p(class="value" style="color:#f32f2f") {{creditList[0].loanAmount}}
+                  p(class="value" style="color:#f32f2f") {{creditList.length === 0 ? '--' : creditList[0].loanAmount}}
                 li(class="mid")
                   p(class="title") 利率（月）
-                  p(class="value" style="color:#1f76e2;") {{creditList[0].contLl}}%
+                  p(class="value" style="color:#1f76e2;") {{creditList.length === 0 ? '--' : creditList[0].contLl}}%
                 li 
                   p(class="title") 授信期限(月)
-                  p(class="value" style="color:#1f76e2;") {{creditList[0].contterm}}
+                  p(class="value" style="color:#1f76e2;") {{creditList.length === 0 ? '--' : creditList[0].contterm}}
         group(style="margin-top:15px")
           cell(title="我的用信" is-link=true style="padding:12px 15px;font-size:15px;color:#222;" link="/useCreditRecord") 
         .module
@@ -38,13 +31,13 @@
             ul(class="clearfix")
               li 
                 p(class="title") 用信额度（元）
-                p(class="value" style="color:#f32f2f") {{spendList[0].payAmount}}
+                p(class="value" style="color:#f32f2f") {{spendList.length === 0 ? '--' : spendList[0].payAmount}}
               li(class="mid")
                 p(class="title") 利率（月）
-                p(class="value" style="color:#1f76e2;") {{spendList[0].payMonthRate}}%
+                p(class="value" style="color:#1f76e2;") {{spendList.length === 0 ? '--' : spendList[0].payMonthRate}}%
               li 
                 p(class="title") 截止日期
-                p(class="value" style="color:#1f76e2;") {{spendList[0].payTime}}
+                p(class="value" style="color:#1f76e2;") {{spendList.length === 0 ? '--' : spendList[0].payTime}}
         group(style="margin-top:15px")
           cell(title="我的还款" is-link=true style="padding:12px 15px;font-size:15px;color:#222;" link="/repaymentRecord") 
           .module
@@ -52,13 +45,13 @@
               ul(class="clearfix")
                 li 
                   p(class="title") 已还额度（元）
-                  p(class="value" style="color:#f32f2f") {{repaymentList[0].repAmount}}
+                  p(class="value" style="color:#f32f2f") {{repaymentList.length === 0 ? '--' : repaymentList[0].repAmount}}
                 li(class="mid")
                   p(class="title") 利率（月）
-                  p(class="value" style="color:#1f76e2;") {{repaymentList[0].repMonthRate}}%
+                  p(class="value" style="color:#1f76e2;") {{repaymentList.length === 0 ? '--' : repaymentList[0].repMonthRate}}%
                 li 
                   p(class="title") 还款日期
-                  p(class="value" style="color:#1f76e2;") {{repaymentList[0].repTime}}
+                  p(class="value" style="color:#1f76e2;") {{repaymentList.length === 0 ? '--' : repaymentList[0].repTime}}
       .content(v-show="!hasApply")
         img(class="empty" src="../../assets/imgs/icon-no-apply.png")
         .tip 您暂无申请记录哦~
@@ -81,12 +74,7 @@ export default {
     return {
       index: 0,
       isLoanFinsh: false,
-      hasApply: true,
-      applystate: 1,
-      status: '',
-      spendList: [{payAmount: '--', repMonthRate: '--', payTime: '--'}],
-      repaymentList: [{repAmount: '--', payMonthRate: '--', repTime: '--'}],
-      creditList: [{loanAmount: '--', contLl: '--', contterm: '--'}]
+      hasApply: true
     }
   },
   mounted () {
@@ -102,22 +90,16 @@ export default {
       } else {
         return parseInt(status)
       }
+    },
+    spendList () {
+      return this.$store.state.spendList
+    },
+    repaymentList () {
+      return this.$store.state.repaymentList
+    },
+    creditList () {
+      return this.$store.state.creditList
     }
-    // spendList () {
-    //   if (this.$store.state.spendList.length !== 0) {
-    //     return this.$store.state.spendList
-    //   }
-    // },
-    // repaymentList () {
-    //   if (this.$store.state.spendList.length !== 0) {
-    //     return this.$store.state.repaymentList
-    //   }
-    // },
-    // creditList () {
-    //   if (this.$store.state.spendList.length !== 0) {
-    //     return this.$store.state.creditList
-    //   }
-    // }
   },
   methods: {
     initView () {
@@ -134,25 +116,23 @@ export default {
       // 初始化我的贷款
       self.$store.dispatch('initRequest', data).then(res => {
         let data = JSON.parse(res)
-        alert('111')
-        alert(res)
         if (data.response === 'success') {
           // 没有贷款进度的情况
           if (data.data.status !== '') {
             self.hasApply = true
-            self.status = self.$store.state.applyState = data.data.status
+            self.$store.state.applyState = data.data.status
             // alert(self.status)
           } else {
             self.hasApply = false
           }
           if (data.data.spendList.length !== 0) {
-            self.spendList = self.$store.state.spendList = data.data.spendList
+            self.$store.state.spendList = data.data.spendList
           }
           if (data.data.repaymentList.length !== 0) {
-            self.repaymentList = self.$store.state.repaymentList = data.data.repaymentList
+            self.$store.state.repaymentList = data.data.repaymentList
           }
           if (data.data.creditList.length !== 0) {
-            self.creditList = self.$store.state.creditList = data.data.creditList
+            self.$store.state.creditList = data.data.creditList
           }
         } else {
           this.$vux.toast.text('我的贷款页面初始化失败~')
@@ -160,7 +140,45 @@ export default {
       })
     },
     goApply () {
-      this.$router.push('/loan')
+      // 页面初始化
+      let self = this
+      let path = self.$store.state.baseUrl + '/app/xsyd/applyPageInit.do'
+      let data = {
+        path: path,
+        params: {
+          // token: this.$store.state.userInfo.token
+          token: 'e2e9e2dc-07c6-41f0-9b80-0486a1c0f5b4'
+        }
+      }
+      // 初始化我的贷款
+      self.$store.dispatch('initRequest', data).then(res => {
+        let data = JSON.parse(res)
+        // alert(res)
+        if (data.response === 'success') {
+          if (data.data.canApply === 1) { // 1可以申请 2不可申请
+            this.$router.push('/loan')
+          } else if (data.data.canApply === 2) {
+            // 不可申请
+            this.$router.replace('/fail')
+            switch (data.data.explain) {
+              case '1': this.$router.replace('/quotaEvaluations')
+                break
+              case '2': this.$router.replace('/fail')
+                break
+              case '3': this.$router.replace('/sign')
+                break
+              case '4': this.$router.replace('/sign')
+                break
+              case '5': this.$router.replace('/sign')
+                break
+              case '6': this.$router.replace('/fail')
+                break
+            }
+          }
+        } else {
+          this.$vux.toast.text('获取申请接口数据失败')
+        }
+      })
     }
   }
 }

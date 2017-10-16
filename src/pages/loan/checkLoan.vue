@@ -114,7 +114,11 @@ export default {
         }
       }
       // 初始化我的贷款
+      this.$vux.loading.show({
+        text: 'Loading'
+      })
       self.$store.dispatch('initRequest', data).then(res => {
+        this.$vux.loading.hide()
         let data = JSON.parse(res)
         if (data.response === 'success') {
           // 没有贷款进度的情况
@@ -151,7 +155,11 @@ export default {
         }
       }
       // 初始化我的贷款
+      this.$vux.loading.show({
+        text: 'Loading'
+      })
       self.$store.dispatch('initRequest', data).then(res => {
+        this.$vux.loading.hide()
         let data = JSON.parse(res)
         // alert(res)
         if (data.response === 'success') {

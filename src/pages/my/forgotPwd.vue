@@ -51,15 +51,15 @@ export default {
   methods: {
     changePwd () {
       let self = this
+      // 忘记密码接口
       let path = self.$store.state.baseUrl + '/app/xsyd/retrievePassword.do'
       let data = {
         path: path,
         params: {
           cellphone: this.phone,
-          password: this.pwd1,
+          newpass: this.pwd1,
           verifyCode: this.code,
-          channel: this.$store.state.channel,
-          imei: this.$store.state.imei
+          channel: this.$store.state.channel
         }
       }
       // 注册用户
@@ -102,7 +102,7 @@ export default {
         path: path,
         params: {
           cellphone: this.phone,
-          smsType: '01',
+          smsType: '02', // 02表示找回密码
           channel: this.$store.state.channel
         }
       }

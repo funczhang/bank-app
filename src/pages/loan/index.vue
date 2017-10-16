@@ -31,7 +31,7 @@
             li
               .option(class="clearfix")      
                 group
-                  popup-picker(title="申请用途" :data="loanUseList" v-model="value1" @on-show="onShow" @on-hide="onHide" @on-change="onChange")
+                  popup-picker(title="申请用途" :data="loanUseList" v-model="value1")
         .get-more
           .module-head 获取更高额度
           .module-content

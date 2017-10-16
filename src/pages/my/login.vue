@@ -159,7 +159,7 @@ export default {
       this.$vux.loading.hide()
     },
     forgetPwd () {
-      this.$router.push('/managePwd')
+      this.$router.push('forgotPwd')
     },
     getCode () {
       let self = this

@@ -8,7 +8,7 @@
             img(src="../../assets/imgs/icon-setting-phone.png" style="width:0.65rem;height:0.9rem;" slot="label")
           x-input(placeholder="请输入验证码" v-model="code" :show-clear="false")
             img(src="../../assets/imgs/icon-key.png" style="width:0.9rem;height:0.9rem;" slot="label")
-            .btn-send-code(slot="right" @click="getCode" id="code") 发送验证码
+            .button(class="btn-send-code" slot="right" @click="getCode" id="code") 发送验证码
         .btn-submit(class="btn-submit" @click="submit") 提交 
 </template>
 
@@ -196,7 +196,7 @@ export default {
     border-radius: 0.75rem;
     font-size:0.6rem;
     color:#1f76e2;
-    line-height: 1.25rem;
+    line-height: 1.2rem;
     text-align: center;
 
   }

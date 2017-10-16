@@ -138,11 +138,11 @@ export default {
       }
     },
     toBankCardList () {
-      if (this.$store.state.userInfo.isAuth === true) {
-        this.$router.push('/bankCardList')
-      } else {
-        this.$vux.toast.text('请先实名认证哦~')
-      }
+      // if (this.$store.state.userInfo.isAuth === true) {
+      this.$router.push('/bankCardList')
+      // } else {
+      //   this.$vux.toast.text('请先实名认证哦~')
+      // }
     },
     toCouponList () {
       if (this.$store.state.userInfo.isAuth === true) {

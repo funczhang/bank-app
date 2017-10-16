@@ -43,9 +43,10 @@ export default {
     }
   },
   mounted () {
+    this.getInformList()
   },
   activated () {
-    this.getInformList()
+    // this.getInformList()
   },
   methods: {
     onItemClick (index) {
@@ -66,6 +67,7 @@ export default {
         text: 'Loading'
       })
       self.$store.dispatch('initRequest', data).then(res => {
+        alert(res)
         // let data = JSON.parse(res)
         // alert('1111')
         // alert(res)

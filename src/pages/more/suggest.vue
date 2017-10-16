@@ -6,45 +6,51 @@
         masker(style="border-radius: 2px;" color="#000" :opacity="0.5" fullscreen=true v-show="false")
           div(slot="content" class="msg-box")
         ul(class="classify clearfix")
-          li
+          li(@click="selectQType(0)")
             check-icon(:value.sync="qType[0]")
             span 提个建议
-          li
+          li(@click="selectQType(1)")
             check-icon(:value.sync="qType[1]")
             span 出错误啦
-          li
+          li(@click="selectQType(2)")
             check-icon(:value.sync="qType[2]")
             span 不好用
-          li
+          li(@click="selectQType(3)")
             check-icon(:value.sync="qType[3]")
             span 其他
-        x-textarea(v-model="value" show-counter=true placeholder="您的反馈帮助我们成长" :rows=7 style="padding:10px")
+        x-textarea(v-model="opinion" show-counter=true placeholder="您的反馈帮助我们成长" :rows=7 style="padding:10px")
         .btn-submit 提交
 </template>
 
 <script>
-import { ViewBox, XHeader, Group, PopupPicker, XInput, CheckIcon, Masker, XTextarea } from 'vux'
+import { ViewBox, XHeader, Group, CheckIcon, Masker, Checker, XTextarea, CheckerItem, Radio } from 'vux'
 export default {
   components: {
     ViewBox,
     XHeader,
     Group,
-    PopupPicker,
-    XInput,
     CheckIcon,
     Masker,
-    XTextarea
+    Checker,
+    XTextarea,
+    CheckerItem,
+    Radio
   },
   data () {
     return {
       index: 0,
       qType: [false, false, false, false],
-      value: ''
+      opinion: ''
     }
   },
   mounted () {
   },
   methods: {
+    selectQType (num) {
+      for (let i = 0; i < 4; i++) {
+        num === i ? this.qType[i] = true : this.qType[i] = false
+      }
+    },
     submit () {
       let self = this
       let path = self.$store.state.baseUrl + '/app/xsyd/feedback.do'
@@ -53,7 +59,8 @@ export default {
         path: path,
         params: {
           userToken: token,
-          qType: ''
+          qType: '',
+          opinion: ''
         }
       }
       // 显示

@@ -8,7 +8,7 @@
             img(src="../../assets/imgs/icon-setting-phone.png" style="width:0.65rem;height:0.9rem;" slot="label")
           x-input(placeholder="请输入验证码" v-model="code" :show-clear="false")
             img(src="../../assets/imgs/icon-key.png" style="width:0.9rem;height:0.9rem;" slot="label")
-            .button(class="btn-send-code" slot="right" @click="getCode" id="code") 发送验证码
+            button(class="btn-send-code" slot="right" @click="getCode" id="code") 发送验证码
         .btn-submit(class="btn-submit" @click="submit") 提交 
 </template>
 
@@ -80,7 +80,7 @@ export default {
       if (self.checkPhone(self.phone)) {
         if (self.code !== '') {
           this.$vux.loading.show({
-            text: 'Loading' + this.code
+            text: 'Loading'
           })
           self.$store.dispatch('register', data).then(res => {
             let response = JSON.parse(res)

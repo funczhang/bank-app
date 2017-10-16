@@ -6,7 +6,7 @@
         .template(v-show="!isLoanFinsh")
           //- 贷款未完成有进度
           group(style="margin-top:15px")
-            cell(title="申请进度" is-link=true style="padding:12px 15px;font-size:15px;color:#222;" link="/sign")  
+            cell(title="申请进度" is-link=true style="padding:12px 15px;font-size:15px;color:#222;" link="/loan")  
           rate(:state="step")
         .template(v-show="!isLoanFinsh")
           //- 贷款已完成无进度

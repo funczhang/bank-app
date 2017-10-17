@@ -51,8 +51,8 @@ export default {
       }
       // 校验手机号码 self.checkPhone(self.phone)
       if (self.checkPhone(self.phone)) {
-        self.$store.dispatch('normalRequest', data).then(res => {
-          let response = JSON.parse(res)
+        self.$store.dispatch('normalRequest', data).then(response => {
+          // let response = JSON.parse(res)
           if (response.response === 'success') {
             this.$vux.toast.text('验证码已成功发送')
             document.getElementById('code').style.color = '#999'
@@ -72,7 +72,7 @@ export default {
         path: path,
         action: 'init_request',
         params: {
-          userToken: 'e2e9e2dc-07c6-41f0-9b80-0486a1c0f5b4',
+          userToken: this.$store.state.userInfo.token,
           newphone: this.phone,
           verifyCode: this.code,
           channel: this.$store.state.channel
@@ -84,10 +84,10 @@ export default {
           this.$vux.loading.show({
             text: 'Loading'
           })
-          self.$store.dispatch('normalRequest', data).then(res => {
-            let response = JSON.parse(res)
+          self.$store.dispatch('normalRequest', data).then(response => {
+            // let response = JSON.parse(res)
             if (response.response === 'success') {
-              this.$vux.toast.text('新密码设置成功，请重新登录~')
+              this.$vux.toast.text('手机号码更换成功，请重新登录~')
               this.phone = ''
               this.code = ''
               this.$router.replace('/login')

@@ -84,12 +84,13 @@ export default {
   },
   computed: {
     step () {
-      let status = this.$store.state.applyState
-      if (status === '') {
-        return ''
-      } else {
-        return parseInt(status)
-      }
+      return 3
+      // let status = this.$store.state.applyState
+      // if (status === '') {
+      //   return ''
+      // } else {
+      //   return parseInt(status)
+      // }
     },
     spendList () {
       return this.$store.state.spendList

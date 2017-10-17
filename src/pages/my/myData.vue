@@ -66,7 +66,7 @@ export default {
         // alert(JSON.stringify(data))
         // let data = JSON.parse(res)
         this.$store.state.userInfo.avatar = data.data.avatar
-        this.$router.push('/my')
+        // this.$router.push('/my')
         // data.response === 'success' ? self.$store.commit('INIT_HEAD_IMG', data.data) : null
       })
     }

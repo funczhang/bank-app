@@ -69,6 +69,7 @@ export default {
       let path = self.$store.state.baseUrl + '/app/xsyd/resetCellphone.do'
       let data = {
         path: path,
+        action: 'init_request',
         params: {
           userToken: 'e2e9e2dc-07c6-41f0-9b80-0486a1c0f5b4',
           newphone: this.phone,
@@ -82,7 +83,7 @@ export default {
           this.$vux.loading.show({
             text: 'Loading'
           })
-          self.$store.dispatch('register', data).then(res => {
+          self.$store.dispatch('normalRequest', data).then(res => {
             let response = JSON.parse(res)
             if (response.response === 'success') {
               this.$vux.toast.text('新密码设置成功，请重新登录~')

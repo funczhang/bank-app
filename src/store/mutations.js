@@ -28,6 +28,7 @@ export default {
   },
   [types.INIT_HEAD_IMG] (state, data) {
     state.userInfo.avatar = data.avatar
+    // alert(state.userInfo.avatar)
   }
 }
 

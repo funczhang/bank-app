@@ -54,7 +54,7 @@ export default {
     },
     getHeadImg () {
       let self = this
-      let path = self.$store.state.baseUrl + '/app/xsyd/loginPageInit.do'
+      let path = self.$store.state.baseUrl + '/app/xsyd/loginPageInit.do?' + new Date().getTime()
       let data = {
         action: 'init_request',
         path: path,
@@ -63,8 +63,11 @@ export default {
         }
       }
       self.$store.dispatch('normalRequest', data).then(data => {
+        // alert(JSON.stringify(data))
         // let data = JSON.parse(res)
-        data.response === 'success' ? self.$store.commit('INIT_HEAD_IMG', data.data) : null
+        this.$store.state.userInfo.avatar = data.data.avatar
+        this.$router.push('/my')
+        // data.response === 'success' ? self.$store.commit('INIT_HEAD_IMG', data.data) : null
       })
     }
   }

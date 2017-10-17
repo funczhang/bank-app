@@ -42,6 +42,7 @@ export default {
       let path = self.$store.state.baseUrl + '/app/xsyd/getVerifyCode.do'
       let data = {
         path: path,
+        action: 'init_request',
         params: {
           cellphone: this.phone,
           smsType: '05', // 05表示更换手机号
@@ -50,7 +51,7 @@ export default {
       }
       // 校验手机号码 self.checkPhone(self.phone)
       if (self.checkPhone(self.phone)) {
-        self.$store.dispatch('getVerifyCode', data).then(res => {
+        self.$store.dispatch('normalRequest', data).then(res => {
           let response = JSON.parse(res)
           if (response.response === 'success') {
             this.$vux.toast.text('验证码已成功发送')

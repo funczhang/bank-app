@@ -13,9 +13,6 @@
             x-input(placeholder="请输入密码" v-model="pwd" type="password")
               img(src="../../assets/imgs/icon-pwd.png" style="width:0.8rem;height:1rem;" slot="label")
           a(class="btn-forgetpwd" href="javascript:void(null)" @click="forgetPwd") 忘记密码
-          //- .clear
-          //- .btn-login 登录
-          //- .btn-register(@click="toRegister") 注册
         .template(v-show="!loginByAccount")
           group(style="margin-top:0.75rem;")
             x-input(placeholder="请输入手机号" style="border-bottom:none;" v-model="phoneNum" type="number")
@@ -90,6 +87,7 @@ export default {
       let self = this
       let path = self.$store.state.baseUrl + '/app/xsyd/login.do'
       let data = {
+        action: 'hand_request',
         path: path,
         params: {
           cellphone: this.phoneNum,
@@ -103,11 +101,9 @@ export default {
         this.$vux.loading.show({
           text: 'Loading'
         })
-        self.$store.dispatch('loginByAccount', data).then(res => {
-          let data = JSON.parse(res)
-          // alert(res)
+        self.$store.dispatch('normalRequest', data).then(res => {
           // 存用户信息
-          self.$store.commit('INIT_USER_INFO', data)
+          self.$store.commit('INIT_USER_INFO', res)
           // 隐藏
           this.$vux.loading.hide()
           this.phoneNum = ''
@@ -126,6 +122,7 @@ export default {
       let self = this
       let path = self.$store.state.baseUrl + '/app/xsyd/quickLogin.do'
       let data = {
+        action: 'hand_request',
         path: path,
         params: {
           cellphone: this.phoneNum,
@@ -139,11 +136,8 @@ export default {
         this.$vux.loading.show({
           text: 'Loading'
         })
-        self.$store.dispatch('loginByVerifyCode', data).then(res => {
-          // 存用户信息
-          let data = JSON.parse(res)
-          // 存用户信息
-          self.$store.commit('INIT_USER_INFO', data)
+        self.$store.dispatch('normalRequest', data).then(res => {
+          self.$store.commit('INIT_USER_INFO', res)
           // 隐藏
           this.$vux.loading.hide()
           this.$vux.toast.text('登录成功')
@@ -162,25 +156,21 @@ export default {
       this.$router.push('forgotPwd')
     },
     getCode () {
+      // 获取验证码
       let self = this
       let path = self.$store.state.baseUrl + '/app/xsyd/getVerifyCode.do'
       let data = {
+        action: 'init_request',
         path: path,
         params: {
           cellphone: self.phoneNum,
-          smsType: '04',
+          smsType: '04', // 登录
           channel: self.$store.state.channel
         }
       }
-      // document.getElementById('code').style.color = '#999'
-      // document.getElementById('code').style.border = '1px solid #999'
-      // document.getElementById('code').disabled = true
-      // self.setTime()
-      // 校验手机号码 self.checkPhone(self.phone)
       if (self.checkPhone(self.phoneNum)) {
-        self.$store.dispatch('getVerifyCode', data).then(res => {
-          let response = JSON.parse(res)
-          if (response.response === 'success') {
+        self.$store.dispatch('normalRequest', data).then(res => {
+          if (res.response === 'success') {
             self.$vux.toast.text('验证码已成功发送')
             document.getElementById('code').style.color = '#999'
             document.getElementById('code').style.border = '1px solid #999'

@@ -52,6 +52,7 @@ export default {
       let self = this
       let path = self.$store.state.baseUrl + '/app/xsyd/getAppBankCardList.do'
       let data = {
+        action: 'init_request',
         path: path,
         params: {
           userToken: 'e2e9e2dc-07c6-41f0-9b80-0486a1c0f5b4',
@@ -59,7 +60,7 @@ export default {
           cardNo: this.cardNum
         }
       }
-      self.$store.dispatch('initRequest', data).then(res => {
+      self.$store.dispatch('normalRequest', data).then(res => {
       })
     },
     addBankCard () {
@@ -67,12 +68,13 @@ export default {
       let self = this
       let path = self.$store.state.baseUrl + '/app/xsyd/getAppBankCardList.do'
       let data = {
+        action: 'init_request',
         path: path,
         params: {
           userToken: 'e2e9e2dc-07c6-41f0-9b80-0486a1c0f5b4'
         }
       }
-      self.$store.dispatch('initRequest', data).then(res => {
+      self.$store.dispatch('normalRequest', data).then(res => {
       })
     }
   }

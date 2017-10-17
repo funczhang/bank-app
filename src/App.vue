@@ -34,11 +34,10 @@ export default {
     $route (to, from) {
       if (to.path === '/' || to.path === '/checkLoan') {
         this.direction = 'slideInLeft'
-        // debugger
       } else if (to.path === '/my' || to.path === '/more') {
         this.direction = 'slideInRight'
       } else {
-        this.direction = 'slideInUp'
+        this.direction = 'fadeIn'
       }
     }
   },

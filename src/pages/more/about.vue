@@ -28,13 +28,10 @@ export default {
       // 页面初始化
       let self = this
       let data = {
-        action: 'version_request',
-        path: '',
-        params: {
-        }
+        action: 'version_request'
       }
       // 版本更新
-      self.$store.dispatch('controlGestureRequest', data).then(res => {
+      self.$store.dispatch('normalRequest', data).then(res => {
       })
     }
   }

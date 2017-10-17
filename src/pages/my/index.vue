@@ -7,7 +7,7 @@
           .head-img(@click="uploadHeadImg")
             //- img(src="../../assets/imgs/person.png")
             img(v-show="!hasHeadImg" src="../../assets/imgs/default-img.png")
-            img(v-show="hasHeadImg" :src="'data:image/jpeg;base64,' + base64")
+            img(v-show="hasHeadImg" :src="headImgSrc")
           p(v-show="isLogin" class="phone") {{ phoneNum }}
           p(v-show="!isLogin" class="phone" @click="login") 登录/注册
         .content
@@ -27,7 +27,7 @@
         masker(color="#000" :opacity="0.4" fullscreen=true v-show="showHeadImg")
           .box(slot="content" @click="hideHeadImg")
             img(v-show="!hasHeadImg" src="../../assets/imgs/default-head-photo.png")
-            img(v-show="hasHeadImg" :src="'data:image/jpeg;base64,' + base64")
+            img(v-show="hasHeadImg" :src="headImgSrc")
 </template>
 
 <script>
@@ -52,33 +52,23 @@ export default {
     }
   },
   mounted () {
-    // alert(JSON.stringify(this.$store.state.userInfo))
-    // 显示
-    // this.$vux.loading.show({
-    //   text: 'Loading'
-    // })
-    // setTimeout(() => {
-    //   this.$vux.loading.hide()
-    // }, 1000)
-    // 隐藏
+    this.showUserInfo()
   },
   activated () {
-    this.showUserInfo()
-    // alert(JSON.stringify(this.$store.state.userInfo))
   },
   computed: {
     phoneNum () {
       return this.$store.state.userInfo.cellphone
     },
     isLogin () {
-      // 判断是否登录 通过token
       return this.$store.state.userInfo.token !== ''
     },
     hasHeadImg () {
-      return this.$store.state.userInfo.base64 !== ''
+      return this.$store.state.userInfo.avatar !== ''
     },
-    base64 () {
-      return this.$store.state.userInfo.base64
+    headImgSrc () {
+      // alert(this.$store.state.userInfo.avatar)
+      return this.$store.state.baseUrl + this.$store.state.userInfo.avatar
     }
   },
   methods: {
@@ -86,27 +76,20 @@ export default {
       this.$router.push('/login')
     },
     showUserInfo () {
-      // alert(JSON.stringify(this.$store.state.userInfo))
       let self = this
       let token = self.$store.state.userInfo.token
       // 绑定银行卡和头像接口
       let path = self.$store.state.baseUrl + '/app/xsyd/loginPageInit.do'
       let data = {
+        action: 'init_request',
         path: path,
         params: {
           userToken: token
         }
       }
-      if (token !== '') {
-        // alert(this.$store.state.userInfo.cellphone)
-        // 获取银行卡列表
-        self.$store.dispatch('initRequest', data).then(res => {
-          let data = JSON.parse(res)
-          if (data.response === 'success') {
-            self.$store.commit('INIT_BANKCARD_LIST', data.data)
-          } else {
-            // self.$vux.toast.text('初始化展示用户信息失败')
-          }
+      if (token !== '' && token !== undefined) {
+        self.$store.dispatch('normalRequest', data).then(res => {
+          res.response === 'success' ? self.$store.commit('INIT_HEAD_IMG', res.data) : self.$vux.toast.text('头像信息获取失败')
         })
       } else {
         self.$vux.toast.text('请先登录哦~')
@@ -122,12 +105,9 @@ export default {
        // 分享二维码
       let self = this
       let data = {
-        action: 'jump_qr_show',
-        path: '',
-        params: {
-        }
+        action: 'jump_qr_show'
       }
-      self.$store.dispatch('shareCodePic', data).then(res => {
+      self.$store.dispatch('normalRequest', data).then(res => {
       })
     },
     toGuarantee () {

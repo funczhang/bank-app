@@ -56,6 +56,7 @@ export default {
       let path = self.$store.state.baseUrl + '/app/xsyd/feedback.do'
       let token = self.$store.state.userInfo.token
       let data = {
+        action: 'init_request',
         path: path,
         params: {
           userToken: token,
@@ -67,7 +68,7 @@ export default {
       this.$vux.loading.show({
         text: 'Loading'
       })
-      self.$store.dispatch('initRequest', data).then(res => {
+      self.$store.dispatch('normalRequest', data).then(res => {
         // 隐藏
         this.$vux.loading.hide()
       })

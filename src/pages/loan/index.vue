@@ -104,6 +104,7 @@ export default {
       let self = this
       let path = self.$store.state.baseUrl + '/app/xsyd/creditApplyInit.do'
       let data = {
+        action: 'init_request',
         path: path,
         params: {
           // token: this.$store.state.userInfo.token
@@ -111,8 +112,8 @@ export default {
         }
       }
       // 贷款申请初始化
-      self.$store.dispatch('initRequest', data).then(res => {
-        let data = JSON.parse(res)
+      self.$store.dispatch('normalRequest', data).then(data => {
+        // let data = JSON.parse(res)
        // alert('dd  ' + data.data.loanUseList[0].name)
         if (data.response === 'success') {
           if (data.data.idCard !== '') {

@@ -44,6 +44,7 @@ export default {
       let self = this
       let path = self.$store.state.baseUrl + '/app/xsyd/applyPageInit.do'
       let data = {
+        action: 'init_request',
         path: path,
         params: {
           // token: this.$store.state.userInfo.token
@@ -51,8 +52,8 @@ export default {
         }
       }
       // 初始化我的贷款
-      self.$store.dispatch('initRequest', data).then(res => {
-        let data = JSON.parse(res)
+      self.$store.dispatch('normalRequest', data).then(data => {
+        // let data = JSON.parse(res)
         if (data.response === 'success') {
           if (data.data.explain === '6') {
             self.tip = '未签约（签约超时）'

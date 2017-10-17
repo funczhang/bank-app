@@ -122,6 +122,7 @@ export default {
       let self = this
       let path = self.$store.state.baseUrl + '/app/xsyd/assureForOthers.do'
       let data = {
+        action: 'init_request',
         path: path,
         params: {
           // token: this.$store.state.userInfo.token
@@ -133,8 +134,8 @@ export default {
         text: 'Loading'
       })
       // 我为他人担保信息
-      self.$store.dispatch('initRequest', data).then(res => {
-        let data = JSON.parse(res)
+      self.$store.dispatch('normalRequest', data).then(data => {
+        // let data = JSON.parse(res)
         if (data.response === 'success') {
           data.data.myList.length === 0 ? self.color = '#fff' : self.color = ''
           self.myList = data.data.myList
@@ -154,6 +155,7 @@ export default {
       let self = this
       let path = self.$store.state.baseUrl + '/app/xsyd/assureForMe.do'
       let data = {
+        action: 'init_request',
         path: path,
         params: {
           // token: this.$store.state.userInfo.token
@@ -165,8 +167,8 @@ export default {
         text: 'Loading'
       })
       // 别人为我担保信息
-      self.$store.dispatch('initRequest', data).then(res => {
-        let data = JSON.parse(res)
+      self.$store.dispatch('normalRequest', data).then(data => {
+        // let data = JSON.parse(res)
         if (data.response === 'success') {
           // data.data.othersList = []
           data.data.othersList.length === 0 ? self.color = '#fff' : self.color = ''

@@ -44,20 +44,17 @@ export default {
       let self = this
       let token = self.$store.state.userInfo.token
       let data = {
-        action: 'exit_request',
-        path: '',
-        params: {
-        }
+        action: 'exit_request'
       }
       if (token !== '') {
         // 显示
         this.$vux.loading.show({
           text: 'Loading'
         })
-        self.$store.dispatch('generalRequest', data).then(res => {
-          let data = JSON.parse(res)
-          // 存用户信息
-          self.$store.commit('INIT_USER_INFO', data)
+        self.$store.dispatch('normalRequest', data).then(res => {
+          // 清楚用户信息
+          self.$store.commit('INIT_HEAD_IMG', {avatar: ''})
+          self.$store.commit('INIT_USER_INFO', res)
           // 隐藏
           this.$vux.loading.hide()
           this.$vux.toast.text('退出登录成功~')

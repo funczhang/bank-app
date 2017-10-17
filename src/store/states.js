@@ -9,13 +9,15 @@ const state = {
   baseUrl: 'http://192.168.2.200:8080',
   userInfo: {
     isAuth: '',
+    name: '',
     id: '', // 用户userId
     token: '', // 登录令牌
     cellphone: '', // 手机号码
     channel: '', // 渠道 1:安卓手机APP  2:IOS版手机APP  3:网页
     status: '', // 用户状态 1:正常 2:锁定
     avatarUploaded: '', // 是否上传头像 0:未上传 1:已上传
-    base64: ''
+    base64: '',
+    avatar: ''
   },
   applyState: '', // 申请进度
   spendList: [], // 我的用信
@@ -24,7 +26,7 @@ const state = {
   isOpenGesture: false,
   tabItem: 0,
   channel: '1', // 渠道 1:安卓手机APP 2:IOS版手机APP 3:网页
-  imei: '11111', // 设备imei
+  imei: '111111', // 设备imei
   bankCardList: [], // 银行卡列表
   avatar: '' // 头像地址
 }

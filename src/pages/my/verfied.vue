@@ -47,12 +47,10 @@ export default {
     getPhoto () {
       let self = this
       let data = {
-        path: '',
-        params: {
-        }
+        action: 'photo_request'
       }
-      self.$store.dispatch('photoRequest', data).then(res => {
-        this.$store.state.userInfo.base64 = res
+      self.$store.dispatch('normalRequest', data).then(res => {
+        // this.$store.state.userInfo.base64 = res
         this.$router.push('/my')
       })
     }

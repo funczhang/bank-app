@@ -7,20 +7,21 @@
           tab-item(@on-item-click="onItemClick") 活动公告
       .content  
         ul(v-show="isSystemInform" class="inform-list")
-          li(class="clearfix")
+          li(class="clearfix" v-for="item in systemInform")
             .left
-              img(src="../../assets/imgs/icon-inform-list.png")
+              img(src="../../assets/imgs/icon-system-inform.png")
             .right
               h3 系统公告
-              p 尊敬的用户，由于最近上线需要，服务会在晚上7点以后停止，很抱歉给您带来不便，希望您能够谅解！
+              p {{item.content + item.createTime + item.createUser}}
+          p(v-show="systemInform.length===0" class="empty-tip") 暂无系统公告~
         ul(v-show="!isSystemInform" class="inform-list")
-          li(class="clearfix")
+          li(class="clearfix" v-for="item in userInform")
             .left
               img(src="../../assets/imgs/icon-inform-list.png")
             .right
               h3 活动公告
-              p 尊敬的用户，由于最近上线需要，服务会在晚上7点以后停止，很抱歉给您带来不便，希望您能够谅解！
-
+              p {{item.content + item.createTime + item.createUser}}
+          p(v-show="userInform.length===0" class="empty-tip") 暂无用户公告~
 
 </template>
 
@@ -53,28 +54,24 @@ export default {
       index === 0 ? this.isSystemInform = true : this.isSystemInform = false
     },
     getInformList () {
+      // 通知通告接口 无法解析出参
       let self = this
-      let path = self.$store.state.baseUrl + '/app/xsyd/getAppNoticeList.do'
-      let token = self.$store.state.userInfo.token
+      let path = self.$store.state.baseUrl + '/app/xsyd/homePageInit.do'
       let data = {
-        path: path,
-        params: {
-          userToken: token
-        }
+        path: path
       }
-      // 显示
-      this.$vux.loading.show({
-        text: 'Loading'
-      })
       self.$store.dispatch('initRequest', data).then(res => {
-        alert(res)
-        // let data = JSON.parse(res)
-        // alert('1111')
-        // alert(res)
-        // 隐藏
-        this.$vux.loading.hide()
+        let arr = []
+        let data = eval('(' + res + ')')
+        if (data.response === 'success') {
+          arr = data.data.noticeList
+          arr.forEach((element) => {
+            element.type === 0 ? this.systemInform.push(element) : this.userInform.push(element)
+          })
+        } else {
+          this.$vux.toast.text('系统公告数据获取失败~')
+        }
       })
-      this.$vux.loading.hide()
     }
   }
 }
@@ -134,6 +131,12 @@ export default {
       width:2rem;
       height:2rem;
     }
+  }
+  .empty-tip {
+    font-size:0.8rem;
+    text-align: center;
+    padding:3rem 0;
+    color:#999;
   }
 }
 </style>

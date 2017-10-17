@@ -29,15 +29,23 @@ export default {
   },
   methods: {
     getPhoto () {
-     // window.alert('nihao')
       let self = this
       let data = {
-        path: '',
-        params: {
-        }
+        action: 'photo_request'
       }
-      self.$store.dispatch('photoRequest', data).then(res => {
-        this.$store.state.userInfo.base64 = res
+      self.$store.dispatch('normalRequest', data).then(res => {
+        alert('222')
+        let data2 = {
+          action: 'init_request',
+          path: self.$store.state.baseUrl + '/app/xsyd/loginPageInit.do',
+          params: {
+            userToken: self.$store.state.userInfo.token
+          }
+        }
+        self.$store.dispatch('normalRequest', data2).then(res => {
+          alert('111')
+          res.response === 'success' ? self.$store.commit('INIT_HEAD_IMG', res.data) : self.$vux.toast.text('头像信息获取失败')
+        })
         this.$router.push('/my')
       })
     }

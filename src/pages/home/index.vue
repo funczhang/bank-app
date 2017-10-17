@@ -28,7 +28,10 @@
             span 我的担保
         .btn-loan
           div
-            img(src="../../assets/imgs/bg-apply.png")
+            img(src="../../assets/imgs/icon-title.png")
+            p 授信金额(元) {{' ' + minAmount + '万~' + maxAmount + '万'}}
+            p 授信期限(月) {{' ' + creditTerm}}
+            a(href="javascript:void(null)" class="btn-apply" @click="") 去申请
         ul(class="btn-classify clearfix")
           li(class="btn-payment" @click="unOpen")
             span 生活缴费
@@ -50,37 +53,14 @@ export default {
   },
   data () {
     return {
-      imglist: [
-        { url: '',
-          img: 'https://static.vux.li/demo/1.jpg'
-        },
-        { url: '',
-          img: 'https://static.vux.li/demo/2.jpg'
-        },
-        { url: '',
-          img: 'https://static.vux.li/demo/3.jpg'
-        },
-        { url: '',
-          img: 'https://static.vux.li/demo/1.jpg'
-        }
-      ],
-      index: 0
+      imglist: [],
+      index: 0,
+      minAmount: '',
+      maxAmount: '',
+      creditTerm: ''
     }
   },
   mounted () {
-    // this.$vux.loading.show({
-    //   text: 'Loading'
-    // })
-    // // 获取设备信息和token
-    // this.getBaseInfo()
-    // this.getPicList()
-    // // 隐藏
-    // setTimeout(() => {
-    // this.$vux.loading.hide()
-    // }, 0)
-    this.init()
-  },
-  activated () {
     // 显示
     this.$vux.loading.show({
       text: 'Loading'
@@ -88,19 +68,22 @@ export default {
     // 获取设备信息和token
     this.getBaseInfo()
     this.getPicList()
-    // // 隐藏
+    this.init()
+    // 隐藏
     setTimeout(() => {
       this.$vux.loading.hide()
     }, 0)
   },
+  activated () {
+  },
   methods: {
     toInform () {
-      let token = this.$store.state.userInfo.token
-      if (token !== '') {
-        this.$router.push('/inform')
-      } else {
-        this.$vux.toast.text('请登录后查看公告哦~')
-      }
+      // let token = this.$store.state.userInfo.token
+      // if (token !== '') {
+      this.$router.push('/inform')
+      // } else {
+      //   this.$vux.toast.text('请登录后查看公告哦~')
+      // }
     },
     toAccount () {
       this.$router.push('/bankCardList')
@@ -123,44 +106,46 @@ export default {
     },
     getBaseInfo () {
       let self = this
-      let path = ''
       let data = {
-        path: path,
-        params: {
-        }
+        action: 'get_request'
       }
       // 获取设备信息
-      self.$store.dispatch('getRequest', data).then(res => {
-        let data = JSON.parse(res)
+      self.$store.dispatch('normalRequest', data).then(res => {
         // 存用户信息
-        self.$store.commit('INIT_USER_INFO', data)
+        self.$store.commit('INIT_USER_INFO', res)
       })
     },
     getPicList () {
       let self = this
-      let path = self.$store.state.baseUrl + '/app/xsyd/getAppCarouseList.do'
+      let path = self.$store.state.baseUrl + '/app/xsyd/homePageInit.do'
       let data = {
-        path: path,
-        params: {
-        }
+        path: path
       }
-      self.$store.dispatch('initRequest', data).then(res => {
+      this.$store.dispatch('initRequest', data).then(res => {
+        // 这里使用json.parse无法处理 ？？？
+        let arr = []
+        let data = eval('(' + res + ')')
+        if (data.response === 'success') {
+          this.minAmount = data.data.minAmount
+          this.maxAmount = data.data.maxAmount
+          this.creditTerm = data.data.creditTerm
+          arr = data.data.carouselList
+          arr.forEach((element) => {
+            this.imglist.push({img: self.$store.state.baseUrl + element})
+          })
+        } else {
+          this.$vux.toast.text('首页轮播数据获取失败~')
+        }
       })
     },
     init () {
       let self = this
+      // 退出进程，给我原生数据库信息
       window.toLogin = (res) => {
-        // alert(JSON.stringify(res))
+        // alert('111111')
         let data = JSON.parse(JSON.stringify(res))
-        // alert('token:' + data.token)
+        self.$store.state.userInfo.avatar = ''
         self.$store.commit('INIT_USER_INFO', data)
-        // if (res instanceof Object) {
-        //   // alert(JSON.stringify(res))
-        //   self.$store.commit('INIT_USER_INFO', res)
-        // } else {
-        //   let data = JSON.parse(res)
-        //   self.$store.commit('INIT_USER_INFO', data)
-        // }
         self.$router.replace('/login')
       }
     }
@@ -221,8 +206,6 @@ html, body {
       }
     }
     .btn-area {
-      // border-top:1px solid #000;
-      // border-bottom:1px solid #000;
       background:#fff;
       li {
         padding-top:1rem;
@@ -246,16 +229,40 @@ html, body {
       }
     }
     .btn-loan{
+      position: relative;
+      padding:0 0.75rem;
       background:#fff;
       div{
-        padding:0 0.75rem;
+        padding:0.5rem 0;
+        width:100%;
+        height:5.15rem;
+        background:url(../../assets/imgs/bg-apply.png);
+        background-size:100% 100%;
+      }
+      p{
+        margin-left: 1rem;
+        font-size:0.55rem;
+        color:#333;
+        line-height: 1.5;
       }
       img{
-        display: block;
-        margin:0 auto;
-        width:100%;
-        height:5.5rem;
-        border-radius: 3px;
+        margin-left: 1rem;
+        width:9.125rem;
+        height:0.85rem;
+      }
+      .btn-apply{
+        position: relative;
+        top:-1.5rem;
+        left:50%;
+        display: inline-block;
+        width:3.625rem;
+        height:1.0125rem;
+        background:#f32f2f;
+        font-size:0.6rem;
+        line-height: 1.0125rem;
+        border-radius: 0.5rem;
+        text-align: center;
+        color:#fff;
       }
     }
     .btn-classify{

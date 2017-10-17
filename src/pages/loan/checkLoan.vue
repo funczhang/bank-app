@@ -107,6 +107,7 @@ export default {
       let self = this
       let path = self.$store.state.baseUrl + '/app/xsyd/myLoanInit.do'
       let data = {
+        action: 'init_request',
         path: path,
         params: {
           // token: this.$store.state.userInfo.token
@@ -114,8 +115,9 @@ export default {
         }
       }
       // 初始化我的贷款
-      self.$store.dispatch('initRequest', data).then(res => {
-        let data = JSON.parse(res)
+      self.$store.dispatch('normalRequest', data).then(data => {
+        // alert(data)
+        // let data = JSON.parse(res)
         if (data.response === 'success') {
           // 没有贷款进度的情况
           if (data.data.status !== '') {
@@ -144,6 +146,7 @@ export default {
       let self = this
       let path = self.$store.state.baseUrl + '/app/xsyd/applyPageInit.do'
       let data = {
+        action: 'init_request',
         path: path,
         params: {
           // token: this.$store.state.userInfo.token
@@ -151,8 +154,8 @@ export default {
         }
       }
       // 初始化我的贷款
-      self.$store.dispatch('initRequest', data).then(res => {
-        let data = JSON.parse(res)
+      self.$store.dispatch('normalRequest', data).then(data => {
+        // let data = JSON.parse(res)
         // alert(res)
         if (data.response === 'success') {
           if (data.data.canApply === 1) { // 1可以申请 2不可申请

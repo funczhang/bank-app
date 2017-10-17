@@ -77,6 +77,7 @@ export default {
       let self = this
       let path = self.$store.state.baseUrl + '/app/xsyd/retrievePassword.do'
       let data = {
+        action: 'hand_request',
         path: path,
         params: {
           cellphone: this.$store.state.userInfo.cellphone,
@@ -90,7 +91,7 @@ export default {
         if (self.newPwd !== '') {
           if (self.newPwd === self.reNewPwd) {
             // 修改密码
-            self.$store.dispatch('changePwdRequest', data).then(res => {
+            self.$store.dispatch('normalRequest', data).then(res => {
             })
           } else {
             this.$vux.toast.text('两次新密码输入不一致')
@@ -106,12 +107,9 @@ export default {
        // 重新设置手势密码
       let self = this
       let data = {
-        action: 'jump_ges_update',
-        path: '',
-        params: {
-        }
+        action: 'jump_ges_update'
       }
-      self.$store.dispatch('controlGestureRequest', data).then(res => {
+      self.$store.dispatch('normalRequest', data).then(res => {
         this.$vux.toast.text('修改手势密码成功~')
       })
     },
@@ -119,13 +117,10 @@ export default {
       // 打开手势密码
       let self = this
       let data = {
-        action: 'jump_ges_lock',
-        path: '',
-        params: {
-        }
+        action: 'jump_ges_lock'
       }
-      self.$store.dispatch('controlGestureRequest', data).then(res => {
-        let data = JSON.parse(res)
+      self.$store.dispatch('normalRequest', data).then(data => {
+        // let data = JSON.parse(res)
         if (data.isOpenGesture) {
           this.$store.state.isOpenGesture = true
         } else {
@@ -138,12 +133,9 @@ export default {
        // 关闭手势密码
       let self = this
       let data = {
-        action: 'jump_ges_close',
-        path: '',
-        params: {
-        }
+        action: 'jump_ges_close'
       }
-      self.$store.dispatch('controlGestureRequest', data).then(res => {
+      self.$store.dispatch('normalRequest', data).then(res => {
         this.$vux.toast.text('关闭手势密码成功~')
       })
     }

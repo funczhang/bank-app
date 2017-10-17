@@ -49,29 +49,31 @@ export default {
       let self = this
       let path = self.$store.state.baseUrl + '/app/xsyd/unbindBankCard.do'
       let data = {
+        action: 'init_request',
         path: path,
         params: {
           userToken: 'e2e9e2dc-07c6-41f0-9b80-0486a1c0f5b4',
           cardNo: this.cardNum
         }
       }
-      self.$store.dispatch('initRequest', data).then(res => {
+      self.$store.dispatch('normalRequest', data).then(res => {
       })
     },
     initData () {
       let self = this
       let path = self.$store.state.baseUrl + '/app/xsyd/getAppBankCardList.do'
       let data = {
+        action: 'init_request',
         path: path,
         params: {
           userToken: 'e2e9e2dc-07c6-41f0-9b80-0486a1c0f5b4'
         }
       }
-      self.$store.dispatch('initRequest', data).then(res => {
-        let data = JSON.parse(res)
-        alert(res)
+      self.$store.dispatch('normalRequest', data).then(res => {
+        // let data = JSON.parse(res)
+        // alert(res)
         if (res.response === 'success') {
-          self.$store.state.bankCardList = data.data
+          self.$store.state.bankCardList = res.data
         } else {
           this.$vux.toast.text('获取银行卡列表数据失败')
         }

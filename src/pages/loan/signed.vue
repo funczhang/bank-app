@@ -131,6 +131,7 @@ export default {
       let self = this
       let path = self.$store.state.baseUrl + '/app/xsyd/applicantSignPageInit.do'
       let data = {
+        action: 'init_request',
         path: path,
         params: {
           // token: this.$store.state.userInfo.token
@@ -138,9 +139,9 @@ export default {
         }
       }
       // 初始化我的贷款
-      self.$store.dispatch('initRequest', data).then(res => {
-        let data = JSON.parse(res)
-        alert(res)
+      self.$store.dispatch('normalRequest', data).then(data => {
+        // let data = JSON.parse(res)
+        // alert(res)
         if (data.response === 'success') {
         } else {
           this.$vux.toast.text('签约接口数据初始化失败')

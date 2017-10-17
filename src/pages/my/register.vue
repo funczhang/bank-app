@@ -61,6 +61,7 @@ export default {
       let self = this
       let path = self.$store.state.baseUrl + '/app/xsyd/register.do'
       let data = {
+        action: 'init_request',
         path: path,
         params: {
           cellphone: this.phone,
@@ -78,8 +79,8 @@ export default {
               this.$vux.loading.show({
                 text: 'Loading'
               })
-              self.$store.dispatch('register', data).then(res => {
-                let response = JSON.parse(res)
+              self.$store.dispatch('normalRequest', data).then(response => {
+                // let response = JSON.parse(res)
                 if (response.response === 'success') {
                   this.$vux.toast.text('注册成功请登录~')
                   this.phone = ''
@@ -107,6 +108,7 @@ export default {
       let self = this
       let path = self.$store.state.baseUrl + '/app/xsyd/getVerifyCode.do'
       let data = {
+        action: 'init_request',
         path: path,
         params: {
           cellphone: this.phone,
@@ -116,8 +118,8 @@ export default {
       }
       // 校验手机号码 self.checkPhone(self.phone)
       if (self.checkPhone(self.phone)) {
-        self.$store.dispatch('getVerifyCode', data).then(res => {
-          let response = JSON.parse(res)
+        self.$store.dispatch('normalRequest', data).then(response => {
+          // let response = JSON.parse(res)
           // alert(res)
           if (response.response === 'success') {
             this.$vux.toast.text('验证码已成功发送')

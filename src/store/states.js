@@ -9,7 +9,7 @@ const state = {
   baseUrl: 'http://192.168.2.200:8080',
   userInfo: {
     isAuth: '',
-    name: '',
+    name: '张超',
     id: '', // 用户userId
     token: '', // 登录令牌
     cellphone: '', // 手机号码

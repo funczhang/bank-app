@@ -5,31 +5,47 @@
       .content 
         p(class="empty-tip" v-show="bankCardList.length ===0") 暂无绑定银行卡
         ul(v-show="bankCardList.length !== 0" class="card-list")
-          li(v-for="item in bankCardList")
-            .btn-del(@click="unbindCard")
-            h3 兴化农商行
-            .type 储蓄卡
-            .card-num **** **** **** 6316
-          li
-            .btn-del
-            h3 兴化农商行
-            .type 储蓄卡
-            .card-num **** **** **** 6316
+          li(v-for="item in bankCardList" name="custom-classes-transition" enter-active-class="animated bounceInUp")
+            swipeout(style="height:100%")
+              swipeout-item(transition-mode="follow" :threshold=".5" style="position:relative;z-index:0;height:100%")
+                .item-content(slot="content" style="position:relative;z-index:0;height:100%;padding:10px")
+                  .btn-del(@click="showDialog(item.bankcardNo)")
+                  h3() 兴化农商行
+                  .type 储蓄卡
+                  .card-num **** **** **** {{item.bankcardNo.substr(item.bankcardNo.length-4,item.bankcardNo.length-4)}}
+                .item-menu(slot="right-menu" )
+                  swipeout-button(@click.native="showDialog(item.bankcardNo)" type="warn" style="border-radius: 8px;") 删除
         .btn-add(@click="addBankCard") 
           .title 添加银行卡
+      masker(color="#000" :opacity="0.4" fullscreen=true v-show="status" style="position:relative;")
+        .box(slot="content")
+          .head 解绑银行卡
+            img(src="../../assets/imgs/arrow-right.png" @click="onCancel")
+          .content
+            p(class="card clearfix")
+              span(style="float:left;width:90%;color:#999;font-size:0.75rem;text-align:center") 确定解绑该银行卡？
+            .btn-area(class="clearfix")
+              span( class="btn-submit btn-card-certain" @click="onConfirm") 确定
 </template>
 
 <script>
-import { ViewBox, XHeader, Masker } from 'vux'
+import { ViewBox, XHeader, Masker, Swipeout, SwipeoutItem, SwipeoutButton } from 'vux'
 export default {
   components: {
     ViewBox,
     XHeader,
-    Masker
+    Masker,
+    Swipeout,
+    SwipeoutItem,
+    SwipeoutButton
   },
   data () {
     return {
-      index: 0
+      index: 0,
+      show: false,
+      dcontent: '操作提示',
+      status: false,
+      cardNo: ''
     }
   },
   mounted () {
@@ -41,22 +57,41 @@ export default {
     }
   },
   methods: {
+    onCancel () {
+      this.status = false
+    },
+    onConfirm () {
+      this.status = false
+      this.unbindCard(this.cardNo)
+    },
+    showDialog (cardNo) {
+      this.status = true
+      this.cardNo = cardNo
+    },
     addBankCard () {
       this.$router.push('/addCard')
     },
-    unbindCard () {
-      alert('绑定银行卡')
+    unbindCard (cardNo) {
       let self = this
       let path = self.$store.state.baseUrl + '/app/xsyd/unbindBankCard.do'
       let data = {
         action: 'init_request',
         path: path,
         params: {
-          userToken: 'e2e9e2dc-07c6-41f0-9b80-0486a1c0f5b4',
-          cardNo: this.cardNum
+          userToken: self.$store.state.userInfo.token,
+          cardNo: cardNo
         }
       }
+      this.$vux.loading.show({
+        text: 'loading'
+      })
       self.$store.dispatch('normalRequest', data).then(res => {
+        this.$vux.loading.hide()
+        if (res.response === 'success') {
+          this.initData()
+        } else {
+          this.$vux.toast.text('删除失败')
+        }
       })
     },
     initData () {
@@ -66,12 +101,11 @@ export default {
         action: 'init_request',
         path: path,
         params: {
-          userToken: 'e2e9e2dc-07c6-41f0-9b80-0486a1c0f5b4'
+          userToken: self.$store.state.userInfo.token
         }
       }
       self.$store.dispatch('normalRequest', data).then(res => {
         // let data = JSON.parse(res)
-        // alert(res)
         if (res.response === 'success') {
           self.$store.state.bankCardList = res.data
         } else {
@@ -85,6 +119,9 @@ export default {
 </script>
 <style lang="less" scoped>
 .weui-tab{
+  .vux-x-dialog .weui-dialog{
+    border-radius: 16px
+  }
 }
 .content{
   padding:0.1px;
@@ -103,11 +140,10 @@ export default {
     li{
       position: relative;
       margin:0 auto 0.75rem;
-      padding:0.5rem;
       height:5.65rem;
       border-radius: 0.125rem;
+      background:white;
       overflow: hidden;
-      background:url(../../assets/imgs/bg-card.png);
       background-size:100% 100%;
       .btn-del{
         position: absolute;
@@ -118,21 +154,25 @@ export default {
         background:url(../../assets/imgs/icon-del.png);
         background-size:100% 100%;
       }
+      .item-content{
+        border-radius: 8px;
+        background:-webkit-gradient(linear,100% 0%, 50% 0%, from(#378CF4), to(#2B7DE2));
+      }
       h3{
         font-size:0.75rem;
-        line-height: 1.5;
+        line-height: 2;
         color:#fff;
         font-weight: normal;
       }
       .card-num{
         font-size:1rem;
-        line-height: 1.5;
+        line-height: 2;
         color:#fff;
         font-weight: normal;
       }
       .type{
          font-size:0.6rem;
-        line-height: 1.5;
+        line-height: 2;
         color:#fff;
         font-weight: normal;
       }
@@ -145,6 +185,7 @@ export default {
     border-top:1px solid #ededed;
     border-bottom:1px solid #ededed;
     .title{
+      height: 1rem;
       font-size:0.75rem;
       color:#333;
       text-align: center;
@@ -157,6 +198,75 @@ export default {
     span{
 
     }
+  }
+  
+}
+// 遮罩
+.box{
+    position: relative;
+    top:50%;
+    margin:0 auto;
+    margin-top:7rem;
+    // margin-top:-5.85rem;
+    width:80%;
+    background:#fff;
+    border-radius: 3px;
+    .head{
+      padding: 0.5rem 0.75rem;
+      height:1.1rem;
+      background:#1f76e2;
+      box-shadow: 0px 0px 1rem rgba(39,128,237,.5);
+      font-size:0.85rem;
+      line-height: 1.1rem;
+      text-align: center;
+      color:#fff;
+      border-radius: 3px 3px 0 0;
+      img{
+        position: absolute;
+        top:0.6rem;
+        right:0.75rem;
+        width:0.7rem;
+        height:0.7rem;
+      }
+    }
+    .content{
+      padding:0.5rem 0.75rem 1rem;
+      .card{
+        margin-top: 1rem;
+        padding:0.5rem 0.25rem;
+      }
+    }
+  .btn-area{
+    padding:1rem 0 0;
+    background:#fff;
+    span{
+      display: block;
+    }
+  }
+  .btn-submit,.btn-cancel{
+    width:40%;
+    height:1.8rem;
+    border-radius: 0.9rem;
+    font-size:0.75rem;
+    text-align: center;
+    line-height: 1.8rem;
+    box-shadow: 0px 0px 1rem rgba(39,128,237,.5);
+  }
+  .btn-submit{
+    margin-left:5%;
+    background:#1f76e2;
+    color:#fff;
+   // border:1px solid #fff;
+  }
+  .btn-card-certain{
+    margin:0 auto;
+    width:50%;
+  }
+  .btn-cancel{
+    margin-right:5%;
+    background:#fff;
+    color:#1f76e2;
+    border:1px solid #1f76e2;
   }
 }
 </style>

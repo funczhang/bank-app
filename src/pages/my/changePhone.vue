@@ -70,7 +70,7 @@ export default {
       let path = self.$store.state.baseUrl + '/app/xsyd/resetCellphone.do'
       let data = {
         path: path,
-        action: 'init_request',
+        action: 'changephone_request',
         params: {
           userToken: this.$store.state.userInfo.token,
           newphone: this.phone,
@@ -78,7 +78,7 @@ export default {
           channel: this.$store.state.channel
         }
       }
-      // 注册用户
+      // 更换手机号
       if (self.checkPhone(self.phone)) {
         if (self.code !== '') {
           this.$vux.loading.show({

@@ -24,43 +24,52 @@ export default {
   },
   data () {
     return {
-      index: 0
-    }
-  },
-  computed: {
-    name: {
-      set (value) {
-      },
-      get () {
-        return '张超'
-      }
-      // return this.$store.state.userInfo.cellphone
-    },
-    cardNum: {
-      set (value) {
-      },
-      get () {
-        return ''
-      }
+      index: 0,
+      cardNum: '',
+      name: ''
     }
   },
   mounted () {
+    this.init()
+  },
+  computed: {
+    // name: {
+    //   set (val) {
+
+    //   },
+    //   get () {
+    //     return this.$store.state.userInfo.name
+    //   }
+    // }
   },
   methods: {
+    init () {
+      this.name = '蔡焊生'
+    },
     addCard () {
-      alert('绑定银行卡')
       let self = this
-      let path = self.$store.state.baseUrl + '/app/xsyd/getAppBankCardList.do'
+      let path = self.$store.state.baseUrl + '/app/xsyd/bindBankCard.do'
       let data = {
         action: 'init_request',
         path: path,
         params: {
-          userToken: 'e2e9e2dc-07c6-41f0-9b80-0486a1c0f5b4',
+          userToken: self.$store.state.userInfo.token,
           chName: this.name,
           cardNo: this.cardNum
         }
       }
-      self.$store.dispatch('normalRequest', data).then(res => {
+      if (this.cardNum === '') {
+        this.$vux.toast.text('请输入银行卡号')
+        return null
+      }
+      self.$store.dispatch('normalRequest', data).then(response => {
+        if (response.response === 'success') {
+          this.$vux.toast.text('绑定银行卡成功')
+          this.cardNum = ''
+          this.$router.replace('/bankCardList')
+        } else {
+          this.$vux.toast.text(response.data)
+        }
       })
     },
     addBankCard () {

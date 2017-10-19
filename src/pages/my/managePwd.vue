@@ -75,23 +75,33 @@ export default {
     },
     changePwd () {
       let self = this
-      let path = self.$store.state.baseUrl + '/app/xsyd/retrievePassword.do'
+      let path = self.$store.state.baseUrl + '/app/xsyd/resetPassword.do'
       let data = {
-        action: 'hand_request',
+        action: 'changephone_request',
         path: path,
         params: {
-          cellphone: this.$store.state.userInfo.cellphone,
-          password: this.newPwd,
-          verifyCode: this.code,
-          channel: this.$store.state.channel,
-          imei: this.$store.state.imeis
+          userToken: this.$store.state.userInfo.token,
+          oldpass: this.oldPwd,
+          newpass: this.newPwd
         }
       }
       if (self.oldPwd !== '') {
         if (self.newPwd !== '') {
           if (self.newPwd === self.reNewPwd) {
+            this.$vux.loading.show({
+              text: 'Loading'
+            })
             // 修改密码
-            self.$store.dispatch('normalRequest', data).then(res => {
+            self.$store.dispatch('normalRequest', data).then(response => {
+              if (response.response === 'success') {
+                this.$vux.toast.text('密码更换成功，请重新登录~')
+                self.$store.state.userInfo.token = ''
+                self.$store.state.userInfo.cellphone = ''
+                this.$router.replace('/login')
+              } else {
+                this.$vux.toast.text(response.data)
+              }
+              this.$vux.loading.hide()
             })
           } else {
             this.$vux.toast.text('两次新密码输入不一致')

@@ -31,7 +31,7 @@
             img(src="../../assets/imgs/icon-title.png")
             p 授信金额(元) {{' ' + minAmount + '万~' + maxAmount + '万'}}
             p 授信期限(月) {{' ' + creditTerm}}
-            a(href="javascript:void(null)" class="btn-apply" @click="") 去申请
+            a(href="javascript:void(null)" class="btn-apply" @click="goApply") 去申请
         ul(class="btn-classify clearfix")
           li(class="btn-payment" @click="unOpen")
             span 生活缴费
@@ -87,15 +87,19 @@ export default {
     },
     toAccount () {
       this.$router.push('/bankCardList')
+      this.$store.state.tabItem = 2
     },
     toLoan () {
       this.$router.push('/checkLoan')
+      this.$store.state.tabItem = 1
     },
     toRepay () {
       this.$router.push('/repaymentRecord')
+      // this.$store.state.tabItem = 1
     },
     toGuarantee () {
       this.$router.push('/myGurantee')
+      // this.$store.state.tabItem = 1
     },
     unOpen () {
       // 显示
@@ -148,6 +152,44 @@ export default {
         self.$store.commit('INIT_USER_INFO', data)
         self.$router.replace('/login')
       }
+    },
+    goApply () {
+      let self = this
+      let path = self.$store.state.baseUrl + '/app/xsyd/applyPageInit.do'
+      let data = {
+        action: 'init_request',
+        path: path,
+        params: {
+          token: this.$store.state.userInfo.token
+        }
+      }
+      self.$store.dispatch('initRequest', data).then(res => {
+        let data = JSON.parse(res)
+        if (data.response === 'success') {
+          if (data.data.canApply === 1) { // 1可以申请 2不可申请
+            this.$router.replace('/loan')
+            this.$store.state.tabItem = 1
+          } else {
+            // 不可申请
+            switch (data.data.explain) {
+              case '1': this.$router.replace('/quotaEvaluations')
+                break
+              case '2': this.$router.replace('/fail')
+                break
+              case '3': this.$router.replace('/sign')
+                break
+              case '4': this.$router.replace('/sign')
+                break
+              case '5': this.$router.replace('/sign')
+                break
+              case '6': this.$router.replace('/fail')
+                break
+            }
+          }
+        } else {
+          this.$vux.toast.text('获取申请接口数据失败')
+        }
+      })
     }
   }
 }
@@ -297,14 +339,17 @@ html, body {
       }
     }
   }
-  .vux-slider > .vux-indicator, .vux-slider .vux-indicator-right{
+  .vux-slider > .vux-indicator, 
+  .vux-slider .vux-indicator-right{
     left:50%;
     margin-left:-1.2rem;
   }
-  .vux-slider > .vux-indicator > a > .vux-icon-dot, .vux-slider .vux-indicator-right > a > .vux-icon-dot{
+  .vux-slider > .vux-indicator > a > .vux-icon-dot, 
+  .vux-slider .vux-indicator-right > a > .vux-icon-dot{
     background:#65bfff;
   }
-  .vux-slider > .vux-indicator > a > .vux-icon-dot.active, .vux-slider .vux-indicator-right > a > .vux-icon-dot.active{
+  .vux-slider > .vux-indicator > a > .vux-icon-dot.active, 
+  .vux-slider .vux-indicator-right > a > .vux-icon-dot.active{
     background-color:#fff;
   }
   .vux-header{

@@ -4,7 +4,7 @@
       x-header(slot="header" title="授信申请" :left-options="{showBack:true,backText:''}" style="width:100%;position:absolute;left:0;top:0;z-index:100;background:#fff;")
       .content  
         .progerss
-          img(src="../../assets/imgs/progress00.png")
+          img(src="../../assets/imgs/progress01.png")
           div
             span(class="first") 待申请
             span 待审批
@@ -31,7 +31,7 @@
             li
               .option(class="clearfix")      
                 group
-                  popup-picker(title="申请用途" :data="loanUseList" v-model="value1")
+                  popup-picker(title="申请用途" placeholder="请选择用途" :data="loanUseList" v-model="value1")
         .get-more
           .module-head 获取更高额度
           .module-content
@@ -47,7 +47,7 @@
           i(class="fl" @click="showMsg")
         .option
           group
-            popup-picker(title="选择地址" :data="list2" v-model="value2")
+            popup-picker(title="选择地址" :data="list2" placeholder="请选择地址" v-model="value2")
           //- group        
           //-   x-input(title="具体地址" placeholder="填写具体地址")
         .confirm-area
@@ -81,9 +81,9 @@ export default {
   data () {
     return {
       index: 0,
-      list2: [['小米', 'iPhone', '华为', '情怀', '三星', '其他', '不告诉你']],
-      value1: ['请选择用途'],
-      value2: ['请选择地址'],
+      list2: [['宿迁', '兴化', '江都', '扬州']],
+      value1: [''],
+      value2: [''],
       isConfirm: false,
       name: '',
       listad: [],
@@ -107,14 +107,11 @@ export default {
         action: 'init_request',
         path: path,
         params: {
-          // token: this.$store.state.userInfo.token
-          token: 'e2e9e2dc-07c6-41f0-9b80-0486a1c0f5b4'
+          token: this.$store.state.userInfo.token
         }
       }
       // 贷款申请初始化
       self.$store.dispatch('normalRequest', data).then(data => {
-        // let data = JSON.parse(res)
-       // alert('dd  ' + data.data.loanUseList[0].name)
         if (data.response === 'success') {
           if (data.data.idCard !== '') {
             self.idCard = data.data.idCard
@@ -137,10 +134,38 @@ export default {
       })
     },
     submit () {
-      alert('提交表单')
+       // 页面初始化
+      let self = this
+      let path = self.$store.state.baseUrl + '/app/xsyd/submitApply.do'
+      let data = {
+        action: 'init_request',
+        path: path,
+        params: {
+          token: this.$store.state.userInfo.token,
+          usedFor: this.value1[0],
+          lowAddress: this.value2[0],
+          zmxyFlag: '1'
+        }
+      }
+      if (data.params.usedFor !== '') {
+        if (data.params.lowAddress !== '') {
+          self.$store.dispatch('normalRequest', data).then(data => {
+            if (data.response === 'success') {
+              this.$vux.toast.text('授信信息提交成功~')
+              this.$router.replace('/quotaEvaluation')
+            } else {
+              this.$vux.toast.text(data.data)
+            }
+          })
+        } else {
+          this.$vux.toast.text('请选择法律文书送达地址~')
+        }
+      } else {
+        this.$vux.toast.text('请选择借款用途~')
+      }
     },
     cancel () {
-      alert('取消授信')
+      this.$vux.toast.text('取消授信~')
     }
   }
 }
@@ -148,6 +173,7 @@ export default {
 <style lang="less" scoped>
 html, body {
   .content{
+    // position: relative;
     .progerss{
       margin-top:0.75rem;
       padding:0.5rem 0.75rem;
@@ -310,11 +336,6 @@ html, body {
     color:#999;
     box-shadow: none;
   }
-  // .weui-tab{
-  //   .vux-header .vux-header-title > span{
-  //     color:#000;
-  //   }
-  // }
 }
 </style>
 

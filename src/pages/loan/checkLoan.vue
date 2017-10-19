@@ -2,11 +2,11 @@
   div(style="height:100%;")
     view-box(ref="viewBox" body-padding-top="46px" body-padding-bottom="50px")
       x-header(slot="header" title="我的贷款" :left-options="{showBack:false,backText:''}" style="width:100%;position:absolute;left:0;top:0;z-index:100;background:#fff;color:#000;")
-      .content(v-show="hasApply")
+      .content(v-show="!canApply")
         .template(v-show="!isLoanFinsh")
           //- 贷款未完成有进度
           group(style="margin-top:15px")
-            cell(title="申请进度" is-link=true style="padding:12px 15px;font-size:15px;color:#222;" link="/loan")  
+            cell(title="申请进度" is-link=true style="padding:12px 15px;font-size:15px;color:#222;" :link="page")  
           rate(:state="step")
         .template(v-show="!isLoanFinsh")
           //- 贷款已完成无进度
@@ -52,11 +52,10 @@
                 li 
                   p(class="title") 还款日期
                   p(class="value" style="color:#1f76e2;") {{repaymentList.length === 0 ? '--' : repaymentList[0].repTime}}
-      .content(v-show="!hasApply")
+      .content(v-show="canApply")
         img(class="empty" src="../../assets/imgs/icon-no-apply.png")
         .tip 您暂无申请记录哦~
-        a(href="javascript:void(null)" class="btn-apply" @click="goApply") 去申请
-
+        a(href="javascript:void(null)" class="btn-apply" @click="apply") 去申请
 </template>
 
 <script>
@@ -74,23 +73,28 @@ export default {
     return {
       index: 0,
       isLoanFinsh: false,
-      hasApply: true
+      hasApply: true,
+      canApply: true,
+      page: ''
     }
   },
   mounted () {
-    this.initView()
+    // this.initView()
+    // this.goApply()
+    this.apply()
   },
-  filters: {
+  beforeMount () {
+    this.initView()
   },
   computed: {
     step () {
-      return 3
-      // let status = this.$store.state.applyState
-      // if (status === '') {
-      //   return ''
-      // } else {
-      //   return parseInt(status)
-      // }
+      // return 3
+      let status = this.$store.state.applyState
+      if (status === '') {
+        return ''
+      } else {
+        return parseInt(status)
+      }
     },
     spendList () {
       return this.$store.state.spendList
@@ -103,6 +107,51 @@ export default {
     }
   },
   methods: {
+    apply () {
+      // 去申请初始化
+      let self = this
+      let path = self.$store.state.baseUrl + '/app/xsyd/applyPageInit.do'
+      let data = {
+        action: 'init_request',
+        path: path,
+        params: {
+          token: this.$store.state.userInfo.token
+        }
+      }
+      self.$store.dispatch('initRequest', data).then(res => {
+        // alert(res)
+        let data = JSON.parse(res)
+        if (data.response === 'success') {
+          if (data.data.canApply === 1) { // 1可以申请 2不可申请
+            this.$router.push('/loan')
+            this.$store.state.tabItem = 1
+          } else {
+          }
+        } else {
+          this.$vux.toast.text('获取申请接口数据失败')
+        }
+      })
+    },
+    getProgress (type) {
+      let self = this
+      // alert(type)
+      switch (type) {
+        case '1': self.$store.state.applyState = 1; self.page = '/quotaEvaluation' // 额度评估
+          break
+        case '2': self.$store.state.applyState = 2; self.page = '/fail' // 审批未通过
+          break
+        case '3': self.$store.state.applyState = 3; self.page = '/sign' // 签约等待
+          break
+        case '4': self.$store.state.applyState = 4; self.page = '/sign' // 签约
+          break
+        case '5': self.$store.state.applyState = 5; self.page = '/success' // 签约完成
+          break
+        case '6': self.$store.state.applyState = 5; self.page = '/fail' // 签约超时
+          break
+        case '7': self.$store.state.applyState = 5; self.page = '/sign' // 签约中
+          break
+      }
+    },
     initView () {
       // 页面初始化
       let self = this
@@ -111,83 +160,30 @@ export default {
         action: 'init_request',
         path: path,
         params: {
-          // token: this.$store.state.userInfo.token
-          token: 'e2e9e2dc-07c6-41f0-9b80-0486a1c0f5b4'
+          token: this.$store.state.userInfo.token
         }
       }
       // 初始化我的贷款
-      this.$vux.loading.show({
-        text: 'Loading'
-      })
+      // this.$vux.loading.show({
+      //   text: 'Loading'
+      // })
       self.$store.dispatch('initRequest', data).then(res => {
-        this.$vux.loading.hide()
+        // alert(res)
+        // this.$vux.loading.hide()
         let data = JSON.parse(res)
         if (data.response === 'success') {
-          // 没有贷款进度的情况
-          if (data.data.status !== '') {
-            self.hasApply = true
-            self.$store.state.applyState = data.data.status
-            // alert(self.status)
+          if (data.data.type === '') {
+            self.canApply = true
           } else {
-            self.hasApply = false
-          }
-          if (data.data.spendList.length !== 0) {
+            self.canApply = false
             self.$store.state.spendList = data.data.spendList
-          }
-          if (data.data.repaymentList.length !== 0) {
             self.$store.state.repaymentList = data.data.repaymentList
-          }
-          if (data.data.creditList.length !== 0) {
             self.$store.state.creditList = data.data.creditList
+            self.$store.state.applyNo = data.data.applyNum
+            self.getProgress(data.data.type)
           }
         } else {
           this.$vux.toast.text('我的贷款页面初始化失败~')
-        }
-      })
-    },
-    goApply () {
-      // 页面初始化
-      let self = this
-      let path = self.$store.state.baseUrl + '/app/xsyd/applyPageInit.do'
-      let data = {
-        action: 'init_request',
-        path: path,
-        params: {
-          // token: this.$store.state.userInfo.token
-          token: 'e2e9e2dc-07c6-41f0-9b80-0486a1c0f5b4'
-        }
-      }
-      // 初始化我的贷款
-      this.$vux.loading.show({
-        text: 'Loading'
-      })
-      self.$store.dispatch('initRequest', data).then(res => {
-        this.$vux.loading.hide()
-        let data = JSON.parse(res)
-        // alert(res)
-        if (data.response === 'success') {
-          if (data.data.canApply === 1) { // 1可以申请 2不可申请
-            this.$router.push('/loan')
-          } else if (data.data.canApply === 2) {
-            // 不可申请
-            this.$router.replace('/fail')
-            switch (data.data.explain) {
-              case '1': this.$router.replace('/quotaEvaluations')
-                break
-              case '2': this.$router.replace('/fail')
-                break
-              case '3': this.$router.replace('/sign')
-                break
-              case '4': this.$router.replace('/sign')
-                break
-              case '5': this.$router.replace('/sign')
-                break
-              case '6': this.$router.replace('/fail')
-                break
-            }
-          }
-        } else {
-          this.$vux.toast.text('获取申请接口数据失败')
         }
       })
     }

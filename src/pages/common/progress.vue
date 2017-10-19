@@ -1,7 +1,7 @@
 <template lang="pug">
 .template
   .progerss(v-if="state === 1")  
-    //-  1-待准入
+    //-  1-待准入 额度评估
     img(src="../../assets/imgs/progress01.png")
     div
       span(class="first") 已申请
@@ -9,39 +9,39 @@
       span 待签约
       span(class="last") 待完成
   .progerss(v-if="state === 2") 
-    //- 2-准入拒绝
-    img(src="../../assets/imgs/progress02.png")
+    //- 2-准入拒绝 审批未通过
+    img(src="../../assets/imgs/fail02.png")
     div
       span(class="first") 已申请
       span 审批未通过
       span 未签约
       span(class="last") 已失败
   .progerss(v-if="state === 3")  
-    //- 3-待签约
-    img(src="../../assets/imgs/progress03.png")
+    //- 3-签约等待界面
+    img(src="../../assets/imgs/progress02.png")
+    div
+      span(class="first") 已申请
+      span 已审批
+      span 担保人处理中
+      span(class="last") 待完成
+  .progerss(v-if="state === 4")  
+    //- 4-待签约
+    img(src="../../assets/imgs/progress02.png")
     div
       span(class="first") 已申请
       span 已审批
       span 待签约
       span(class="last") 待完成
-  .progerss(v-if="state === 4")  
-    //- 4-已签约（显示历史申请页面）
-    img(src="../../assets/imgs/progress04.png")
-    div
-      span(class="first") 已申请
-      span 已审批
-      span 已签约
-      span(class="last") 已完成
   .progerss(v-if="state === 5") 
-    //- 5-签约超时
-    img(src="../../assets/imgs/progress03.png")
+    //- 5-签约完成
+    img(src="../../assets/imgs/fail04.png")
     div
       span(class="first") 已申请
       span 已审批
       span 未签约
       span(class="last") 已失败
   .progerss(v-if="state === 6") 
-    //- 6-添加担保人，担保人待处理
+    //- 6-签约超时
     img(src="../../assets/imgs/progress03.png")
     div
       span(class="first") 已申请
@@ -49,7 +49,7 @@
       span 担保人处理中
       span(class="last") 待完成
   .progerss(v-if="state === 7") 
-    //- 7-担保人签约，申请人待签约
+    //- 签约中
     img(src="../../assets/imgs/progress03.png")
     div
       span(class="first") 已申请

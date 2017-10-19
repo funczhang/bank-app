@@ -7,6 +7,7 @@ const state = {
   isLoading: true,
   direction: 'forward',
   baseUrl: 'http://192.168.2.200:8080',
+  imglist: [],
   userInfo: {
     isAuth: '',
     name: '',
@@ -18,6 +19,9 @@ const state = {
     avatarUploaded: '', // 是否上传头像 0:未上传 1:已上传
     base64: '',
     avatar: ''
+  },
+  applyNo: '', // 申请编号
+  loanInfo: {
   },
   applyState: '', // 申请进度
   spendList: [], // 我的用信

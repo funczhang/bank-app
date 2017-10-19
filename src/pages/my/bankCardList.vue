@@ -4,8 +4,8 @@
       x-header(slot="header" title="银行卡" :left-options="{showBack:true,backText:''}" style="width:100%;position:absolute;left:0;top:0;z-index:100;background:#fff;color:#000;border-bottom:1px solid #ededed;")
       .content 
         p(class="empty-tip" v-show="bankCardList.length ===0") 暂无绑定银行卡
-        ul(v-show="bankCardList.length !== 0" class="card-list")
-          li(v-for="item in bankCardList" name="custom-classes-transition" enter-active-class="animated bounceInUp")
+        transition-group(v-show="bankCardList.length !== 0" class="card-list" tag="ul"  name="bounceInUp" enter-active-class="animated bounceInUp" leave-active-class="animated bounceOutLeft")
+          li(v-for="item in bankCardList" :key="item.id")
             swipeout(style="height:100%")
               swipeout-item(transition-mode="follow" :threshold=".5" style="position:relative;z-index:0;height:100%")
                 .item-content(slot="content" style="position:relative;z-index:0;height:100%;padding:10px")
@@ -45,16 +45,18 @@ export default {
       show: false,
       dcontent: '操作提示',
       status: false,
-      cardNo: ''
+      cardNo: '',
+      bankCardList: []
     }
   },
   mounted () {
     this.initData()
   },
   computed: {
-    bankCardList () {
-      return this.$store.state.bankCardList
-    }
+    // bankCardList () {
+    //   return this.$store.state.bankCardList
+    //   // return []
+    // }
   },
   methods: {
     onCancel () {
@@ -105,9 +107,11 @@ export default {
         }
       }
       self.$store.dispatch('normalRequest', data).then(res => {
+        // alert(JSON.stringify(res))
         // let data = JSON.parse(res)
         if (res.response === 'success') {
-          self.$store.state.bankCardList = res.data
+          // self.$store.state.bankCardList = res.data
+          self.bankCardList = res.data
         } else {
           this.$vux.toast.text('获取银行卡列表数据失败')
         }

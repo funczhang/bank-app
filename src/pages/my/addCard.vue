@@ -44,7 +44,7 @@ export default {
   },
   methods: {
     init () {
-      this.name = '蔡焊生'
+      this.name = '张超'
     },
     addCard () {
       let self = this

@@ -59,7 +59,7 @@ export default {
   },
   methods: {
     backToMy () {
-      this.$router.replace('/my')
+      this.$router.go(-1)
     },
     clickTitle () {
     },

@@ -8,7 +8,7 @@
         .imgbg
           img(src="../../assets/imgs/icon-main.png")
         .version
-          span 版本号：v1.0
+          span(style="font-size:0.75rem") 版本号：v1.0
         group
           cell(title="版本更新" is-link style="margin-top:15px;border-bottom:none")
             .child(slot="child" @click="updateVersion")

@@ -96,6 +96,7 @@ export default {
           imei: this.$store.state.imei
         }
       }
+      alert(JSON.stringify(data.params))
       if (self.pwd !== '') {
         // 显示
         this.$vux.loading.show({

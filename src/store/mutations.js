@@ -4,7 +4,7 @@ export default {
     state.isLoading = status
   },
   [types.INIT_USER_INFO] (state, data) {
-    alert('init-info:' + JSON.stringify(data))
+    // alert('init-info:' + JSON.stringify(data))
     state.userInfo.isAuth = data.isAuth
     state.userInfo.name = data.name
     state.imei = data.imei

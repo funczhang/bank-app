@@ -6,20 +6,26 @@
         masker(style="border-radius: 2px;" color="#000" :opacity="0.5" fullscreen=true v-show="false")
           div(slot="content" class="msg-box")
         ul(class="classify clearfix")
-          li(@click="selectQType(0)")
-            check-icon(:value.sync="qType[0]")
-            span 1提个建议
-          li(@click="selectQType(1)")
-            check-icon(:value.sync="qType[1]")
-            span 2出错误啦
-          li(@click="selectQType(2)")
-            check-icon(:value.sync="qType[2]")
-            span 3不好用
-          li(@click="selectQType(3)")
-            check-icon(:value.sync="qType[3]")
-            span 4其他
+          li
+            //- input(name="qType" type="radio" class="qtype")
+            .radio(@click="selectQType('1')" :class="{active: qType1}")
+            //- check-icon(:value.sync="type01")
+            span 提个建议
+          li
+            //- input(name="qType" type="radio" class="qtype")
+            //- check-icon(:value.sync="type02")
+            .radio(@click="selectQType('2')" :class="{active: qType2}")
+            span 出错误啦
+          li
+            //- check-icon(:value.sync="type03")
+            .radio(:class="{active: qType3}" @click="selectQType('3')")
+            span 不好用
+          li
+            //- check-icon(:value.sync="type04")
+            .radio(:class="{active: qType4}" @click="selectQType('4')")
+            span 其他
         x-textarea(v-model="opinion" show-counter=true placeholder="您的反馈帮助我们成长" :rows=7 style="padding:10px")
-        .btn-submit 提交
+        .btn-submit(@click="submit") 提交
 </template>
 
 <script>
@@ -39,17 +45,27 @@ export default {
   data () {
     return {
       index: 0,
-      qType: [false, false, false, false],
-      opinion: ''
+      opinion: '',
+      qType1: false,
+      qType2: false,
+      qType3: false,
+      qType4: false,
+      selectType: ''
     }
   },
   mounted () {
   },
   methods: {
-    selectQType (num) {
-      for (let i = 0; i < 4; i++) {
-        num === i ? this.qType[i] = true : this.qType[i] = false
-      }
+    selectQType (type) {
+      this.reset()
+      this['qType' + type] = true
+      this.selectType = type
+    },
+    reset () {
+      this.qType1 = false
+      this.qType2 = false
+      this.qType3 = false
+      this.qType4 = false
     },
     submit () {
       let self = this
@@ -60,23 +76,45 @@ export default {
         path: path,
         params: {
           userToken: token,
-          qType: '',
-          opinion: ''
+          qType: this.selectType,
+          opinion: this.opinion
         }
       }
+      // alert(JSON.stringify(data.params))
       // 显示
       this.$vux.loading.show({
         text: 'Loading'
       })
-      self.$store.dispatch('normalRequest', data).then(res => {
-        // 隐藏
-        this.$vux.loading.hide()
-      })
+      if (this.selectType !== '') {
+        if (this.opinion !== '') {
+          self.$store.dispatch('normalRequest', data).then(res => {
+            // alert(JSON.stringify(res))
+            if (res.response === 'success') {
+              this.$vux.toast.text('意见反馈成功~')
+              this.$router.replace('/more')
+              this.$store.state.tabItem = 3
+            } else {
+              this.$vux.toast.text(res.data)
+            }
+            // alert(JSON.stringify(res))
+            // 隐藏
+            this.$vux.loading.hide()
+          })
+        } else {
+          this.$vux.toast.text('请填写意见内容~')
+        }
+      } else {
+        this.$vux.toast.text('请选择一种意见类型~')
+      }
+      // this.$vux.loading.hide()
     }
   }
 }
 </script>
 <style lang="less" scoped>
+input:active{
+  color:red;
+}
 .content{
   .classify{
     padding:0.75rem 1.5rem;
@@ -86,6 +124,21 @@ export default {
       width:50%;
       font-size:0.75rem;
       color:#333;
+    }
+    .radio{
+      position: relative;
+      top:-1px;
+      display: inline-block;
+      margin-right:0.3rem;
+      width:1rem;
+      height: 1rem;
+      vertical-align: middle;
+      background:url(../../assets/imgs/unselect-radio.png);
+      background-size:100% 100%;
+    }
+    .active{
+      background:url(../../assets/imgs/selected-radio.png);
+      background-size:100% 100%;
     }
   }
   ::-webkit-input-placeholder{

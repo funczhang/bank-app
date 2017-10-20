@@ -21,9 +21,9 @@
             cell(title="优惠券" is-link )
               img(src="../../assets/imgs/icon-juan.png" slot="icon")
               .child(slot="child" @click="toCouponList")
-            cell(title="个人设置" is-link style="margin-top:0.75rem;" link="/setting")
+            cell(title="个人设置" is-link style="margin-top:0.75rem;")
               img(src="../../assets/imgs/icon-setting.png" slot="icon")
-              .child(slot="child" @click="")
+              .child(slot="child" @click="toSetting")
         masker(color="#000" :opacity="0.4" fullscreen=true v-show="showHeadImg")
           .box(slot="content" @click="hideHeadImg")
             img(v-show="!hasHeadImg" src="../../assets/imgs/default-head-photo.png")
@@ -111,6 +111,11 @@ export default {
       })
     },
     toGuarantee () {
+      if (this.$store.state.userInfo.token === '') {
+        this.$router.push('/login')
+        this.$vux.toast.text('请先登录~')
+        return
+      }
       if (this.$store.state.userInfo.isAuth === true) {
         this.$router.push('/myGurantee')
       } else {
@@ -118,18 +123,36 @@ export default {
       }
     },
     toBankCardList () {
-      // if (this.$store.state.userInfo.isAuth === true) {
-      this.$router.push('/bankCardList')
-      // } else {
-      //   this.$vux.toast.text('请先实名认证哦~')
-      // }
+      if (this.$store.state.userInfo.token === '') {
+        this.$router.push('/login')
+        this.$vux.toast.text('请先登录~')
+        return
+      }
+      if (this.$store.state.userInfo.isAuth === true) {
+        this.$router.push('/bankCardList')
+      } else {
+        this.$vux.toast.text('请先实名认证哦~')
+      }
     },
     toCouponList () {
+      if (this.$store.state.userInfo.token === '') {
+        this.$router.push('/login')
+        this.$vux.toast.text('请先登录~')
+        return
+      }
       if (this.$store.state.userInfo.isAuth === true) {
         this.$router.push('/couponList')
       } else {
         this.$vux.toast.text('请先实名认证哦~')
       }
+    },
+    toSetting () {
+      if (this.$store.state.userInfo.token === '') {
+        this.$router.push('/login')
+        this.$vux.toast.text('请先登录~')
+        return
+      }
+      this.$router.push('/setting')
     }
   }
 }

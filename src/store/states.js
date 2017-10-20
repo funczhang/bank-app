@@ -19,7 +19,8 @@ const state = {
     status: '', // 用户状态 1:正常 2:锁定
     avatarUploaded: '', // 是否上传头像 0:未上传 1:已上传
     base64: '',
-    avatar: ''
+    avatar: '',
+    idCard: ''
   },
   applyNo: '', // 申请编号
   loanInfo: {

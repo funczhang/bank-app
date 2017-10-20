@@ -3,7 +3,7 @@
     view-box(ref="viewBox" body-padding-top="0" body-padding-bottom="50px")
       .container
         .header
-          a(class="btn-code" @click="shareCodePic" href="javascript:void(null)")
+          a(v-show="false" class="btn-code" @click="shareCodePic" href="javascript:void(null)")
           .head-img(@click="uploadHeadImg")
             //- img(src="../../assets/imgs/person.png")
             img(v-show="!hasHeadImg" src="../../assets/imgs/default-img.png")

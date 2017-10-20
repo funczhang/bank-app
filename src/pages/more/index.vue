@@ -10,12 +10,13 @@
             img(src="../../assets/imgs/icon-usual-question.png" slot="icon")
           cell(title="咨询服务" is-link link="/bankCardList")
             img(src="../../assets/imgs/icon-consult-service.png" slot="icon")
-          cell(title="给予评价" is-link link="/suggest" style="margin-top:15px;border-bottom:none")
+          cell(v-show="false" title="给予评价" is-link link="/suggest" style="margin-top:15px;border-bottom:none")
             img(src="../../assets/imgs/icon-give-evaluate.png" slot="icon")
-          cell(title="分享给好友" is-link link="/setting")
+          cell(title="分享给好友" is-link link="/setting" style="margin-top:15px;border-bottom:none")
             img(src="../../assets/imgs/icon-share-friends.png" slot="icon")
-          cell(title="意见反馈" is-link link="/suggest" style="margin-top:15px;border-bottom:none")
+          cell(title="意见反馈" is-link style="margin-top:15px;border-bottom:none")
             img(src="../../assets/imgs/icon-suggest-feedback.png" slot="icon")
+            .child(slot="child" @click="toSuggest")
           cell(title="关于" is-link link="/about")
             img(src="../../assets/imgs/icon-about.png" slot="icon")
         .btn-exit(@click="exit") 退出
@@ -39,6 +40,14 @@ export default {
   mounted () {
   },
   methods: {
+    toSuggest () {
+      if (this.$store.state.userInfo.token === '') {
+        this.$router.push('/login')
+        this.$vux.toast.text('请先登录~')
+        return
+      }
+      this.$router.push('/suggest')
+    },
     exit () {
       // 退出登录
       let self = this
@@ -71,6 +80,13 @@ export default {
 </script>
 <style lang="less" scoped>
 .content{
+  .child{
+      position: absolute;
+      top:0;
+      bottom:0;
+      left: 0;
+      right:0;
+  }
   .btn-exit{
     display: block;
     margin:2.5rem auto;

@@ -8,16 +8,16 @@
         ul(class="classify clearfix")
           li(@click="selectQType(0)")
             check-icon(:value.sync="qType[0]")
-            span 提个建议
+            span 1提个建议
           li(@click="selectQType(1)")
             check-icon(:value.sync="qType[1]")
-            span 出错误啦
+            span 2出错误啦
           li(@click="selectQType(2)")
             check-icon(:value.sync="qType[2]")
-            span 不好用
+            span 3不好用
           li(@click="selectQType(3)")
             check-icon(:value.sync="qType[3]")
-            span 其他
+            span 4其他
         x-textarea(v-model="opinion" show-counter=true placeholder="您的反馈帮助我们成长" :rows=7 style="padding:10px")
         .btn-submit 提交
 </template>

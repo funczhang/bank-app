@@ -34,12 +34,12 @@
       span(class="last") 待完成
   .progerss(v-if="state === 5") 
     //- 5-签约完成
-    img(src="../../assets/imgs/fail04.png")
+    img(src="../../assets/imgs/progress03.png")
     div
       span(class="first") 已申请
       span 已审批
-      span 未签约
-      span(class="last") 已失败
+      span 已签约
+      span(class="last") 待完成
   .progerss(v-if="state === 6") 
     //- 6-签约超时
     img(src="../../assets/imgs/progress03.png")

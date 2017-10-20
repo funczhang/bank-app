@@ -6,7 +6,7 @@
         transition-group(v-show="couponList.length !== 0" class="card-list" tag="ul"  name="bounceInUp" enter-active-class="animated bounceInUp" leave-active-class="animated bounceOutLeft")
           li(class="clearfix" v-for="item in couponList" key="item.id")
             img(v-show="item.status === 0" src="../../assets/imgs/bg-coupon-unuse.png")
-            img(v-show="!item.status === 0" src="../../assets/imgs/bg-coupon-used.png")
+            img(v-show="item.status !== 0" src="../../assets/imgs/bg-coupon-used.png")
             .left ¥{{item.couponAmount}}
             .right 
               h5 {{item.couponType === 1 ? '利息优惠券' : '其他'}}

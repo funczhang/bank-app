@@ -19,7 +19,7 @@
               img(src="../../assets/imgs/icon-setting-phone.png" style="width:0.65rem;height:0.9rem;" slot="label")
             x-input(placeholder="请输入短信验证" v-model="verifyCode" :show-clear="showClear" type="number")
               img(src="../../assets/imgs/icon-key.png" style="width:0.9rem;height:0.9rem;" slot="label")
-              button(class="btn-send-code" slot="right" id="code" @click="getCode") 发送验证码
+              button(class="btn-send-code" slot="right" id="code" @click="getCode('04', 'code')") 发送验证码
         .template(style="background:#fff;")
           .clear
           .btn-login(@click="login") 登录
@@ -27,7 +27,17 @@
           .warm-tip
             h3 温馨提示：
             p 您在借款申请过程中，“兴盛e贷”不会通过电话、短信、邮件等任何形式，以担保费，咨询费等任何名义向您收取费用。请您保管好个人信息，谨防诈骗。
-           
+      masker(color="#000" :opacity="0.6" fullscreen=true v-show="showDialog" style="position:relative;")
+        .box(slot="content")
+          .head 手机验证
+            img(src="../../assets/imgs/arrow-right.png" @click="closeDialog")
+          .content
+           group(style="margin-top:0rem;")
+            x-input(title="手机号码：" style="border-bottom:none;font-size:0.75rem" v-model="phoneNum" type="number" :show-clear="showClear")
+            x-input(title="验 证 码：" v-model="verifyCode1" style="font-size:0.75rem" :show-clear="showClear" type="number")
+              button(class="btn-send-code" slot="right" id="code1" @click="getCode('00', 'code1')") 获取验证码
+            .btn-area(class="clearfix")
+              span( class="btn-submit btn-card-certain" @click="secondLogin") 确定
 </template>
 
 <script>
@@ -50,14 +60,19 @@ export default {
       loginByAccount: true,
       phoneNum: '',
       verifyCode: '',
+      verifyCode1: '',
       pwd: '',
       showClear: false,
-      time: 60
+      time: 60,
+      showDialog: false
     }
   },
   mounted () {
   },
   methods: {
+    closeDialog () {
+      this.showDialog = false
+    },
     backToMy () {
       this.$router.go(-1)
     },
@@ -83,9 +98,9 @@ export default {
         }
       }
     },
-    loginByAccountWays () {
+    secondLogin () {
       let self = this
-      let path = self.$store.state.baseUrl + '/app/xsyd/login.do'
+      let path = self.$store.state.baseUrl + '/app/xsyd/twoAuthenticationLogin.do'
       let data = {
         action: 'hand_request',
         path: path,
@@ -93,7 +108,8 @@ export default {
           cellphone: this.phoneNum,
           password: this.pwd,
           channel: this.$store.state.channel,
-          imei: this.$store.state.imei
+          imei: this.$store.state.imei,
+          verifyCode: this.verifyCode1
         }
       }
       if (self.pwd !== '') {
@@ -114,7 +130,46 @@ export default {
         })
       } else {
         this.$vux.loading.hide()
-        this.$vux.toast.text('密码不为空')
+        this.$vux.toast.text('密码不能为空')
+      }
+      this.$vux.loading.hide()
+    },
+    loginByAccountWays () {
+      let self = this
+      let path = self.$store.state.baseUrl + '/app/xsyd/login.do'
+      let data = {
+        action: 'hand_request',
+        path: path,
+        params: {
+          cellphone: this.phoneNum,
+          password: this.pwd,
+          channel: this.$store.state.channel,
+          imei: this.$store.state.imei
+        }
+      }
+      if (self.pwd !== '') {
+        // 显示
+        this.$vux.loading.show({
+          text: 'Loading'
+        })
+        self.$store.dispatch('normalRequest', data).then(res => {
+          // 存用户信息
+          if (res.device !== 'different') {
+            self.$store.commit('INIT_USER_INFO', res)
+            // 隐藏
+            this.$vux.loading.hide()
+            this.phoneNum = ''
+            this.verifyCode = ''
+            this.pwd = ''
+            this.$vux.toast.text('登录成功')
+            self.$router.replace('/my')
+          } else {
+            this.showDialog = true
+          }
+        })
+      } else {
+        this.$vux.loading.hide()
+        this.$vux.toast.text('密码不能为空')
       }
       this.$vux.loading.hide()
     },
@@ -155,7 +210,7 @@ export default {
     forgetPwd () {
       this.$router.push('forgotPwd')
     },
-    getCode () {
+    getCode (type, id) {
       // 获取验证码
       let self = this
       let path = self.$store.state.baseUrl + '/app/xsyd/getVerifyCode.do'
@@ -164,7 +219,7 @@ export default {
         path: path,
         params: {
           cellphone: self.phoneNum,
-          smsType: '04', // 登录
+          smsType: type, // 登录
           channel: self.$store.state.channel
         }
       }
@@ -172,9 +227,9 @@ export default {
         self.$store.dispatch('normalRequest', data).then(res => {
           if (res.response === 'success') {
             self.$vux.toast.text('验证码已成功发送')
-            document.getElementById('code').style.color = '#999'
-            document.getElementById('code').style.border = '1px solid #999'
-            document.getElementById('code').disabled = true
+            document.getElementById(id).style.color = '#999'
+            document.getElementById(id).style.border = '1px solid #999'
+            document.getElementById(id).disabled = true
             self.setTime()
           } else {
             self.$vux.toast.text('验证码发送失败，请重试！')
@@ -319,6 +374,73 @@ export default {
       color:#666;
       line-height: 1.5;
     }
+  }
+}
+.box{
+    position: relative;
+    margin:0 auto;
+    margin-top:7rem;
+    // margin-top:-5.85rem;
+    width:80%;
+    background:#fff;
+    border-radius: 3px;
+    .head{
+      padding: 0.5rem 0.75rem;
+      height:1.1rem;
+      background:#1f76e2;
+      box-shadow: 0px 0px 1rem rgba(39,128,237,.5);
+      font-size:0.85rem;
+      line-height: 1.1rem;
+      text-align: center;
+      color:#fff;
+      border-radius: 3px 3px 0 0;
+      img{
+        position: absolute;
+        top:0.6rem;
+        right:0.75rem;
+        width:0.7rem;
+        height:0.7rem;
+      }
+    }
+    .content{
+      background: white;
+      padding: 0rem 0rem 1rem 0rem;
+      .card{
+        margin-top: 1rem;
+        padding:0.5rem 0.25rem;
+      }
+    }
+  .btn-area{
+    padding:1rem 0 0;
+    background:#fff;
+    span{
+      display: block;
+    }
+  }
+  .btn-submit,.btn-cancel{
+    width:40%;
+    height:1.8rem;
+    border-radius: 0.9rem;
+    font-size:0.75rem;
+    text-align: center;
+    line-height: 1.8rem;
+    box-shadow: 0px 0px 1rem rgba(39,128,237,.5);
+  }
+  .btn-submit{
+    margin-left:5%;
+    background:#1f76e2;
+    color:#fff;
+   // border:1px solid #fff;
+  }
+  .btn-card-certain{
+    margin:0 auto;
+    width:50%;
+  }
+  .btn-cancel{
+    margin-right:5%;
+    background:#fff;
+    color:#1f76e2;
+    border:1px solid #1f76e2;
   }
 }
 </style>

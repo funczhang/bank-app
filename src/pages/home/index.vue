@@ -3,7 +3,7 @@
     view-box(ref="viewBox" body-padding-top="46px" body-padding-bottom="50px")
       x-header(slot="header" title="" :left-options="{showBack:false}" style="width:100%;position:absolute;left:0;top:0;z-index:100;background:#fff;")
         img(class="icon-title" src="../../assets/imgs/icon-logo.png" slot="overwrite-title")
-        img(class="icon-email" src="../../assets/imgs/icon-email.png" slot="right" @click="toInform")
+        img(class="icon-email" src="../../assets/imgs/icon-email.png" slot="right" @click="jumpTo('inform')")
       .content
         swiper(:list="imglist" v-model="index" :auto="true" :loop="true")
         .inform
@@ -11,19 +11,23 @@
             img(src="../../assets/imgs/icon-inform.png")
             span(class="line")
           .news(class="fl")
-            i()
-            span(style="display:inline-block;width:80%;" class="ell") 兴盛e贷APP上线啦！
+            i(v-show="informList.length !== 0")
+            //- span(style="display:inline-block;width:80%;" class="ell") 兴盛e贷APP上线啦！
+            marquee(style="height:1.5rem;")
+              marquee-item(v-for="item in informList" :key="item.id") {{item.content}}
+            //- marquee(style="height:1.5rem;")
+            //-   marquee-item(v-for="item in 10" :key="item.id") {{'你好的冯绍峰的沙发斯蒂芬斯蒂芬是否是地方撒发放'}}
         ul(class="btn-area clearfix")
-          li(@click="toAccount")
+          li(@click="jumpTo('BankCardList')")
             img(src="../../assets/imgs/icon-account.png") 
             span 我的银行卡
-          li(@click="toLoan") 
+          li(@click="jumpTo('MyLoan')") 
             img(src="../../assets/imgs/icon-loan.png") 
             span 我的贷款
-          li(@click="toRepay") 
+          li(@click="jumpTo('MyRepayment')") 
             img(src="../../assets/imgs/icon-pay.png") 
             span 我的还款
-          li(@click="toGuarantee") 
+          li(@click="jumpTo('MyGuarantee')") 
             img(src="../../assets/imgs/icon-guarantee.png") 
             span 我的担保
         .btn-loan
@@ -31,7 +35,7 @@
             img(src="../../assets/imgs/icon-title.png")
             p 授信金额(元) {{' ' + minAmount + '万~' + maxAmount + '万'}}
             p 授信期限(月) {{' ' + creditTerm}}
-            a(href="javascript:void(null)" class="btn-apply" @click="goApply") 去申请
+            a(href="javascript:void(null)" class="btn-apply" @click="jumpTo('goApply')") 去申请
         ul(class="btn-classify clearfix")
           li(class="btn-payment" @click="unOpen")
             span 生活缴费
@@ -42,18 +46,21 @@
 </template>
 
 <script>
-import { ViewBox, XHeader, Tabbar, TabbarItem, Swiper } from 'vux'
+import { ViewBox, XHeader, Tabbar, TabbarItem, Swiper, Marquee, MarqueeItem } from 'vux'
 export default {
   components: {
     ViewBox,
     XHeader,
     Tabbar,
     TabbarItem,
-    Swiper
+    Swiper,
+    Marquee,
+    MarqueeItem
   },
   data () {
     return {
       imglist: [],
+      informList: [],
       index: 0,
       minAmount: '',
       maxAmount: '',
@@ -85,21 +92,21 @@ export default {
       //   this.$vux.toast.text('请登录后查看公告哦~')
       // }
     },
-    toAccount () {
-      this.$router.push('/bankCardList')
-      this.$store.state.tabItem = 2
-    },
-    toLoan () {
-      this.$router.push('/checkLoan')
-      this.$store.state.tabItem = 1
-    },
-    toRepay () {
-      this.$router.push('/repaymentRecord')
-      // this.$store.state.tabItem = 1
-    },
-    toGuarantee () {
-      this.$router.push('/myGurantee')
-      // this.$store.state.tabItem = 1
+    jumpTo (page) {
+      switch (page) {
+        case 'inform': this.isLoginAndVerfied() === true ? this.$router.push('/inform') : null
+          break
+        case 'goApply': this.isLoginAndVerfied() === true ? this.goApply() : null
+          break
+        case 'BankCardList': this.isLoginAndVerfied() === true ? this.$router.push('/bankCardList') : null
+          break
+        case 'MyLoan': this.isLoginAndVerfied() === true ? this.$router.push('/loan') : null
+          break
+        case 'MyRepayment': this.isLoginAndVerfied() === true ? this.$router.push('/repaymentRecord') : null
+          break
+        case 'MyGuarantee': this.isLoginAndVerfied() === true ? this.$router.push('/myGurantee') : null
+          break
+      }
     },
     unOpen () {
       // 显示
@@ -126,6 +133,7 @@ export default {
         path: path
       }
       this.$store.dispatch('initRequest', data).then(res => {
+        // alert(res)
         // 这里使用json.parse无法处理 ？？？
         let arr = []
         let data = eval('(' + res + ')')
@@ -133,6 +141,7 @@ export default {
           this.minAmount = data.data.minAmount
           this.maxAmount = data.data.maxAmount
           this.creditTerm = data.data.creditTerm
+          this.informList = data.data.noticeList
           arr = data.data.carouselList
           arr.forEach((element) => {
             this.imglist.push({img: self.$store.state.baseUrl + element})
@@ -190,6 +199,19 @@ export default {
           this.$vux.toast.text('获取申请接口数据失败')
         }
       })
+    },
+    isLoginAndVerfied () {
+      let token = this.$store.state.userInfo.token
+      let isAuth = this.$store.state.userInfo.isAuth
+      if (token !== '') {
+        if (isAuth !== '') {
+          return true
+        } else {
+          this.$router.push('/verfied')
+        }
+      } else {
+        this.$router.push('/login')
+      }
     }
   }
 }
@@ -200,6 +222,9 @@ html, body {
   height: 100%;
   width: 100%;
   overflow-x: hidden;
+  // body{
+  //   background:#fff;
+  // }
   .content{
     .inform {
       height:1.5rem;
@@ -223,7 +248,7 @@ html, body {
       }
       img{
         position: relative;
-        top:-0.1rem;
+        top:0.1rem;
         padding:0 0.75rem;
         width:2.5rem;
         height:0.75rem;
@@ -231,7 +256,7 @@ html, body {
       }
       i{
         position: relative;
-        top:-0.6rem;
+        top:-0.55rem;
         margin-right:0.25rem;
         width:0.25rem;
         height: 0.25rem;
@@ -338,6 +363,23 @@ html, body {
         background-size:100% 100%;
       }
     }
+  }
+  .vux-marquee {
+    margin-left:1rem;
+    display:inline-block;
+    width:80%;
+  }
+  .vux-slider{
+    background:#f5f5f5;
+  }
+  .vux-marquee-box li{
+    height: 1.5rem;
+    font-size:0.65rem;
+    line-height: 1.7rem;
+    color:#333;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
   }
   .vux-slider > .vux-indicator, 
   .vux-slider .vux-indicator-right{

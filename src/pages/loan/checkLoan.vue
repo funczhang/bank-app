@@ -3,12 +3,12 @@
     view-box(ref="viewBox" body-padding-top="46px" body-padding-bottom="50px")
       x-header(slot="header" title="我的贷款" :left-options="{showBack:false,backText:''}" style="width:100%;position:absolute;left:0;top:0;z-index:100;background:#fff;color:#000;")
       .content(v-show="!canApply")
-        .template(v-show="!isLoanFinsh")
+        .template(v-show="step !== 5")
           //- 贷款未完成有进度
           group(style="margin-top:15px")
             cell(title="申请进度" is-link=true style="padding:12px 15px;font-size:15px;color:#222;" :link="page")  
           rate(:state="step")
-        .template(v-show="!isLoanFinsh")
+        .template(v-show="step === 5")
           //- 贷款已完成无进度
           group(style="margin-top:15px")
             cell(title="我的授信" is-link=true style="padding:12px 15px;font-size:15px;color:#222;" link="/giveCreditRecord") 

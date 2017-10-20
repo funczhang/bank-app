@@ -31,8 +31,8 @@ const state = {
   creditList: [], // 我的授信
   isOpenGesture: false,
   tabItem: 0,
-  channel: '1', // 渠道 1:安卓手机APP 2:IOS版手机APP 3:网页
-  imei: '111111', // 设备imei
+  channel: '', // 渠道 1:安卓手机APP 2:IOS版手机APP 3:网页
+  imei: '', // 设备imei
   bankCardList: [], // 银行卡列表
   avatar: '', // 头像地址
   signInfo: {

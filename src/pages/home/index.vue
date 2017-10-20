@@ -285,7 +285,7 @@ html, body {
         margin-left: 1rem;
         font-size:0.55rem;
         color:#333;
-        line-height: 1.5;
+        line-height: 2;
       }
       img{
         margin-left: 1rem;
@@ -294,15 +294,15 @@ html, body {
       }
       .btn-apply{
         position: relative;
-        top:-1.5rem;
-        left:50%;
+        top:-1.7rem;
+        left:55%;
         display: inline-block;
         width:3.625rem;
-        height:1.0125rem;
+        height:1.5rem;
         background:#f32f2f;
-        font-size:0.6rem;
-        line-height: 1.0125rem;
-        border-radius: 0.5rem;
+        font-size:0.65rem;
+        line-height: 1.6rem;
+        border-radius: 0.75rem;
         text-align: center;
         color:#fff;
       }

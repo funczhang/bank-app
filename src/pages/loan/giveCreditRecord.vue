@@ -54,16 +54,24 @@ export default {
     },
     status () {
       let applyState = this.$store.state.applyState
+      let status = null
       switch (applyState) {
-        case '1': return '待准入'
-        case '2': return '准入拒绝'
-        case '3': return '待签约'
-        case '4': return '已签约'
-        case '5': return '签约超时'
-        case '6': return '添加担保人，担保人待处理'
-        case '7': return '担保人已签约，申请人待签约'
-        default: return '申请状态不清楚'
+        case '1': status = '额度评估中'
+          break
+        case '2': status = '审批未通过'
+          break
+        case '3': status = '担保人处理中'
+          break
+        case '4': status = '待签约'
+          break
+        case '5': status = '签约审批中'
+          break
+        case '6': status = '签约超时'
+          break
+        case '7': status = '签约中'
+          break
       }
+      return status
     }
   },
   mounted () {

@@ -6,10 +6,10 @@
         ul(v-show="hasVerfied")
           li(class="clearfix")
             label 真实姓名
-            span 张超
+            span {{this.$store.state.userInfo.name}}
           li(class="clearfix" style="border-bottom:1px solid #ededed;")
             label 身份证号
-            span(class="ell") 23348494848484494848484
+            span(class="ell") {{this.$store.state.userInfo.idCard}}
         .template(v-show="!hasVerfied")
           .positive
             .img(@click="getPhoto")
@@ -75,14 +75,16 @@ export default {
       line-height: 1rem;
       color:#333;
       overflow: hidden;
+      font-size: 0.75rem;
     }
     span{
       float: right;
       width:70%;
       text-align: right;
       line-height: 1rem;
-      color:#333;
+      color:#666;
       overflow: hidden;
+      font-size: 0.75rem;
     }
   }
   .positive,.negative,.scanning{

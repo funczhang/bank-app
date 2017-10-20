@@ -12,7 +12,8 @@
             //- img(v-show="!hasHeadImg" src="../../assets/imgs/default-head-photo.png" @click="getPhoto" slot="default" class="right-img")
             img(v-show="hasHeadImg" :src="headImgSrc" slot="default" class="right-img")
           cell(title="登录手机号" :value="phoneNum")
-          cell(title="实名认证" is-link link="/verfied" style="margin-top:0.75rem;border-bottom:none")
+          cell(title="实名认证" is-link style="margin-top:0.75rem;border-bottom:none")
+            .child(slot="child" @click="toVerfied")
 </template>
 <script>
 import { ViewBox, XHeader, Masker, Group, Cell } from 'vux'
@@ -43,6 +44,18 @@ export default {
     }
   },
   methods: {
+    toVerfied () {
+      if (this.$store.state.userInfo.isAuth === true) {
+        this.$router.push('/verfied')
+      } else {
+        let self = this
+        let data = {
+          action: 'jump_id_auth'
+        }
+        self.$store.dispatch('normalRequest', data).then(res => {
+        })
+      }
+    },
     getPhoto () {
       let self = this
       let data = {

@@ -3,49 +3,16 @@
     view-box(ref="viewBox" body-padding-top="46px" body-padding-bottom="0" style="background:#fff;")
       x-header(slot="header" title="优惠券" :left-options="{showBack:true,backText:''}" style="width:100%;position:absolute;left:0;top:0;z-index:100;background:#fff;color:#000;border-bottom:1px solid #ededed;")
       .content 
-        ul(class="card-list")
-          li(class="clearfix")
-            img(src="../../assets/imgs/bg-coupon-unuse.png")
-            .left ¥200
+        transition-group(v-show="couponList.length !== 0" class="card-list" tag="ul"  name="bounceInUp" enter-active-class="animated bounceInUp" leave-active-class="animated bounceOutLeft")
+          li(class="clearfix" v-for="item in couponList" key="item.id")
+            img(v-show="item.status === 0" src="../../assets/imgs/bg-coupon-unuse.png")
+            img(v-show="!item.status === 0" src="../../assets/imgs/bg-coupon-used.png")
+            .left ¥{{item.couponAmount}}
             .right 
-              h5 利率抵用券
-                span (APP专享优惠券)
-              p 2017/05/03-2017/05/20
-          li(class="clearfix")
-            img(src="../../assets/imgs/bg-coupon-used.png")
-            .left ¥200
-            .right 
-              h5 利率抵用券
-                span (APP专享优惠券)
-              p 2017/05/03-2017/05/20
-          li(class="clearfix")
-            img(src="../../assets/imgs/bg-coupon-unuse.png")
-            .left ¥200
-            .right 
-              h5 利率抵用券
-                span (APP专享优惠券)
-              p 2017/05/03-2017/05/20
-          li(class="clearfix")
-            img(src="../../assets/imgs/bg-coupon-used.png")
-            .left ¥200
-            .right 
-              h5 利率抵用券
-                span (APP专享优惠券)
-              p 2017/05/03-2017/05/20
-          li(class="clearfix")
-            img(src="../../assets/imgs/bg-coupon-used.png")
-            .left ¥200
-            .right 
-              h5 利率抵用券
-                span (APP专享优惠券)
-              p 2017/05/03-2017/05/20
-          li(class="clearfix")
-            img(src="../../assets/imgs/bg-coupon-unuse.png")
-            .left ¥200
-            .right 
-              h5 利率抵用券
-                span (APP专享优惠券)
-              p 2017/05/03-2017/05/20
+              h5 {{item.couponType === 1 ? '利息优惠券' : '其他'}}
+                span ({{item.description}})
+              p {{item.effectiveTime}}-{{item.invalidDate}}
+          
 </template>
 
 <script>
@@ -58,14 +25,32 @@ export default {
   },
   data () {
     return {
-      index: 0
+      index: 0,
+      isUsed: false,
+      couponList: []
     }
   },
   mounted () {
+    this.initCouponList()
   },
   methods: {
-    addBankCard () {
-      this.$router.push('/addCard')
+    initCouponList () {
+      let self = this
+      let path = this.$store.state.baseUrl + '/app/xsyd/getCoupons.do'
+      let data = {
+        action: 'init_request',
+        path: path,
+        params: {
+          userToken: self.$store.state.userInfo.token
+        }
+      }
+      self.$store.dispatch('normalRequest', data).then(res => {
+        if (res.response === 'success') {
+          this.couponList = res.data
+        } else {
+          this.$vux.toast.text('优惠券列表获取失败')
+        }
+      })
     }
   }
 }

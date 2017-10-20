@@ -102,7 +102,7 @@ const router = new Router({
     },
     {
       path: '/signContract', // 签订合同
-      name: 'Loan',
+      name: 'SignContract',
       components: {
         'default': resolve => require(['../pages/loan/signContract.vue'], resolve)
       }

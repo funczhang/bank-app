@@ -168,7 +168,7 @@ export default {
       //   text: 'Loading'
       // })
       self.$store.dispatch('initRequest', data).then(res => {
-        alert(res)
+        // alert(res)
         // this.$vux.loading.hide()
         let data = JSON.parse(res)
         if (data.response === 'success') {

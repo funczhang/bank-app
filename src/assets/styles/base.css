@@ -168,7 +168,7 @@ input:-moz-placeholder {
 /* 修改插件样式 */
 .weui-tab .weui-cell{
     padding:0;
-    font-size:0.7rem;
+    /* font-size:0.7rem; */
 }
 .weui-tab .weui-cell_access .weui-cell__ft:after{
     border-color:#333;
@@ -271,3 +271,21 @@ input:-moz-placeholder {
   }
   /* 现在背景颜色f5f5f5
   线框是ededed */
+  #app .weui-cell_radio {
+    padding:0.5rem 0.25rem;
+    border-bottom:1px solid #ededed;
+  }
+  #app .weui-cells_radio .weui-check:checked + .weui-icon-checked:before {
+      color:#1f76e2;
+  }
+  #app .box .weui-cell:before{
+      border-top:none;
+  }
+  #app .box .weui-cells{
+      /* font-size:0.7rem; */
+      border-top:1px solid #ededed;
+  }
+  /* group头部字体 */
+  #app .weui-cells__title{
+      padding-left:0;
+  }

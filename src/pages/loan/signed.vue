@@ -33,6 +33,9 @@
               li 
                 p(class="title") 授信期限（月）
                 p(class="value" style="color:#1f76e2;") {{timeLimit}}
+            .pretty-rate(v-show="newRate !== ''") 
+              p(class="title") 优惠后利率
+              p(class="rate") {{newRate}}%
             .tip(v-show="!isHandlerAssure") 注意：如果您觉得当前授信额度较低，可通过一下“添加担保人”获取更高额度；否则，可直接签约
         .template(v-show="!isHandlerAssure")
           .module
@@ -49,19 +52,20 @@
             .module-head 关联贷款抵用券
             .module-content 
               group
-                popup-picker(title="抵用券" :data="couponList" :columns="1" style="padding:12px 15px;background:#fff;")
+                popup-picker(title="抵用券" @on-change="couponChange" :data="couponList" :columns="1" style="padding:12px 15px;background:#fff;")
                   div(class="coupon-count" slot="title") 
                     span 抵用券
                     span(class="count") 还剩{{couponList.length}}张
           .module
             .module-head 银行卡信息
             .module-content
-              .line(@click="showBindCard = true") 
+              .line(@click="showBindCard = true" class="clearfix" style="padding:0.3rem 0;") 
                 img(class="icon-card" src="../../assets/imgs/icon-card.png" @click="showBindCard = false")
-                span(style="font-size:14px;color:#333;") 绑定银行卡
+                span(v-show="bindCardNo === ''" style="font-size:14px;color:#333;") 绑定银行卡
+                span(v-show="bindCardNo !== ''" style="font-size:14px;color:#333;") {{bindCardNo}}
           .btn-area(class="clearfix")
-            a(href="javascript:void(null)" class="btn-submit fl") 签约
-            a(href="javascript:void(null)" class="btn-cancel fr" @click="showBindCard = false") 下次再说
+            a(href="javascript:void(null)" class="btn-submit fl" @click="sign") 签约
+            a(href="javascript:void(null)" class="btn-cancel fr" @click="giveUpSign") 下次再说
       masker(color="#000" :opacity="0.4" fullscreen=true v-show="addAssurePeople")
         .box(slot="content")
           .head 更换担保人
@@ -76,25 +80,24 @@
       masker(color="#000" :opacity="0.4" fullscreen=true v-show="showBindCard" style="position:relative;")
         .box(slot="content")
           .head 绑定银行卡
-            img(src="../../assets/imgs/arrow-right.png" @click="addAssurePeople = false")
+            img(src="../../assets/imgs/arrow-right.png" @click="showBindCard = false")
           .content
-            p(class="card clearfix")
-              span(style="float:left;width:90%;color:#999;") 1234567890876655
-              check-icon(style="float:right;width:10%;" :value.sync="isSelectCard")
-            p(class="card clearfix")
-              span(style="float:left;width:90%;color:#999;") 1234567890876655
-              check-icon(style="float:right;width:10%;" :value.sync="isSelectCard")
-            .line(@click="showBindCard = true") 
+            group(title="选择绑定的银行卡")
+              radio(:options="radio" :selected-label-style="{color: '#1f76e2'}" v-model="bindCardNo")
+            //- p(class="card clearfix" v-for="(item, index) in bankcardList" @click="selectBankCard(index)")
+            //-   span(style="float:left;width:90%;color:#999;") {{'**** **** **** ' + item.bankcardNo.substr(item.bankcardNo.length - 4,4)}}
+            //-   check-icon(style="float:right;width:10%;" :value.sync="isSelectCard")
+            .line(@click="toVertify") 
               img(class="icon-card" src="../../assets/imgs/icon-card.png")
               span(style="font-size:14px;color:#333;") 绑定银行卡
             .btn-area(class="clearfix")
-              a(href="javascript:void(null)" class="btn-submit btn-card-certain" @click="confirm") 确定
+              a(href="javascript:void(null)" class="btn-submit btn-card-certain" @click="showBindCard = false") 确定
 </template>
 
 <script>
 // 219 187
 import progress from '../common/progress.vue'
-import { ViewBox, XHeader, PopupPicker, Group, Masker, XInput, CheckIcon } from 'vux'
+import { ViewBox, XHeader, PopupPicker, Group, Masker, XInput, CheckIcon, Radio } from 'vux'
 export default {
   components: {
     ViewBox,
@@ -104,15 +107,20 @@ export default {
     Masker,
     XInput,
     CheckIcon,
+    Radio,
     'rate': progress
   },
   data () {
     return {
       index: 0,
       isAddStatus: '1',
+      radio: [],
+      newRate: '',
+      couponId: '', // 优惠券id
       isSelectCard: false,
       addAssurePeople: false,
       showBindCard: false,
+      bindCardNo: '', // 绑定银行卡账号
       initAssureName: '',
       initAssurePhone: '',
       msg: '', // 提示信息
@@ -122,7 +130,7 @@ export default {
       couponList: [], // 优惠券列表
       couponNum: 0,
       coupon: '',
-      listCard: [], // 银行卡列表
+      bankcardList: [], // 银行卡列表
       assureName: '', // 担保人姓名
       assurePhone: '', // 担保号码
       assureIdcard: '' // 担保人身份证
@@ -178,6 +186,90 @@ export default {
       } else {
         this.$vux.toast.text('请输入号码~')
       }
+    },
+    toVertify () {
+      this.showBindCard = false
+      this.$router.replace('/addCard')
+    },
+    giveUpSign () {
+       // 放弃签约
+      let self = this
+      let path = self.$store.state.baseUrl + '/app/xsyd/giveUpSignContract.do'
+      let data = {
+        action: 'init_request',
+        path: path,
+        params: {
+          token: self.$store.state.userInfo.token,
+          applyId: self.$store.state.applyNo, // 申请编号
+          image: self.$store.state.faceId // 人脸照片
+        }
+      }
+      self.$store.dispatch('normalRequest', data).then(res => {
+        alert(JSON.stringify(res))
+      })
+    },
+    couponChange (value) {
+      if (value) {
+        // alert(value)
+        this.couponId = value[0]
+        this.getNewRate(value)
+      }
+    },
+    getNewRate (value) {
+       // 获取新利率
+      let self = this
+      let path = self.$store.state.baseUrl + '/app/xsyd/computeRateByCoupon.do'
+      let data = {
+        action: 'init_request',
+        path: path,
+        params: {
+          userToken: self.$store.state.userInfo.token,
+          apprAmount: self.lineCredit, // 审批金额
+          apprRate: self.applyRate, // 审批利率
+          apprTerm: self.timeLimit, // 审批期限
+          couponId: value[0] // 优惠券id
+        }
+      }
+      // alert(JSON.stringify(data.params))
+      self.$store.dispatch('initRequest', data).then(res => {
+        let data = JSON.parse(res)
+        if (data.response === 'success') {
+          self.newRate = data.data
+        }
+        // alert(self.newRate)
+      })
+    },
+    sign () {
+      // alert(this.couponId)
+      // 页面初始化
+      let self = this
+      // let path = self.$store.state.baseUrl + '/app/xsyd/signContract.do'
+      let data = {
+        // action: 'init_request',
+        // path: path,
+        params: {
+          token: self.$store.state.userInfo.token,
+          applyId: self.$store.state.applyNo,
+          image: self.$store.state.faceId,
+          type: '1', // 1申请人 2担保人
+          couponId: self.couponId,
+          newRate: self.newRate,
+          cardNo: self.bindCardNo
+        }
+      }
+      this.$store.state.signInfo = data.params
+      self.$router.push({path: '/signContract'})
+      // alert(JSON.stringify(data.params))
+      // self.$store.dispatch('initRequest', data).then(res => {
+      //   alert(res)
+      //   let data = JSON.parse(res)
+      //   if (data.response === 'success') {
+      //     this.$router.replace('/signContract')
+      //   }
+      // })
+    },
+    bindCard () {
+      self.showBindCard = false
     },
     addAssure () {
       this.isAddStatus = '1'
@@ -276,12 +368,15 @@ export default {
           self.lineCredit = data.data.lineCredit // 授信额度
           self.applyRate = data.data.loanInterestRate // 授信利率
           // self.couponList = data.data.couponList // 优惠券列表
-          self.listCard = data.data.bankcardList // 银行卡列表
+          // self.bankcardList = data.data.bankcardList // 银行卡列表
           // self.assureName = data.data.assureName // 担保人姓名
           // self.assureIdcard = data.data.assureIdcard // 担保人身份证
           self.initAssureName = data.data.assureName
           data.data.couponList.forEach(function (element) {
             self.couponList.push({ name: element.couponAmount, value: element.id, parent: 0 })
+          })
+          data.data.bankcardList.forEach(function (element) {
+            self.radio.push({ key: element.bankcardNo, value: element.bankcardNo })
           })
           // alert(JSON.stringify(self.couponList))
         } else {
@@ -293,6 +388,8 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+// padding:0.5rem 0.25rem;
+// border-bottom:1px solid #ededed;
 .content{
   padding:0.1px;
   .progerss{
@@ -435,9 +532,23 @@ export default {
       width:94%;
       border-bottom:1px solid #ededed;
     }
+    .pretty-rate{
+      padding:0.5rem 0;
+      .title{
+        font-size:0.7rem;
+      }
+      p{
+        text-align: center;
+      }
+      .rate{
+        font-size:0.9rem;
+        font-weight: bold;
+        color:rgb(31, 118, 226)
+      }
+    }
   }
   .btn-area{
-    padding:1rem 0;
+    padding:1.5rem 0;
     background:#fff;
   }
   .btn-submit,.btn-cancel{
@@ -464,7 +575,7 @@ export default {
 // 遮罩
 .box{
     position: relative;
-    top:50%;
+    top:0;
     margin:0 auto;
     margin-top:7rem;
     // margin-top:-5.85rem;
@@ -496,6 +607,7 @@ export default {
       vertical-align: middle;
     }
     .line{
+      padding:0.3rem 0;
       margin:0 auto;
       width:100%;
       border-bottom:1px solid #ededed;
@@ -506,6 +618,9 @@ export default {
       border-top:none;
     }
     .content{
+      // height: 6rem;
+      // overflow-x: hidden;
+      // overflow-y: scroll;
       padding:0.5rem 0.75rem 1rem;
       .card{
         padding:0.5rem 0.25rem;

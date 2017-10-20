@@ -101,6 +101,13 @@ const router = new Router({
       }
     },
     {
+      path: '/signContract', // 签订合同
+      name: 'Loan',
+      components: {
+        'default': resolve => require(['../pages/loan/signContract.vue'], resolve)
+      }
+    },
+    {
       path: '/my', // 我的模块
       name: 'My',
       components: {

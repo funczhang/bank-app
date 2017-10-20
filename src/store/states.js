@@ -8,6 +8,7 @@ const state = {
   direction: 'forward',
   baseUrl: 'http://192.168.2.200:8080',
   imglist: [],
+  faceId: '人脸照片',
   userInfo: {
     isAuth: '',
     name: '张超',
@@ -32,7 +33,16 @@ const state = {
   channel: '1', // 渠道 1:安卓手机APP 2:IOS版手机APP 3:网页
   imei: '111111', // 设备imei
   bankCardList: [], // 银行卡列表
-  avatar: '' // 头像地址
+  avatar: '', // 头像地址
+  signInfo: {
+    token: '',
+    applyId: '',
+    image: '',
+    type: '', // 申请人 担保人
+    couponId: '',
+    newRate: '',
+    cardNo: ''
+  }
 }
 Vue.use(Vuex)
 export default new Vuex.Store({

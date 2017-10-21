@@ -55,7 +55,7 @@ export default {
     }
   },
   mounted () {
-    this.time >= 0 ? document.getElementById('registerCode').disabled = true : null
+    // this.time >= 0 ? document.getElementById('registerCode').disabled = true : null
   },
   methods: {
     rigister () {
@@ -106,7 +106,6 @@ export default {
       }
     },
     getCode (type, id) {
-      // alert('1111')
       let self = this
       let path = self.$store.state.baseUrl + '/app/xsyd/getVerifyCode.do'
       let data = {
@@ -118,7 +117,6 @@ export default {
           channel: this.$store.state.channel
         }
       }
-      // alert('22222')
       // 校验手机号码 self.checkPhone(self.phone)
       if (self.checkPhone(self.phone)) {
         self.$store.dispatch('normalRequest', data).then(response => {

@@ -71,7 +71,7 @@ export default {
     }
   },
   mounted () {
-    window.clearInterval(window.setTime)
+    // window.clearInterval(window.setTime)
   },
   methods: {
     closeDialog () {

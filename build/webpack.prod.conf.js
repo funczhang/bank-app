@@ -28,12 +28,12 @@ var webpackConfig = merge(baseWebpackConfig, {
     chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
   },
   plugins: [
-    new PrerenderSpaPlugin(
-      // 输出目录的绝对路径
-      path.join(__dirname, '../dist'),
-      // 预渲染的路由
-      ['/','/my','/checkLoan','/more']
-    ),
+    // new PrerenderSpaPlugin(
+    //   // 输出目录的绝对路径
+    //   path.join(__dirname, '../dist'),
+    //   // 预渲染的路由
+    //   ['/','/my','/checkLoan','/more']
+    // ),
     // http://vuejs.github.io/vue-loader/en/workflow/production.html
     new webpack.DefinePlugin({
       'process.env': env

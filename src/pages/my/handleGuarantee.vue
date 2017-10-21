@@ -63,8 +63,30 @@ export default {
     }
   },
   mounted () {
+    this.initData()
   },
   methods: {
+    initData () {
+      // 别人为我担保
+      let self = this
+      let path = self.$store.state.baseUrl + '/app/xsyd/assurePageInit.do'
+      let data = {
+        action: 'init_request',
+        path: path,
+        params: {
+          token: self.$store.state.userInfo.token,
+          applyId: self.$store.state.applyNo
+        }
+      }
+      // 显示
+      // this.$vux.loading.show({
+      //   text: 'Loading'
+      // })
+      // 别人为我担保信息
+      self.$store.dispatch('normalRequest', data).then(res => {
+        alert(JSON.stringify(res))
+      })
+    }
   }
 }
 </script>

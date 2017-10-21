@@ -3,7 +3,7 @@
     view-box(ref="viewBox" body-padding-top="46px")
       x-header(slot="header" title="内嵌页面" :left-options="{showBack:true}" style="width:100%;position:absolute;left:0;top:0;z-index:100;")
       .content
-        iframe(src="http://www.baicu.com")
+        iframe(src="http://192.168.2.200:8080/app/xsyd/regAgreement.html")
 </template>
 
 <script>

@@ -8,7 +8,7 @@
             img(src="../../assets/imgs/icon-setting-phone.png" style="width:0.65rem;height:0.9rem;" slot="label")
           x-input(placeholder="请输入短信验证" v-model="code" :show-clear="showClear" type="number")
             img(src="../../assets/imgs/icon-key.png" style="width:0.9rem;height:0.9rem;" slot="label")
-            button(class="btn-send-code" slot="right" @click="getCode" id="code") 发送验证码
+            button(class="btn-send-code" slot="right" @click="getCode('01','registerCode')" id="registerCode") 发送验证码
         group(style="margin-top:0.75rem;")
           x-input(placeholder="请输入密码" style="border-bottom:none;" v-model="pwd1" type="password")
             img(src="../../assets/imgs/icon-pwd.png" style="width:0.8rem;height:1rem;" slot="label")
@@ -55,6 +55,7 @@ export default {
     }
   },
   mounted () {
+    this.time >= 0 ? document.getElementById('registerCode').disabled = true : null
   },
   methods: {
     rigister () {
@@ -104,7 +105,8 @@ export default {
         }
       }
     },
-    getCode () {
+    getCode (type, id) {
+      // alert('1111')
       let self = this
       let path = self.$store.state.baseUrl + '/app/xsyd/getVerifyCode.do'
       let data = {
@@ -112,10 +114,11 @@ export default {
         path: path,
         params: {
           cellphone: this.phone,
-          smsType: '01',
+          smsType: type,
           channel: this.$store.state.channel
         }
       }
+      // alert('22222')
       // 校验手机号码 self.checkPhone(self.phone)
       if (self.checkPhone(self.phone)) {
         self.$store.dispatch('normalRequest', data).then(response => {
@@ -123,10 +126,10 @@ export default {
           // alert(res)
           if (response.response === 'success') {
             this.$vux.toast.text('验证码已成功发送')
-            document.getElementById('code').style.color = '#999'
-            document.getElementById('code').style.border = '1px solid #999'
-            document.getElementById('code').disabled = true
-            this.setTime()
+            document.getElementById(id).style.color = '#999'
+            document.getElementById(id).style.border = '1px solid #999'
+            document.getElementById(id).disabled = true
+            this.setTime(id)
           } else {
             this.$vux.toast.text('验证码发送失败，请重试！')
           }
@@ -147,19 +150,19 @@ export default {
         return false
       }
     },
-    setTime () {
+    setTime (id) {
       let self = this
       let setTime = setInterval(() => {
         console.log(self.time)
         if (self.time > 0) {
           self.time --
-          document.getElementById('code').innerHTML = self.time
+          document.getElementById(id).innerHTML = self.time
         } else {
           self.time = 60
-          document.getElementById('code').innerHTML = '发送验证码'
-          document.getElementById('code').style.color = '#1f76e2'
-          document.getElementById('code').style.border = '1px solid #1f76e2'
-          document.getElementById('code').disabled = false
+          document.getElementById(id).innerHTML = '发送验证码'
+          document.getElementById(id).style.color = '#1f76e2'
+          document.getElementById(id).style.border = '1px solid #1f76e2'
+          document.getElementById(id).disabled = false
           window.clearInterval(setTime)
         }
       }, 1000)

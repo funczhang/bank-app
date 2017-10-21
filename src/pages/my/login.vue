@@ -19,7 +19,8 @@
               img(src="../../assets/imgs/icon-setting-phone.png" style="width:0.65rem;height:0.9rem;" slot="label")
             x-input(placeholder="请输入短信验证" v-model="verifyCode" :show-clear="showClear" type="number")
               img(src="../../assets/imgs/icon-key.png" style="width:0.9rem;height:0.9rem;" slot="label")
-              button(class="btn-send-code" slot="right" id="code" @click="getCode('04', 'code')") 发送验证码
+              button(class="btn-send-code" slot="right" id="textLogin" @click="getCode('04', 'textLogin')") 发送验证码
+              //- btn(slot="right" id="textLogin")
         .template(style="background:#fff;")
           .clear
           .btn-login(@click="login") 登录
@@ -35,12 +36,13 @@
            group(style="margin-top:0rem;")
             x-input(title="手机号码：" style="border-bottom:none;font-size:0.75rem" v-model="phoneNum" type="number" :show-clear="showClear")
             x-input(title="验 证 码：" v-model="verifyCode1" style="font-size:0.75rem" :show-clear="showClear" type="number")
-              button(class="btn-send-code" slot="right" id="code1" @click="getCode('00', 'code1')") 获取验证码
+              button(class="btn-send-code" slot="right" id="secondLogin" @click="getCode('00', 'secondLogin')") 获取验证码
             .btn-area(class="clearfix")
               span( class="btn-submit btn-card-certain" @click="secondLogin") 确定
 </template>
 
 <script>
+import codeBtn from '../common/codeBtn'
 import { ViewBox, XHeader, Masker, Tab, TabItem, Group, XInput, XSwitch, Cell } from 'vux'
 export default {
   components: {
@@ -52,7 +54,8 @@ export default {
     Group,
     XInput,
     XSwitch,
-    Cell
+    Cell,
+    'btn': codeBtn
   },
   data () {
     return {
@@ -68,6 +71,7 @@ export default {
     }
   },
   mounted () {
+    window.clearInterval(window.setTime)
   },
   methods: {
     closeDialog () {
@@ -112,7 +116,7 @@ export default {
           verifyCode: this.verifyCode1
         }
       }
-      alert(JSON.stringify(data.params))
+      // alert(JSON.stringify(data.params))
       if (self.pwd !== '') {
         // 显示
         this.$vux.loading.show({
@@ -224,14 +228,16 @@ export default {
           channel: self.$store.state.channel
         }
       }
+      // alert(JSON.stringify(data))
       if (self.checkPhone(self.phoneNum)) {
         self.$store.dispatch('normalRequest', data).then(res => {
+          // alert(JSON.stringify(res))
           if (res.response === 'success') {
             self.$vux.toast.text('验证码已成功发送')
             document.getElementById(id).style.color = '#999'
             document.getElementById(id).style.border = '1px solid #999'
             document.getElementById(id).disabled = true
-            self.setTime()
+            self.setTime(id)
           } else {
             self.$vux.toast.text('验证码发送失败，请重试！')
           }
@@ -252,18 +258,19 @@ export default {
         return false
       }
     },
-    setTime () {
+    setTime (id) {
+      // alert('1111')
       let self = this
       let setTime = setInterval(() => {
         if (self.time > 0) {
           self.time --
-          document.getElementById('code').innerHTML = self.time
+          document.getElementById(id).innerHTML = self.time
         } else {
           self.time = 60
-          document.getElementById('code').innerHTML = '发送验证码'
-          document.getElementById('code').style.color = '#1f76e2'
-          document.getElementById('code').style.border = '1px solid #1f76e2'
-          document.getElementById('code').disabled = false
+          document.getElementById(id).innerHTML = '发送验证码'
+          document.getElementById(id).style.color = '#1f76e2'
+          document.getElementById(id).style.border = '1px solid #1f76e2'
+          document.getElementById(id).disabled = false
           window.clearInterval(setTime)
         }
       }, 1000)

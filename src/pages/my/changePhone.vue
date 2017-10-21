@@ -8,7 +8,7 @@
             img(src="../../assets/imgs/icon-setting-phone.png" style="width:0.65rem;height:0.9rem;" slot="label")
           x-input(placeholder="请输入验证码" v-model="code" :show-clear="false")
             img(src="../../assets/imgs/icon-key.png" style="width:0.9rem;height:0.9rem;" slot="label")
-            button(class="btn-send-code" slot="right" @click="getCode" id="code") 发送验证码
+            button(class="btn-send-code" slot="right" @click="getCode('05', 'changePhone')" id="changePhone") 发送验证码
         .btn-submit(class="btn-submit" @click="submit") 提交 
 </template>
 
@@ -35,9 +35,10 @@ export default {
     }
   },
   mounted () {
+    this.time >= 0 ? document.getElementById('changePhone').disabled = true : null
   },
   methods: {
-    getCode () {
+    getCode (type, id) {
       let self = this
       let path = self.$store.state.baseUrl + '/app/xsyd/getVerifyCode.do'
       let data = {
@@ -45,7 +46,7 @@ export default {
         action: 'init_request',
         params: {
           cellphone: this.phone,
-          smsType: '05', // 05表示更换手机号
+          smsType: type, // 05表示更换手机号
           channel: this.$store.state.channel
         }
       }
@@ -55,10 +56,10 @@ export default {
           // let response = JSON.parse(res)
           if (response.response === 'success') {
             this.$vux.toast.text('验证码已成功发送')
-            document.getElementById('code').style.color = '#999'
-            document.getElementById('code').style.border = '1px solid #999'
-            document.getElementById('code').disabled = true
-            this.setTime()
+            document.getElementById(id).style.color = '#999'
+            document.getElementById(id).style.border = '1px solid #999'
+            document.getElementById(id).disabled = true
+            this.setTime(id)
           } else {
             this.$vux.toast.text('验证码发送失败，请重试！')
           }
@@ -115,19 +116,19 @@ export default {
         return false
       }
     },
-    setTime () {
+    setTime (id) {
       let self = this
       let setTime = setInterval(() => {
-        console.log(self.time)
+        // console.log(self.time)
         if (self.time > 0) {
           self.time --
-          document.getElementById('code').innerHTML = self.time
+          document.getElementById(id).innerHTML = self.time
         } else {
           self.time = 60
-          document.getElementById('code').innerHTML = '发送验证码'
-          document.getElementById('code').style.color = '#1f76e2'
-          document.getElementById('code').style.border = '1px solid #1f76e2'
-          document.getElementById('code').disabled = false
+          document.getElementById(id).innerHTML = '发送验证码'
+          document.getElementById(id).style.color = '#1f76e2'
+          document.getElementById(id).style.border = '1px solid #1f76e2'
+          document.getElementById(id).disabled = false
           window.clearInterval(setTime)
         }
       }, 1000)

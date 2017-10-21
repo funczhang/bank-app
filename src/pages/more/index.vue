@@ -6,10 +6,12 @@
         masker(style="border-radius: 2px;" color="#000" :opacity="0.5" fullscreen=true v-show="false")
           div(slot="content" class="msg-box")
         group
-          cell(title="常见问题" is-link style="margin-top:15px;border-bottom:none" link="/myGurantee")
+          cell(title="常见问题" is-link style="margin-top:15px;border-bottom:none")
             img(src="../../assets/imgs/icon-usual-question.png" slot="icon")
-          cell(title="咨询服务" is-link link="/bankCardList")
+            .child(slot="child" @click="jumpNormalQs")
+          cell(title="咨询服务" is-link)
             img(src="../../assets/imgs/icon-consult-service.png" slot="icon")
+            .child(slot="child" @click="consultService")
           cell(v-show="false" title="给予评价" is-link link="/suggest" style="margin-top:15px;border-bottom:none")
             img(src="../../assets/imgs/icon-give-evaluate.png" slot="icon")
           cell(title="分享给好友" is-link link="/setting" style="margin-top:15px;border-bottom:none")
@@ -40,6 +42,21 @@ export default {
   mounted () {
   },
   methods: {
+    jumpNormalQs () {
+      let self = this
+      let token = self.$store.state.userInfo.token
+      let path = self.$store.state.baseUrl + '/app/xsyd/regAgreement.html?' + token
+      let data = {
+        action: 'jump_web_show',
+        path: path,
+        params: {
+          name: '常见问题'
+        }
+      }
+      self.$store.dispatch('normalRequest', data).then(res => {
+      })
+    },
+    consultService () {},
     toSuggest () {
       if (this.$store.state.userInfo.token === '') {
         this.$router.push('/login')
@@ -81,11 +98,11 @@ export default {
 <style lang="less" scoped>
 .content{
   .child{
-      position: absolute;
-      top:0;
-      bottom:0;
-      left: 0;
-      right:0;
+    position: absolute;
+    top:0;
+    bottom:0;
+    left: 0;
+    right:0;
   }
   .btn-exit{
     display: block;

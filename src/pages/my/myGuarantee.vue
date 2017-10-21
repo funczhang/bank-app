@@ -12,29 +12,41 @@
           .for-other(v-for="item in myList")
             .applyer
               p(class="clearfix")
-                label 申请人
-                span {{item.manName}}
+                label 借款人
+                span {{item.applyAssureName}}
+              //- p(class="clearfix")
+              //-   label 申请人
+              //-   span {{item.manName}}
               p(class="clearfix")
-                label 申请人身份证号
+                label 身份证号
                 span {{item.idCard}}
-            .amount
-              p(class="title") 申请金额(元)
-              p(class="account") {{item.amount}}
+              p(class="clearfix")
+                label 申请额度(元)
+                span(style="color:red;") {{item.amount}}
+              p(class="clearfix to-guarantee" style="border-bottom:none;" @click="toGuarantee")
+                label 状态名称
+                span(style="margin-right:1rem;") {{item.statusName}}
+                //- span(style="margin-right:1rem;") 11111
+            //- .amount
+            //-   p(class="title") 申请金额(元)
+            //-   p(class="account") {{item.amount}}
           img(v-show="myList.length===0" src="../../assets/imgs/icon-empty.png")
           p(v-show="myList.length===0" style="padding:2rem 1rem;text-align:center;font-size:0.75rem;color:#999;") 没有我为他人担保信息
         .template(v-show="!isForOther")
           .for-me(v-for="item in othersList")
-            .amount
-              p(class="title") 申请金额(元)
-              p(class="account") {{item.amount}}
+            //- .amount
+            //-   p(class="title") 申请金额(元)
+            //-   p(class="account") {{item.amount}}
             .applyer
               p(class="clearfix")
                 label 申请人
                 span {{item.manName}}
               p(class="clearfix")
+                label 申请金额
+                span(style="color:red;") {{item.amount}}
+              p(class="clearfix")
                 label 申请时间
                 span {{item.applyTime}}
-            .guaranteer(style="border-bottom:none;")
               p(class="clearfix")
                 label 担保人姓名
                 span {{item.assName}}
@@ -44,6 +56,9 @@
               p(class="clearfix")
                 label 担保人身份证号
                 span {{item.assIdCard}}
+              p(class="clearfix" style="border-bottom:none;")
+                label 状态名称
+                span {{item.statusName}}
           img(v-show="othersList.length===0" src="../../assets/imgs/icon-empty.png")
           p(v-show="othersList.length===0" style="padding:2rem 1rem;text-align:center;font-size:0.75rem;color:#999;") 没有他人为我担保信息
 </template>
@@ -110,6 +125,9 @@ export default {
         this.guaranteeForMe()
       }
     },
+    toGuarantee () {
+      alert('1111')
+    },
     onPulldownLoading () {
       this.isForOther ? this.guaranteeForOther() : this.guaranteeForMe()
       // this.$nextTick(() => {
@@ -135,7 +153,7 @@ export default {
       })
       // 我为他人担保信息
       self.$store.dispatch('normalRequest', data).then(data => {
-        // let data = JSON.parse(res)
+        alert(JSON.stringify(data))
         if (data.response === 'success') {
           data.data.myList.length === 0 ? self.color = '#fff' : self.color = ''
           self.myList = data.data.myList
@@ -168,6 +186,7 @@ export default {
       })
       // 别人为我担保信息
       self.$store.dispatch('normalRequest', data).then(data => {
+        // alert(JSON.stringify(data))
         // let data = JSON.parse(res)
         if (data.response === 'success') {
           // data.data.othersList = []
@@ -199,6 +218,7 @@ export default {
     padding:0.1px;
     // background:#fff;
     .for-me,.for-other{
+      margin-top:0.75rem;
       margin-bottom:0.75rem;
       padding:0 0.75rem;
       background:#fff;
@@ -223,8 +243,16 @@ export default {
       }
     }
     .applyer,.guaranteer{
-      padding:0.75rem 0;
-      border-bottom:1px solid #ededed;
+      .to-guarantee{
+        background:url(../../assets/imgs/icon-arrow.png) no-repeat center right;
+        background-size:0.375rem 0.625rem;
+      }
+      p{
+        padding:0.6rem 0;
+        border-bottom:1px solid #ededed;
+      }
+      // padding:0.75rem 0;
+      // border-bottom:1px solid #ededed;
       label{
         float:left;
         width:35%;
@@ -236,7 +264,7 @@ export default {
       }
       span{
         float:right;
-        width:65%;
+        width:50%;
         font-size:0.75rem;
         color:#333;
         text-align: right;

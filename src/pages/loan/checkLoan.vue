@@ -55,7 +55,7 @@
       .content(v-show="canApply")
         img(class="empty" src="../../assets/imgs/icon-no-apply.png")
         .tip 您暂无申请记录哦~
-        a(href="javascript:void(null)" class="btn-apply" @click="apply") 去申请
+        a(href="javascript:void(null)" class="btn-apply" @click="isLoginAndVerfied") 去申请
 </template>
 
 <script>
@@ -79,12 +79,11 @@ export default {
     }
   },
   mounted () {
+    // let token = this.$store.state.userInfo.token
+    // let isAuth = this.$store.state.userInfo.isAuth
+    // token !== '' && isAuth !== '' ? this.initPage() : null
+    // this.apply()
     // this.initView()
-    // this.goApply()
-    this.apply()
-  },
-  beforeMount () {
-    this.initView()
   },
   computed: {
     step () {
@@ -107,6 +106,23 @@ export default {
     }
   },
   methods: {
+    initPage () {
+      this.apply()
+      this.initView()
+    },
+    isLoginAndVerfied () {
+      let token = this.$store.state.userInfo.token
+      let isAuth = this.$store.state.userInfo.isAuth
+      if (token !== '') {
+        if (isAuth !== '') {
+          this.apply()
+        } else {
+          this.$router.push('/verfied')
+        }
+      } else {
+        this.$router.push('/login')
+      }
+    },
     apply () {
       // 去申请初始化
       let self = this

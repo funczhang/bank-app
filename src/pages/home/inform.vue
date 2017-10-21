@@ -3,24 +3,28 @@
     view-box(ref="viewBox" body-padding-top="46px" body-padding-bottom="50px")
       x-header(slot="header" title="我的" :left-options="{showBack:true,backText:''}" style="width:100%;position:absolute;left:0;top:0;z-index:100;background:#fff;")
         tab(slot="default" bar-active-color="transparent")
-          tab-item(selected @on-item-click="onItemClick") 系统公告
-          tab-item(@on-item-click="onItemClick") 活动公告
+          tab-item(selected @on-item-click="onItemClick('0')") 系统公告
+          tab-item(@on-item-click="onItemClick('1')") 活动公告
       .content  
         ul(v-show="isSystemInform" class="inform-list")
           li(class="clearfix" v-for="item in systemInform")
             .left
               img(src="../../assets/imgs/icon-system-inform.png")
             .right
-              h3 系统公告
-              p {{item.content + item.createTime + item.createUser}}
+              h3(class="clearfix") 
+                span(class="fl") 系统公告
+                span(class="fr") {{item.createTime}}
+              p(style="margin-top:0.5rem;") {{item.content}}
           p(v-show="systemInform.length===0" class="empty-tip") 暂无系统公告~
         ul(v-show="!isSystemInform" class="inform-list")
           li(class="clearfix" v-for="item in userInform")
             .left
               img(src="../../assets/imgs/icon-inform-list.png")
             .right
-              h3 活动公告
-              p {{item.content + item.createTime + item.createUser}}
+              h3(class="clearfix") 
+                span(class="fl") 系统公告
+                span(class="fr") {{item.createTime}}
+              p(style="margin-top:0.5rem;") {{item.content}}
           p(v-show="userInform.length===0" class="empty-tip") 暂无用户公告~
 
 </template>
@@ -44,33 +48,38 @@ export default {
     }
   },
   mounted () {
-    this.getInformList()
+    this.getInformList('0')
   },
   activated () {
-    // this.getInformList()
+    // this.getInformList('1')
   },
   methods: {
     onItemClick (index) {
-      index === 0 ? this.isSystemInform = true : this.isSystemInform = false
+      index === '0' ? this.isSystemInform = true : this.isSystemInform = false
+      this.getInformList(index)
     },
-    getInformList () {
+    getInformList (type) {
       // 通知通告接口 无法解析出参
       let self = this
-      let path = self.$store.state.baseUrl + '/app/xsyd/homePageInit.do'
+      let path = self.$store.state.baseUrl + '/app/xsyd/getAppNoticeList.do'
       let data = {
-        path: path
-      }
-      self.$store.dispatch('initRequest', data).then(res => {
-        let arr = []
-        let data = eval('(' + res + ')')
-        if (data.response === 'success') {
-          arr = data.data.noticeList
-          arr.forEach((element) => {
-            element.type === 0 ? this.systemInform.push(element) : this.userInform.push(element)
-          })
-        } else {
-          this.$vux.toast.text('系统公告数据获取失败~')
+        path: path,
+        params: {
+          type: type
         }
+      }
+      // 显示
+      this.$vux.loading.show({
+        text: 'Loading'
+      })
+      self.$store.dispatch('normalRequest', data).then(res => {
+        // alert(JSON.stringify(res))
+        if (res.response === 'success') {
+          type === '0' ? self.systemInform = res.data : self.userInform = res.data
+        } else {
+          this.$vux.toast.text('公告数据获取失败~')
+        }
+        this.$vux.loading.hide()
       })
     }
   }

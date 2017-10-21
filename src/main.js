@@ -13,6 +13,8 @@ import FastClick from 'fastclick'
 //   // alert('from:' + JSON.stringify(from))
 //   // alert('next:' + JSON.stringify(next))
 // })
+import util from './utils/utils'
+Vue.use(util)
 router.afterEach(function (to) {
   store.commit('UPDATE_LOADING', false)
 })
@@ -21,6 +23,9 @@ Vue.use(LoadingPlugin)
 Vue.config.productionTip = false
 FastClick.attach(document.body)
 Vue.use(Vuex)
+Vue.prototype.setTime = () => {
+  alert('settime')
+}
 /* eslint-disable no-new */
 new Vue({
   router,

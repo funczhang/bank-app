@@ -45,7 +45,7 @@ export default {
     jumpNormalQs () {
       let self = this
       let token = self.$store.state.userInfo.token
-      let path = self.$store.state.baseUrl + '/app/xsyd/regAgreement.html?' + token
+      let path = self.$store.state.baseUrl + '/app/xsyd/commonProblem.html?' + token
       let data = {
         action: 'jump_web_show',
         path: path,
@@ -56,7 +56,20 @@ export default {
       self.$store.dispatch('normalRequest', data).then(res => {
       })
     },
-    consultService () {},
+    consultService () {
+      let self = this
+      let token = self.$store.state.userInfo.token
+      let path = self.$store.state.baseUrl + '/app/xsyd/contactUs.html?' + token
+      let data = {
+        action: 'jump_web_show',
+        path: path,
+        params: {
+          name: '咨询服务'
+        }
+      }
+      self.$store.dispatch('normalRequest', data).then(res => {
+      })
+    },
     toSuggest () {
       if (this.$store.state.userInfo.token === '') {
         this.$router.push('/login')

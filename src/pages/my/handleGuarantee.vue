@@ -9,63 +9,127 @@
             li
               .option(class="clearfix")  
                 label 申请人
-                span 张超 
+                span {{guaranteeInfo.applyName}} 
             li
               .option(class="clearfix")  
                 label 身份证号
-                span 123456789977666
+                span {{guaranteeInfo.applyIdCard}} 
             li
               .option(class="clearfix")  
                 label 手机号码
-                span 123456789977666
+                span {{guaranteeInfo.applyPhone}} 
         .module
           .module-head 申请信息
           ul(class="module-content")
             li
               .option(class="clearfix")  
                 label 申请时间
-                span 2017-08-08 10:00:00 
+                span {{guaranteeInfo.applyTime}}  
             li
               .option(class="clearfix")  
                 label 借款金额(元)
-                span(style="color:#f32f2f;") 12.2万
+                span(style="color:#f32f2f;") {{guaranteeInfo.amount}} 
             li
               .option(class="clearfix")  
                 label 借款期限(月)
-                span 24
+                span {{guaranteeInfo.timeLimit}} 
             li
             .option(class="clearfix")  
-              label 借款用途(月)
-              span 房产装修
+              label 借款用途
+              span {{guaranteeInfo.useName}}
+        .title(class="clearfix") 
+          span(class="fl") 法律文书送达地址
+          i(class="fl" @click="showMsg")
+        .option
+          group
+            popup-picker(title="所在地区" :data="list2" placeholder="请选择地址" v-model="address")
+        x-textarea(:max="30" v-model="detailAddress" placeholder="请填写详细地址，不少于五个字" row=4)
         .confirm-area
           check-icon(:value.sync="isConfirm")
           span 我已经阅读并同意
           a(href="javascript:void(null)") 《综合查询授权书》
         .btn-area(class="clearfix")
-          a(href="javascript:void(null)" class="btn-submit fl") 同意
-          a(href="javascript:void(null)" class="btn-cancel fr") 拒绝
+          button(href="javascript:void(null)" class="btn-submit fl" :disabled="!isConfirm" :class="{active:!isConfirm}" @click="agreeAuth") 同意
+          button(href="javascript:void(null)" class="btn-cancel fr" @click="cancleAuth") 拒绝
 </template>
 
 <script>
 // 219 187
-import { ViewBox, XHeader, Masker, CheckIcon } from 'vux'
+import { ViewBox, XHeader, Masker, CheckIcon, Group, PopupPicker, XTextarea } from 'vux'
 export default {
   components: {
     ViewBox,
     XHeader,
     Masker,
-    CheckIcon
+    CheckIcon,
+    Group,
+    PopupPicker,
+    XTextarea
   },
   data () {
     return {
       index: 0,
-      isConfirm: false
+      isConfirm: false,
+      guaranteeInfo: {
+        timeLimit: '',
+        amount: '',
+        applyName: '',
+        useName: '',
+        applyTime: '',
+        applyIdCard: '',
+        applyPhone: ''
+      },
+      list2: [['江苏省泰州市兴化市']],
+      address: ['江苏省泰州市兴化市'],
+      detailAddress: ''
     }
   },
   mounted () {
     this.initData()
   },
   methods: {
+    showMsg () {},
+    agreeAuth () {
+      // 别人为我担保
+      let self = this
+      let path = self.$store.state.baseUrl + '/app/xsyd/determineAuth.do'
+      let data = {
+        action: 'init_request',
+        path: path,
+        params: {
+          token: self.$store.state.userInfo.token,
+          applyId: self.$store.state.applyNo,
+          addStr: self.address[0] + self.detailAddress
+        }
+      }
+      if (self.detailAddress.trim().length >= 5) {
+        self.$store.dispatch('normalRequest', data).then(res => {
+          alert(JSON.stringify(res))
+          if (res.response === 'success') {
+            this.$vux.toast.text('担保成功~')
+          } else {
+            this.$vux.toast.text(res.data)
+          }
+        })
+      } else {
+        this.$vux.toast.text('请输入大于五个字的详细地址~')
+      }
+    },
+    cancleAuth () {
+      // 别人为我担保
+      let self = this
+      let path = self.$store.state.baseUrl + '/app/xsyd/assurePageInit.do'
+      let data = {
+        action: 'init_request',
+        path: path,
+        params: {
+          token: self.$store.state.userInfo.token,
+          applyId: self.$store.state.applyNo
+        }
+      }
+      self.$store.dispatch('normalRequest', data).then(res => {
+      })
+    },
     initData () {
       // 别人为我担保
       let self = this
@@ -85,6 +149,17 @@ export default {
       // 别人为我担保信息
       self.$store.dispatch('normalRequest', data).then(res => {
         alert(JSON.stringify(res))
+        if (res.response) {
+          self.guaranteeInfo.timeLimit = res.data.timeLimit
+          self.guaranteeInfo.amount = res.data.amount
+          self.guaranteeInfo.applyName = res.data.applyName
+          self.guaranteeInfo.useName = res.data.useName
+          self.guaranteeInfo.applyTime = res.data.applyTime
+          self.guaranteeInfo.applyIdCard = res.data.applyIdCard
+          self.guaranteeInfo.applyPhone = res.data.applyPhone
+        } else {
+          this.$vux.toast.text('担保信息获取失败，请退出重试~')
+        }
       })
     }
   }
@@ -155,6 +230,37 @@ export default {
     background:#fff;
     color:#1f76e2;
     border:1px solid #1f76e2;
+  }
+  .active{
+    background:#f5f5f5;
+    color:#999;
+    box-shadow: none;
+  }
+  .title{
+    margin-top:0.75rem;
+    padding:0.75rem 0;
+    border-bottom:1px solid #ededed;
+    line-height: 1rem;
+    background:#fff;
+    span{
+      padding-left:0.75rem;
+      font-size:0.7rem;
+      color:#666;
+    }
+    i{
+      position: relative;
+      top:0.15rem;
+      left:0.25rem;
+      width:0.7rem;
+      height: 0.7rem;
+      background:url(../../assets/imgs/icon-more.png);
+      background-size:100% 100%;
+    }
+  }
+  .option{
+     padding:0.75rem;
+     border-bottom:1px solid #ededed;
+     background:#fff;
   }
 }
 </style>

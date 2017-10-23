@@ -198,6 +198,7 @@ input:-moz-placeholder {
     font-size:1rem;
 }
 #app .vux-popup-picker-value{
+    font-size:0.7rem;
     color:#666;
   }
 #app .vux-check-icon > .weui-icon-success:before,
@@ -258,9 +259,13 @@ input:-moz-placeholder {
     color:#333;
   }
   #app .weui-label{
-    font-sizse:0.7rem;
+    font-size:0.7rem;
     color:#333; 
   }
+  /* #app .option .weui-label{
+    font-sizse:0.7rem;
+    color:#333; 
+  } */
   #app .vux-header {
     border-bottom:1px solid #ededed;
   }
@@ -288,4 +293,22 @@ input:-moz-placeholder {
   /* group头部字体 */
   #app .weui-cells__title{
       padding-left:0;
+  }
+  #app .weui-textarea{
+    /* width:none;
+    padding:0.5rem; */
+    padding:0.5rem 0;
+    text-indent: 0.5rem;
+  }
+  #app .vux-popup-picker-placeholder{
+    font-size:0.7rem;
+  }
+  #app .weui-cell:before{
+      border-top:none;
+  }
+  #app .content .vux-tab{
+      position: absolute;
+      top:46px;
+      left:0;
+      right:0;
   }

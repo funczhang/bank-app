@@ -4,49 +4,50 @@
       x-header(slot="header" title="" :left-options="{showBack:false}" style="width:100%;position:absolute;left:0;top:0;z-index:100;background:#fff;")
         img(class="icon-title" src="../../assets/imgs/icon-logo.png" slot="overwrite-title")
         img(class="icon-email" src="../../assets/imgs/icon-email.png" slot="right" @click="jumpTo('inform')")
-      .content
-        swiper(:list="imglist" v-model="index" :auto="true" :loop="true")
-        .inform
-          .label(class="fl")
-            img(src="../../assets/imgs/icon-inform.png")
-            span(class="line")
-          .news(class="fl")
-            i(v-show="informList.length !== 0")
-            //- span(style="display:inline-block;width:80%;" class="ell") 兴盛e贷APP上线啦！
-            marquee(style="height:1.5rem;")
-              marquee-item(v-for="item in informList" :key="item.id") {{item.content}}
-            //- marquee(style="height:1.5rem;")
-            //-   marquee-item(v-for="item in 10" :key="item.id") {{'你好的冯绍峰的沙发斯蒂芬斯蒂芬是否是地方撒发放'}}
-        ul(class="btn-area clearfix")
-          li(@click="jumpTo('BankCardList')")
-            img(src="../../assets/imgs/icon-account.png") 
-            span 我的银行卡
-          li(@click="jumpTo('MyLoan')") 
-            img(src="../../assets/imgs/icon-loan.png") 
-            span 我的贷款
-          li(@click="jumpTo('MyRepayment')") 
-            img(src="../../assets/imgs/icon-pay.png") 
-            span 我的还款
-          li(@click="jumpTo('MyGuarantee')") 
-            img(src="../../assets/imgs/icon-guarantee.png") 
-            span 我的担保
-        .btn-loan
-          div
-            img(src="../../assets/imgs/icon-title.png")
-            p 授信金额(元) {{' ' + minAmount + '万~' + maxAmount + '万'}}
-            p 授信期限(月) {{' ' + creditTerm}}
-            a(href="javascript:void(null)" class="btn-apply" @click="jumpTo('goApply')") 去申请
-        ul(class="btn-classify clearfix")
-          li(class="btn-payment" @click="unOpen")
-            span 生活缴费
-          li(class="btn-invest" @click="unOpen")
-            span 投资理财
-          li(class="btn-activity" @click="unOpen")
-            span 热门活动 
+      scroller(ref="myScroller" :lock-x="true" :bounce="true" :use-pulldown="true" :pulldown-config="pulldownConfig" @on-pulldown-loading="onPulldownLoading")
+        .content
+          swiper(:list="imglist" v-model="index" :auto="true" :loop="true")
+          .inform
+            .label(class="fl")
+              img(src="../../assets/imgs/icon-inform.png")
+              span(class="line")
+            .news(class="fl")
+              i(v-show="informList.length !== 0")
+              //- span(style="display:inline-block;width:80%;" class="ell") 兴盛e贷APP上线啦！
+              marquee(style="height:1.5rem;")
+                marquee-item(v-for="item in informList" :key="item.id") {{item.content}}
+              //- marquee(style="height:1.5rem;")
+              //-   marquee-item(v-for="item in 10" :key="item.id") {{'你好的冯绍峰的沙发斯蒂芬斯蒂芬是否是地方撒发放'}}
+          ul(class="btn-area clearfix")
+            li(@click="jumpTo('BankCardList')")
+              img(src="../../assets/imgs/icon-account.png") 
+              span 我的银行卡
+            li(@click="jumpTo('MyLoan')") 
+              img(src="../../assets/imgs/icon-loan.png") 
+              span 我的贷款
+            li(@click="jumpTo('MyRepayment')") 
+              img(src="../../assets/imgs/icon-pay.png") 
+              span 我的还款
+            li(@click="jumpTo('MyGuarantee')") 
+              img(src="../../assets/imgs/icon-guarantee.png") 
+              span 我的担保
+          .btn-loan
+            div
+              img(src="../../assets/imgs/icon-title.png")
+              p 授信金额(元) {{' ' + minAmount + '万~' + maxAmount + '万'}}
+              p 授信期限(月) {{' ' + creditTerm}}
+              a(href="javascript:void(null)" class="btn-apply" @click="jumpTo('goApply')") 去申请
+          ul(class="btn-classify clearfix")
+            li(class="btn-payment" @click="unOpen")
+              span 生活缴费
+            li(class="btn-invest" @click="unOpen")
+              span 投资理财
+            li(class="btn-activity" @click="unOpen")
+              span 热门活动 
 </template>
 
 <script>
-import { ViewBox, XHeader, Tabbar, TabbarItem, Swiper, Marquee, MarqueeItem } from 'vux'
+import { ViewBox, XHeader, Tabbar, TabbarItem, Swiper, Marquee, MarqueeItem, Scroller } from 'vux'
 export default {
   components: {
     ViewBox,
@@ -55,7 +56,8 @@ export default {
     TabbarItem,
     Swiper,
     Marquee,
-    MarqueeItem
+    MarqueeItem,
+    Scroller
   },
   data () {
     return {
@@ -64,7 +66,16 @@ export default {
       index: 0,
       minAmount: '',
       maxAmount: '',
-      creditTerm: ''
+      creditTerm: '',
+      pulldownConfig: {
+        content: '下拉刷新~',
+        height: 60,
+        autoRefresh: false,
+        downContent: '下拉刷新~',
+        upContent: '释放刷新~',
+        loadingContent: '加载中...',
+        clsPrefix: 'xs-plugin-pulldown-'
+      }
     }
   },
   mounted () {
@@ -85,6 +96,20 @@ export default {
   activated () {
   },
   methods: {
+    onPulldownLoading () {
+      let self = this
+      self.getBaseInfo()
+      self.getPicList()
+      self.applyInfo()
+      self.init()
+      self.$nextTick(() => {
+        //   // 视图更新完成后停止刷新或加载动作
+        self.$refs.myScroller.donePulldown()
+        self.$refs.myScrollesr.reset({
+          top: 0
+        })
+      })
+    },
     toInform () {
       // let token = this.$store.state.userInfo.token
       // if (token !== '') {
@@ -134,23 +159,24 @@ export default {
         action: 'init_request',
         path: path
       }
-      this.$store.dispatch('initRequest', data).then(res => {
+      self.$store.dispatch('initRequest', data).then(res => {
         // alert(res)
         // 这里使用json.parse无法处理 ？？？
         let arr = []
         let data = eval('(' + res + ')')
         // alert(data)
         if (data.response === 'success') {
-          this.minAmount = data.data.minAmount
-          this.maxAmount = data.data.maxAmount
-          this.creditTerm = data.data.creditTerm
-          this.informList = data.data.noticeList
+          self.imglist = []
+          self.minAmount = data.data.minAmount
+          self.maxAmount = data.data.maxAmount
+          self.creditTerm = data.data.creditTerm
+          self.informList = data.data.noticeList
           arr = data.data.carouselList
           arr.forEach((element) => {
-            this.imglist.push({img: self.$store.state.baseUrl + element})
+            self.imglist.push({img: self.$store.state.baseUrl + element})
           })
         } else {
-          this.$vux.toast.text('首页轮播数据获取失败~')
+          self.$vux.toast.text('首页轮播数据获取失败~')
         }
       })
     },

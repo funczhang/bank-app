@@ -8,7 +8,7 @@
             img(src="../../assets/imgs/icon-setting-phone.png" style="width:0.65rem;height:0.9rem;" slot="label")
           x-input(placeholder="请输入短信验证" v-model="code" :show-clear="showClear")
             img(src="../../assets/imgs/icon-key.png" style="width:0.9rem;height:0.9rem;" slot="label")
-            button(class="btn-send-code" slot="right" @click="getCode('02', 'forgetCode')" id="forgetCode") 发送验证码
+            button(class="btn-send-code" slot="right" @click="sendTextCode('02', 'forgetCode')" ref="forgetCode") 发送验证码
         group(style="margin-top:0.75rem;")
           x-input(placeholder="请输入新密码" style="border-bottom:none;" v-model="pwd1" type="password" :max="max")
             img(src="../../assets/imgs/icon-pwd.png" style="width:0.8rem;height:1rem;" slot="label")
@@ -47,8 +47,15 @@ export default {
     }
   },
   mounted () {
+    // 清除计时器
+    // window.clearInterval(window.setTime)
   },
   methods: {
+    sendTextCode (type, id) {
+      // 发送验证码
+      this.setBtnDisabled(id)
+      this.getCode(type)
+    },
     changePwd () {
       let self = this
       // 忘记密码接口
@@ -57,103 +64,69 @@ export default {
         action: 'init_request',
         path: path,
         params: {
-          cellphone: this.phone,
-          newpass: this.pwd1,
-          verifyCode: this.code,
-          channel: this.$store.state.channel
+          cellphone: self.phone,
+          newpass: self.pwd1,
+          verifyCode: self.code,
+          channel: self.$store.state.channel
         }
       }
-      // 注册用户
-      if (self.checkPhone(self.phone)) {
+      // 校验
+      if (self.isPhoneCorrect(self.phone)) {
         if (self.code !== '') {
           if (self.pwd1 !== '') {
             if (self.pwd1 === self.pwd2) {
-              this.$vux.loading.show({
+              self.$vux.loading.show({
                 text: 'Loading'
               })
               self.$store.dispatch('normalRequest', data).then(response => {
                 // let response = JSON.parse(res)
                 if (response.response === 'success') {
-                  this.$vux.toast.text('新密码设置成功，请重新登录~')
-                  this.phone = ''
-                  this.code = ''
-                  this.pwd1 = ''
-                  this.pwd2 = ''
-                  this.$router.replace('/login')
+                  self.$vux.toast.text('新密码设置成功，请重新登录~')
+                  self.phone = ''
+                  self.code = ''
+                  self.pwd1 = ''
+                  self.pwd2 = ''
+                  self.$router.replace('/login')
                 } else {
-                  this.$vux.toast.text(response.data)
+                  self.$vux.toast.text(response.data)
                 }
-                this.$vux.loading.hide()
+                self.$vux.loading.hide()
               })
             } else {
-              this.$vux.toast.text('两次密码输入不一致')
+              self.$vux.toast.text('两次密码输入不一致')
             }
           } else {
-            this.$vux.toast.text('密码不为空')
+            self.$vux.toast.text('密码不为空')
           }
         } else {
-          this.$vux.toast.text('验证码不为空')
+          self.$vux.toast.text('验证码不为空')
         }
       }
     },
-    getCode (type, id) {
+    getCode (type) {
+      // 获取验证码
       let self = this
       let path = self.$store.state.baseUrl + '/app/xsyd/getVerifyCode.do'
       let data = {
         action: 'init_request',
         path: path,
         params: {
-          cellphone: this.phone,
+          cellphone: self.phone,
           smsType: type, // 02表示找回密码
-          channel: this.$store.state.channel
+          channel: self.$store.state.channel
         }
       }
       // 校验手机号码 self.checkPhone(self.phone)
-      if (self.checkPhone(self.phone)) {
+      if (self.isPhoneCorrect(self.phone)) {
         self.$store.dispatch('normalRequest', data).then(response => {
           // let response = JSON.parse(res)
           if (response.response === 'success') {
-            this.$vux.toast.text('验证码已成功发送')
-            document.getElementById(id).style.color = '#999'
-            document.getElementById(id).style.border = '1px solid #999'
-            document.getElementById(id).disabled = true
-            this.setTime(id)
+            self.$vux.toast.text('验证码已成功发送')
           } else {
-            this.$vux.toast.text('验证码发送失败，请重试！')
+            self.$vux.toast.text('验证码发送失败，请重试！')
           }
         })
       }
-    },
-    checkPhone (phoneNum) {
-      let mPattern = /^(^0\d{3,4}-\d{7,8})$|^(^0\d{3,4}\d{7,8})$|^(1(3|4|5|7|8)[0-9]\d{8})$/
-      if (phoneNum !== '') {
-        if (mPattern.test(phoneNum)) {
-          return true
-        } else {
-          this.$vux.toast.text('手机号码格式不正确')
-          return false
-        }
-      } else {
-        this.$vux.toast.text('号码不能为空')
-        return false
-      }
-    },
-    setTime (id) {
-      let self = this
-      let setTime = setInterval(() => {
-        console.log(self.time)
-        if (self.time > 0) {
-          self.time --
-          document.getElementById(id).innerHTML = self.time
-        } else {
-          self.time = 60
-          document.getElementById(id).innerHTML = '发送验证码'
-          document.getElementById(id).style.color = '#1f76e2'
-          document.getElementById(id).style.border = '1px solid #1f76e2'
-          document.getElementById(id).disabled = false
-          window.clearInterval(setTime)
-        }
-      }, 1000)
     }
   }
 }

@@ -1,11 +1,12 @@
 <template lang="pug">
   div(style="height:100%;")
-    view-box(ref="viewBox" body-padding-top="46px" body-padding-bottom="0" style="background:#fff;")
+    view-box(ref="viewBox" body-padding-top="74px" body-padding-bottom="0" style="background:#fff;")
       x-header(slot="header" title="登录" :left-options="{showBack:true,backText:'',preventGoBack:true}" @on-click-title="clickTitle" @on-click-back="backToMy" style="width:100%;position:absolute;left:0;top:0;z-index:100;background:#fff;color:#000;")
       .content
         tab(active-color="#1f76e2")
           tab-item(selected style="border-right:1px solid #ededed;" @on-item-click="handler(0)") 账号登录
           tab-item(@on-item-click="handler(1)") 短信登录
+        div(style="background:#f5f5f5;height:20px;")
         .template(v-show="loginByAccount")
           group(style="margin-top:0.75rem;")
             x-input(placeholder="请输入手机号" style="border-bottom:none;" v-model="phoneNum" type="number")
@@ -19,7 +20,7 @@
               img(src="../../assets/imgs/icon-setting-phone.png" style="width:0.65rem;height:0.9rem;" slot="label")
             x-input(placeholder="请输入短信验证" v-model="verifyCode" :show-clear="showClear" type="number")
               img(src="../../assets/imgs/icon-key.png" style="width:0.9rem;height:0.9rem;" slot="label")
-              button(class="btn-send-code" slot="right" id="textLogin" @click="getCode('04', 'textLogin')") 发送验证码
+              button(class="btn-send-code" slot="right" ref="textLogin" @click="sendTextCode('04', 'textLogin')") 发送验证码
               //- btn(slot="right" id="textLogin")
         .template(style="background:#fff;")
           .clear
@@ -36,13 +37,12 @@
            group(style="margin-top:0rem;")
             x-input(title="手机号码：" style="border-bottom:none;font-size:0.75rem" v-model="phoneNum" type="number" :show-clear="showClear")
             x-input(title="验 证 码：" v-model="verifyCode1" style="font-size:0.75rem" :show-clear="showClear" type="number")
-              button(class="btn-send-code" slot="right" id="secondLogin" @click="getCode('00', 'secondLogin')") 获取验证码
+              button(class="btn-send-code" slot="right" ref="secondLogin" @click="sendTextCode('00', 'secondLogin')") 获取验证码
             .btn-area(class="clearfix")
               span( class="btn-submit btn-card-certain" @click="secondLogin") 确定
 </template>
 
 <script>
-import codeBtn from '../common/codeBtn'
 import { ViewBox, XHeader, Masker, Tab, TabItem, Group, XInput, XSwitch, Cell } from 'vux'
 export default {
   components: {
@@ -54,8 +54,7 @@ export default {
     Group,
     XInput,
     XSwitch,
-    Cell,
-    'btn': codeBtn
+    Cell
   },
   data () {
     return {
@@ -71,6 +70,7 @@ export default {
     }
   },
   mounted () {
+    // // 清除计时器
     // window.clearInterval(window.setTime)
   },
   methods: {
@@ -92,10 +92,15 @@ export default {
     toRegister () {
       this.$router.push('/register')
     },
+    sendTextCode (type, id) {
+      // 发送验证码
+      this.setBtnDisabled(id)
+      this.getCode(type)
+    },
     login () {
       let self = this
-      if (self.checkPhone(self.phoneNum)) {
-        if (this.loginByAccount) {
+      if (self.isPhoneCorrect(self.phoneNum)) {
+        if (self.loginByAccount) {
           self.loginByAccountWays()
         } else {
           self.loginByVerifyCodeWays()
@@ -185,18 +190,20 @@ export default {
         action: 'hand_request',
         path: path,
         params: {
-          cellphone: this.phoneNum,
-          verifyCode: this.verifyCode,
-          channel: this.$store.state.channel,
-          imei: this.$store.state.imei
+          cellphone: self.phoneNum,
+          verifyCode: self.verifyCode,
+          channel: self.$store.state.channel,
+          imei: self.$store.state.imei
         }
       }
+      // alert(JSON.stringify(data.params))
       if (self.verifyCode !== '') {
         // 显示
         this.$vux.loading.show({
           text: 'Loading'
         })
         self.$store.dispatch('normalRequest', data).then(res => {
+          // alert(JSON.stringify(res))
           self.$store.commit('INIT_USER_INFO', res)
           // 隐藏
           this.$vux.loading.hide()
@@ -215,7 +222,7 @@ export default {
     forgetPwd () {
       this.$router.push('forgotPwd')
     },
-    getCode (type, id) {
+    getCode (type) {
       // 获取验证码
       let self = this
       let path = self.$store.state.baseUrl + '/app/xsyd/getVerifyCode.do'
@@ -229,51 +236,16 @@ export default {
         }
       }
       // alert(JSON.stringify(data))
-      if (self.checkPhone(self.phoneNum)) {
+      if (self.isPhoneCorrect(self.phoneNum)) {
         self.$store.dispatch('normalRequest', data).then(res => {
           // alert(JSON.stringify(res))
           if (res.response === 'success') {
             self.$vux.toast.text('验证码已成功发送')
-            document.getElementById(id).style.color = '#999'
-            document.getElementById(id).style.border = '1px solid #999'
-            document.getElementById(id).disabled = true
-            self.setTime(id)
           } else {
             self.$vux.toast.text('验证码发送失败，请重试！')
           }
         })
       }
-    },
-    checkPhone (phoneNum) {
-      let mPattern = /^(^0\d{3,4}-\d{7,8})$|^(^0\d{3,4}\d{7,8})$|^(1(3|4|5|7|8)[0-9]\d{8})$/
-      if (phoneNum !== '') {
-        if (mPattern.test(phoneNum)) {
-          return true
-        } else {
-          this.$vux.toast.text('手机号码格式不正确')
-          return false
-        }
-      } else {
-        this.$vux.toast.text('号码不能为空')
-        return false
-      }
-    },
-    setTime (id) {
-      // alert('1111')
-      let self = this
-      let setTime = setInterval(() => {
-        if (self.time > 0) {
-          self.time --
-          document.getElementById(id).innerHTML = self.time
-        } else {
-          self.time = 60
-          document.getElementById(id).innerHTML = '发送验证码'
-          document.getElementById(id).style.color = '#1f76e2'
-          document.getElementById(id).style.border = '1px solid #1f76e2'
-          document.getElementById(id).disabled = false
-          window.clearInterval(setTime)
-        }
-      }, 1000)
     }
   }
 }

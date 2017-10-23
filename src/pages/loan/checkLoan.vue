@@ -108,14 +108,14 @@ export default {
   },
   methods: {
     initPage () {
-      this.apply()
-      this.initView()
+      if (this.isLogin() && this.isVerfied()) {
+        this.apply()
+        this.initView()
+      }
     },
     isLoginAndVerfied () {
-      let token = this.$store.state.userInfo.token
-      let isAuth = this.$store.state.userInfo.isAuth
-      if (token !== '') {
-        if (isAuth !== '') {
+      if (this.isLogin) {
+        if (this.isVerfied) {
           this.apply()
         } else {
           this.$router.push('/verfied')

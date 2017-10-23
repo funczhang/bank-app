@@ -9,9 +9,13 @@ import './assets/styles/animate.min.css'
 import { ToastPlugin, LoadingPlugin } from 'vux'
 import FastClick from 'fastclick'
 // router.beforeEach(function (to, from, next) {
-//   // alert('to:' + JSON.stringify(to))
-//   // alert('from:' + JSON.stringify(from))
-//   // alert('next:' + JSON.stringify(next))
+//   // window.setTime !== undefined ? window.clearInterval(window.setTime) : nulls
+// //   // 清除计时器
+// //   window.clearInterval(window.setTime)
+// //   alert('clear')
+// //   // alert('to:' + JSON.stringify(to))
+// //   // alert('from:' + JSON.stringify(from))
+// //   // alert('next:' + JSON.stringify(next))
 // })
 import util from './utils/utils'
 Vue.use(util)

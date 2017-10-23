@@ -98,15 +98,17 @@ export default {
         path: path,
         params: {
           token: self.$store.state.userInfo.token,
-          applyId: self.$store.state.applyNo,
+          applyId: self.$route.query.applyNo.toString(),
           addStr: self.address[0] + self.detailAddress
         }
       }
+      alert(JSON.stringify(self.$route.query))
       if (self.detailAddress.trim().length >= 5) {
         self.$store.dispatch('normalRequest', data).then(res => {
           alert(JSON.stringify(res))
           if (res.response === 'success') {
             this.$vux.toast.text('担保成功~')
+            this.$router.replace('/handleGuarantee')
           } else {
             this.$vux.toast.text(res.data)
           }
@@ -139,7 +141,7 @@ export default {
         path: path,
         params: {
           token: self.$store.state.userInfo.token,
-          applyId: self.$store.state.applyNo
+          applyId: self.$route.query.applyNo
         }
       }
       // 显示
@@ -148,7 +150,7 @@ export default {
       // })
       // 别人为我担保信息
       self.$store.dispatch('normalRequest', data).then(res => {
-        alert(JSON.stringify(res))
+        // alert(JSON.stringify(res))
         if (res.response) {
           self.guaranteeInfo.timeLimit = res.data.timeLimit
           self.guaranteeInfo.amount = res.data.amount

@@ -9,6 +9,7 @@ const state = {
   baseUrl: 'http://192.168.2.200:8080',
   imglist: [],
   faceId: '人脸照片',
+  canApply: 0,
   userInfo: {
     isAuth: '',
     name: '张超',

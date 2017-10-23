@@ -75,6 +75,7 @@ export default {
     // 获取设备信息和token
     this.getBaseInfo()
     this.getPicList()
+    this.applyInfo()
     this.init()
     // 隐藏
     setTimeout(() => {
@@ -130,6 +131,7 @@ export default {
       let self = this
       let path = self.$store.state.baseUrl + '/app/xsyd/homePageInit.do'
       let data = {
+        action: 'init_request',
         path: path
       }
       this.$store.dispatch('initRequest', data).then(res => {
@@ -137,6 +139,7 @@ export default {
         // 这里使用json.parse无法处理 ？？？
         let arr = []
         let data = eval('(' + res + ')')
+        // alert(data)
         if (data.response === 'success') {
           this.minAmount = data.data.minAmount
           this.maxAmount = data.data.maxAmount
@@ -163,6 +166,31 @@ export default {
       }
     },
     goApply () {
+      if (this.$store.state.canApply === 1) { // 1可以申请 2不可申请
+        this.$router.push('/loan')
+        this.$store.state.tabItem = 1
+      } else {
+        // alert(this.$store.state.applyState)
+        // 不可申请
+        switch (this.$store.state.applyState) {
+          case 0: this.$vux.toast.text('申请相关信息获取失败，请退出重新登录~')
+            break
+          case 1: this.$router.push('/quotaEvaluations')
+            break
+          case 2: this.$router.push('/fail')
+            break
+          case 3: this.$router.push('/sign')
+            break
+          case 4: this.$router.push('/sign')
+            break
+          case 5: this.$router.push('/sign')
+            break
+          case 6: this.$router.push('/fail')
+            break
+        }
+      }
+    },
+    applyInfo () {
       let self = this
       let path = self.$store.state.baseUrl + '/app/xsyd/applyPageInit.do'
       let data = {
@@ -173,31 +201,25 @@ export default {
         }
       }
       self.$store.dispatch('initRequest', data).then(res => {
+        // alert(res)
         let data = JSON.parse(res)
-        if (data.response === 'success') {
-          if (data.data.canApply === 1) { // 1可以申请 2不可申请
-            this.$router.replace('/loan')
-            this.$store.state.tabItem = 1
-          } else {
-            // 不可申请
-            switch (data.data.explain) {
-              case '1': this.$router.replace('/quotaEvaluations')
-                break
-              case '2': this.$router.replace('/fail')
-                break
-              case '3': this.$router.replace('/sign')
-                break
-              case '4': this.$router.replace('/sign')
-                break
-              case '5': this.$router.replace('/sign')
-                break
-              case '6': this.$router.replace('/fail')
-                break
-            }
-          }
-        } else {
-          this.$vux.toast.text('获取申请接口数据失败')
+        self.$store.state.canApply = data.data.canApply
+        self.$store.state.applyNo = data.data.applyNo
+        switch (data.data.explain) {
+          case '1': self.$store.state.applyState = 1; self.page = '/quotaEvaluation' // 额度评估
+            break
+          case '2': self.$store.state.applyState = 2; self.page = '/fail' // 审批未通过
+            break
+          case '3': self.$store.state.applyState = 3; self.page = '/sign' // 签约等待
+            break
+          case '4': self.$store.state.applyState = 4; self.page = '/sign' // 签约
+            break
+          case '5': self.$store.state.applyState = 5; self.page = '/success' // 签约完成
+            break
+          case '6': self.$store.state.applyState = 6; self.page = '/fail' // 签约超时
+            break
         }
+        // alert(self.$store.state.applyState)
       })
     },
     isLoginAndVerfied () {

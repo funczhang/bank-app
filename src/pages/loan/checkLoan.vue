@@ -84,6 +84,7 @@ export default {
     // token !== '' && isAuth !== '' ? this.initPage() : null
     // this.apply()
     // this.initView()
+    this.initPage()
   },
   computed: {
     step () {

@@ -10,7 +10,9 @@ export const normalRequest = ({ commit }, data) => {
       args: [{'path': data.path, 'params': data.params}]
     }).done(response => {
       if (typeof response === 'string') {
-        resolve(JSON.parse(response))
+        // alert(response)
+        let a = JSON.parse(response)
+        resolve(a)
       } else {
         resolve(response)
       }

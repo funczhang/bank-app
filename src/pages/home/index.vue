@@ -4,7 +4,7 @@
       x-header(slot="header" title="" :left-options="{showBack:false}" style="width:100%;position:absolute;left:0;top:0;z-index:100;background:#fff;")
         img(class="icon-title" src="../../assets/imgs/icon-logo.png" slot="overwrite-title")
         img(class="icon-email" src="../../assets/imgs/icon-email.png" slot="right" @click="jumpTo('inform')")
-      scroller(ref="myScroller" :lock-x="true" :bounce="true" :use-pulldown="true" :pulldown-config="pulldownConfig" @on-pulldown-loading="onPulldownLoading")
+      scroller(ref="myScroller" :lock-x="true" height="-96" :scrollbarY="true" :bounce="true" :use-pulldown="true" :use-pullup="false" :pulldown-config="pulldownConfig" @on-pulldown-loading="onPulldownLoading")
         .content
           swiper(:list="imglist" v-model="index" :auto="true" :loop="true")
           .inform
@@ -105,7 +105,7 @@ export default {
       self.$nextTick(() => {
         //   // 视图更新完成后停止刷新或加载动作
         self.$refs.myScroller.donePulldown()
-        self.$refs.myScrollesr.reset({
+        self.$refs.myScroller.reset({
           top: 0
         })
       })

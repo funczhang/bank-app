@@ -56,7 +56,7 @@
           a(href="javascript:void(null)") 《综合查询授权书》
           a(href="javascript:void(null)") 《法律文书送达地址确认书》
         .btn-area(class="clearfix")
-          button(class="btn-submit fl" @click="submit" :disabled="!isConfirm" :class="{active:!isConfirm}") 提交申请
+          button(class="btn-submit fl" @click="jumpAgree" :disabled="!isConfirm" :class="{active:!isConfirm}") 提交申请
           a(href="javascript:void(null)" class="btn-cancel fr" @click="cancel") 下次再说
       masker(style="border-radius: 2px;" color="#000" :opacity="0.5" fullscreen=true v-show="false")
         div(slot="content" class="msg-box")
@@ -132,6 +132,39 @@ export default {
           this.$vux.toast.text('我的贷款页面初始化失败~')
         }
       })
+    },
+    jumpAgree () {
+      let self = this
+      let token = self.$store.state.userInfo.token
+      let path = self.$store.state.baseUrl + '/app/xsyd/contactUs.html?' + token
+      let data = {
+        action: 'jump_web_sign',
+        path: path,
+        params: {
+          token: this.$store.state.userInfo.token,
+          usedFor: this.value1[0],
+          lowAddress: this.value2[0],
+          zmxyFlag: '1',
+          url: self.$store.state.baseUrl + '/app/xsyd/submitApply.do',
+          name: '申请授权'
+        }
+      }
+      if (data.params.usedFor !== '') {
+        if (data.params.lowAddress !== '') {
+          self.$store.dispatch('normalRequest', data).then(data => {
+            if (data.response === 'success') {
+              this.$vux.toast.text('授信信息提交成功~')
+              this.$router.replace('/quotaEvaluation')
+            } else {
+              this.$vux.toast.text(data.data)
+            }
+          })
+        } else {
+          this.$vux.toast.text('请选择法律文书送达地址~')
+        }
+      } else {
+        this.$vux.toast.text('请选择借款用途~')
+      }
     },
     submit () {
        // 页面初始化

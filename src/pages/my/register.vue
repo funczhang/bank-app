@@ -17,7 +17,7 @@
         .confirm-area
           check-icon(:value.sync="isConfirm")
           span 我已经阅读并同意
-          a(href="javascript:void(null)") 《用户注册协议》
+          a(href="javascript:void(null)" @click="jumpRegisterWeb") 《用户注册协议》
         .clear
         .btn-area
           button(class="btn-submit" @click="rigister" :disabled="!isConfirm" :class="{active:!isConfirm}") 提交
@@ -59,6 +59,20 @@ export default {
     // window.clearInterval(window.setTime)
   },
   methods: {
+    jumpRegisterWeb () {
+      let self = this
+      let token = self.$store.state.userInfo.token
+      let path = self.$store.state.baseUrl + '/app/xsyd/regAgreement.html?' + token
+      let data = {
+        action: 'jump_web_show',
+        path: path,
+        params: {
+          name: '用户注册协议'
+        }
+      }
+      self.$store.dispatch('normalRequest', data).then(res => {
+      })
+    },
     rigister () {
       // 注册请求
       let self = this

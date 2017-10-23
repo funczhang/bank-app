@@ -15,7 +15,7 @@
               i(v-show="informList.length !== 0")
               //- span(style="display:inline-block;width:80%;" class="ell") 兴盛e贷APP上线啦！
               marquee(style="height:1.5rem;")
-                marquee-item(v-for="item in informList" :key="item.id") {{item.content}}
+                marquee-item(v-for="item in informList" :key="item.id") {{item.subTitle}}
               //- marquee(style="height:1.5rem;")
               //-   marquee-item(v-for="item in 10" :key="item.id") {{'你好的冯绍峰的沙发斯蒂芬斯蒂芬是否是地方撒发放'}}
           ul(class="btn-area clearfix")
@@ -101,13 +101,12 @@ export default {
       self.getBaseInfo()
       self.getPicList()
       self.applyInfo()
-      self.init()
       self.$nextTick(() => {
         //   // 视图更新完成后停止刷新或加载动作
         self.$refs.myScroller.donePulldown()
-        self.$refs.myScroller.reset({
-          top: 0
-        })
+        // self.$refs.myScrollesr.reset({
+        //   top: 0
+        // })
       })
     },
     toInform () {

@@ -23,7 +23,7 @@
                 p(class="clearfix")
                   label 申请额度(元)
                   span(style="color:red;") {{item.amount}}
-                p(class="clearfix to-guarantee" style="border-bottom:none;" @click="toGuarantee(item.statusNo)")
+                p(class="clearfix to-guarantee" style="border-bottom:none;" @click="toGuarantee(item.statusNo, item.applyNo)")
                   label 状态名称 {{item.statusNo}}
                   span(style="margin-right:1rem;") {{item.statusName}}
                   //- span(style="margin-right:1rem;") 11111
@@ -124,11 +124,12 @@ export default {
         this.guaranteeForMe()
       }
     },
-    toGuarantee (status) {
+    toGuarantee (status, applyNo) {
       if (status === '201') {
-        this.$router.push('/handleGuarantee')
+        // this.$router.push({path: 'HandleGuarantee'})
+        this.$router.push({path: '/handleGuarantee', query: {applyNo: applyNo}})
       } else if (status === '203') {
-        this.$router.push('/sign')
+        this.$router.push({path: '/sign', query: {applyNo: applyNo}})
       } else if (status === '204') {
         this.$vux.toast.text('担保已失效~')
       }
@@ -162,7 +163,7 @@ export default {
       })
       // 我为他人担保信息
       self.$store.dispatch('normalRequest', data).then(data => {
-        // alert(JSON.stringify(data))
+        alert(JSON.stringify(data))
         if (data.response === 'success') {
           data.data.myList.length === 0 ? self.color = '#fff' : self.color = ''
           self.myList = data.data.myList

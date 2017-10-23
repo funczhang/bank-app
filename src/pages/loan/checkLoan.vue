@@ -55,7 +55,7 @@
       .content(v-show="canApply")
         img(class="empty" src="../../assets/imgs/icon-no-apply.png")
         .tip 您暂无申请记录哦~
-        a(href="javascript:void(null)" class="btn-apply" @click="isLoginAndVerfied") 去申请
+        a(href="javascript:void(null)" class="btn-apply" @click="goApply") 去申请
 </template>
 
 <script>
@@ -79,11 +79,6 @@ export default {
     }
   },
   mounted () {
-    // let token = this.$store.state.userInfo.token
-    // let isAuth = this.$store.state.userInfo.isAuth
-    // token !== '' && isAuth !== '' ? this.initPage() : null
-    // this.apply()
-    // this.initView()
     this.initPage()
   },
   computed: {
@@ -109,13 +104,12 @@ export default {
   methods: {
     initPage () {
       if (this.isLogin() && this.isVerfied()) {
-        this.apply()
         this.initView()
       }
     },
-    isLoginAndVerfied () {
-      if (this.isLogin) {
-        if (this.isVerfied) {
+    goApply () {
+      if (this.isLogin()) {
+        if (this.isVerfied()) {
           this.apply()
         } else {
           this.$router.push('/verfied')
@@ -136,13 +130,13 @@ export default {
         }
       }
       self.$store.dispatch('initRequest', data).then(res => {
-        // alert(res)
         let data = JSON.parse(res)
         if (data.response === 'success') {
           if (data.data.canApply === 1) { // 1可以申请 2不可申请
             this.$router.push('/loan')
             this.$store.state.tabItem = 1
           } else {
+            this.$vux.toast.text(data.data)
           }
         } else {
           this.$vux.toast.text('获取申请接口数据失败')
@@ -163,9 +157,9 @@ export default {
           break
         case '5': self.$store.state.applyState = 5; self.page = '/success' // 签约完成
           break
-        case '6': self.$store.state.applyState = 5; self.page = '/fail' // 签约超时
+        case '6': self.$store.state.applyState = 6; self.page = '/fail' // 签约超时
           break
-        case '7': self.$store.state.applyState = 5; self.page = '/sign' // 签约中
+        case '7': self.$store.state.applyState = 7; self.page = '/sign' // 签约中
           break
       }
     },
@@ -185,7 +179,6 @@ export default {
       //   text: 'Loading'
       // })
       self.$store.dispatch('initRequest', data).then(res => {
-        // alert(res)
         // this.$vux.loading.hide()
         let data = JSON.parse(res)
         if (data.response === 'success') {

@@ -30,6 +30,7 @@ Vue.use(Vuex)
 Vue.prototype.setTime = () => {
   alert('settime')
 }
+// window.ontouchstart = function (e) { e.preventDefault() }
 /* eslint-disable no-new */
 new Vue({
   router,

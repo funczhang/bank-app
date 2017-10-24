@@ -24,7 +24,7 @@
             //- check-icon(:value.sync="type04")
             .radio(:class="{active: qType4}" @click="selectQType('4')")
             span 其他
-        x-textarea(v-model="opinion" show-counter=true placeholder="您的反馈帮助我们成长" :rows=7 style="padding:10px")
+        x-textarea(v-model="opinion" :show-counter="true" max=50 @on-blur="show" placeholder="您的反馈帮助我们成长" :rows=7 style="padding:10px")
         .btn-submit(@click="submit") 提交
 </template>
 
@@ -56,6 +56,9 @@ export default {
   mounted () {
   },
   methods: {
+    show () {
+      // alert(this.opinion.toString())
+    },
     selectQType (type) {
       this.reset()
       this['qType' + type] = true

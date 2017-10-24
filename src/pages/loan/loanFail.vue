@@ -47,8 +47,8 @@ export default {
         action: 'init_request',
         path: path,
         params: {
-          // token: this.$store.state.userInfo.token
-          token: 'e2e9e2dc-07c6-41f0-9b80-0486a1c0f5b4'
+          token: this.$store.state.userInfo.token
+          // token: 'e2e9e2dc-07c6-41f0-9b80-0486a1c0f5b4'
         }
       }
       // 初始化我的贷款

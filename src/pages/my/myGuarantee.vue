@@ -2,21 +2,17 @@
   div(style="height:100%;")
     view-box(ref="viewBox" body-padding-top="90px" body-padding-bottom="0")
       x-header(slot="header" title="我的担保" :left-options="{showBack:true,backText:''}" style="width:100%;position:absolute;left:0;top:0;z-index:100;background:#fff;color:#000;")
-        //- img(class="icon-refresh" src="../../assets/imgs/icon-refresh.png" slot="right" @click="refresh")
       .content()
         tab(active-color="#1f76e2")
           tab-item(selected style="border-right:1px solid #ededed;" @on-item-click="handler(0)") 我为他人担保
           tab-item(@on-item-click="handler(1)") 他人为我担保
-        scroller(ref="guaranteeScroller" height="-1000" :lock-x="true" :use-pulldown="true" :pulldown-config="pulldownConfig" @on-pulldown-loading="onPulldownLoading")
+        scroller(ref="guaranteeScroller" height="-90" :lock-x="true" :use-pulldown="true" :pulldown-config="pulldownConfig" @on-pulldown-loading="onPulldownLoading")
           .template(v-show="isForOther")
             .for-other(v-for="item in myList")
               .applyer
                 p(class="clearfix")
                   label 借款人
                   span {{item.manName}}
-                //- p(class="clearfix")
-                //-   label 申请人
-                //-   span {{item.manName}}
                 p(class="clearfix")
                   label 身份证号
                   span {{item.idCard}}
@@ -26,10 +22,6 @@
                 p(class="clearfix to-guarantee" style="border-bottom:none;" @click="toGuarantee(item.statusNo, item.applyNo)")
                   label 状态名称 {{item.statusNo}}
                   span(style="margin-right:1rem;") {{item.statusName}}
-                  //- span(style="margin-right:1rem;") 11111
-              //- .amount
-              //-   p(class="title") 申请金额(元)
-              //-   p(class="account") {{item.amount}}
             img(v-show="myList.length===0" src="../../assets/imgs/icon-empty.png")
             p(v-show="myList.length===0" style="padding:2rem 1rem;text-align:center;font-size:0.75rem;color:#999;") 没有我为他人担保信息
           .template(v-show="!isForOther")
@@ -85,11 +77,11 @@ export default {
       myList: [],
       othersList: [],
       pulldownConfig: {
-        content: '下拉刷新~',
+        content: '',
         height: 60,
-        autoRefresh: false,
-        downContent: '下拉刷新~',
-        upContent: '释放刷新~',
+        autoRefresh: true,
+        downContent: '释放刷新~',
+        upContent: '',
         loadingContent: '加载中...',
         clsPrefix: 'xs-plugin-pulldown-'
       }
@@ -97,15 +89,15 @@ export default {
   },
   mounted () {
     // this.guaranteeForOther()
+    // 调用两次解决内容显示不全的问题
     this.onPulldownLoading()
-    // this.$refs.guaranteeScroller.reset()
-    // this.$nextTick(() => {
-    //   //   // 视图更新完成后停止刷新或加载动作
-    //   this.$refs.guaranteeScroller.donePulldown()
-    //   this.$refs.guaranteeScroller.reset({
-    //     top: 0
-    //   })
-    // })
+    this.onPulldownLoading()
+    this.$nextTick(() => {
+      //   // 视图更新完成后停止刷新或加载动作
+      this.$refs.guaranteeScroller.reset({
+        top: 0
+      })
+    })
   },
   methods: {
     handler (flag) {
@@ -163,7 +155,7 @@ export default {
       })
       // 我为他人担保信息
       self.$store.dispatch('normalRequest', data).then(data => {
-        alert(JSON.stringify(data))
+        // alert(JSON.stringify(data))
         if (data.response === 'success') {
           data.data.myList.length === 0 ? self.color = '#fff' : self.color = ''
           self.myList = data.data.myList
@@ -175,6 +167,9 @@ export default {
         // // 视图更新完成后停止刷新或加载动作
         //   this.$refs.myScroller.donePulldown()
         // })
+        self.$refs.guaranteeScroller.reset({
+          top: 0
+        })
       })
       this.$vux.loading.hide()
     },
@@ -209,6 +204,9 @@ export default {
         //   // 视图更新完成后停止刷新或加载动作
         //   self.$refs.myScroller.donePulldown()
         // })
+        self.$refs.guaranteeScroller.reset({
+          top: 0
+        })
         this.$vux.loading.hide()
       })
     }

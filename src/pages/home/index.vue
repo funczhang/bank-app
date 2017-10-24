@@ -4,7 +4,8 @@
       x-header(slot="header" title="" :left-options="{showBack:false}" style="width:100%;position:absolute;left:0;top:0;z-index:100;background:#fff;")
         img(class="icon-title" src="../../assets/imgs/icon-logo.png" slot="overwrite-title")
         img(class="icon-email" src="../../assets/imgs/icon-email.png" slot="right" @click="jumpTo('inform')")
-      scroller(ref="myScroller" :lock-x="true" height="-96" :scrollbarY="true" :bounce="true" :use-pulldown="true" :use-pullup="false" :pulldown-config="pulldownConfig" @on-pulldown-loading="onPulldownLoading")
+      scroller(ref="myScroller" height="-96" :lock-x="true" :use-pulldown="true" :use-pullup="true" :pullup-config="pullupConfig" :pulldown-config="pulldownConfig" @on-pulldown-loading="onPulldownLoading")
+        //- .content 111
         .content
           swiper(:list="imglist" v-model="index" :auto="true" :loop="true")
           .inform
@@ -70,11 +71,21 @@ export default {
       pulldownConfig: {
         content: '下拉刷新~',
         height: 60,
-        autoRefresh: false,
+        autoRefresh: true,
         downContent: '下拉刷新~',
         upContent: '释放刷新~',
         loadingContent: '加载中...',
         clsPrefix: 'xs-plugin-pulldown-'
+      },
+      pullupConfig: {
+        content: 'Pull Up To Refresh',
+        pullUpHeight: 60,
+        height: 40,
+        autoRefresh: true,
+        downContent: '-我也是有底线的哦-',
+        upContent: '-我也是有底线的哦-',
+        loadingContent: '-我也是有底线的哦-',
+        clsPrefix: ''
       }
     }
   },
@@ -110,12 +121,17 @@ export default {
       })
     },
     toInform () {
-      // let token = this.$store.state.userInfo.token
-      // if (token !== '') {
-      this.$router.push('/inform')
-      // } else {
-      //   this.$vux.toast.text('请登录后查看公告哦~')
-      // }
+      let token = this.$store.state.userInfo.token
+      let isAuth = this.$store.state.userInfo.isAuth
+      if (token !== '') {
+        if (isAuth !== '') {
+          this.$router.push('/inform')
+        } else {
+          this.$vux.toast.text('请实名认证后查看公告哦~')
+        }
+      } else {
+        this.$vux.toast.text('请登录后查看公告哦~')
+      }
     },
     jumpTo (page) {
       switch (page) {
@@ -125,7 +141,7 @@ export default {
           break
         case 'BankCardList': this.isLoginAndVerfied() === true ? this.$router.push('/bankCardList') : null
           break
-        case 'MyLoan': this.isLoginAndVerfied() === true ? this.$router.push('/loan') : null
+        case 'MyLoan': this.isLoginAndVerfied() === true ? this.$vux.toast.text('请去贷款模块申请~') : null
           break
         case 'MyRepayment': this.isLoginAndVerfied() === true ? this.$router.push('/repaymentRecord') : null
           break
@@ -200,17 +216,17 @@ export default {
         switch (this.$store.state.applyState) {
           case 0: this.$vux.toast.text('申请相关信息获取失败，请退出重新登录~')
             break
-          case 1: this.$router.push('/quotaEvaluations')
+          case 1: this.$router.push('/quotaEvaluations') // 额度评估
             break
-          case 2: this.$router.push('/fail')
+          case 2: this.$router.push('/fail') // 审批未通过
             break
-          case 3: this.$router.push('/sign')
+          case 3: this.$router.push('/sign') // 签约等待
             break
-          case 4: this.$router.push('/sign')
+          case 4: this.$router.push('/sign') // 签约
             break
-          case 5: this.$router.push('/sign')
+          case 5: this.$vux.toast.text('您有一笔授信申请中,暂时无法申请~') // 签约完成
             break
-          case 6: this.$router.push('/fail')
+          case 6: this.$router.push('/fail') // 签约超时
             break
         }
       }
@@ -226,7 +242,7 @@ export default {
         }
       }
       self.$store.dispatch('initRequest', data).then(res => {
-        // alert(res)
+        alert(res)
         let data = JSON.parse(res)
         self.$store.state.canApply = data.data.canApply
         self.$store.state.applyNo = data.data.applyNo
@@ -266,13 +282,20 @@ export default {
 <style lang="less">
 // 首页tab切换
 html, body {
-  height: 100%;
+  // height: 100%;
   width: 100%;
   overflow-x: hidden;
   // body{
   //   background:#fff;
   // }
   .content{
+    // position: absolute;
+    // top:0;
+    // left: 0;
+    // right:0;
+    // z-index: 10;
+    // height:100%;
+    // overflow: hidden;
     .inform {
       height:1.5rem;
       background:#f5f5f5;
@@ -464,5 +487,6 @@ html, body {
     }
   }
 }
+
 </style>
 

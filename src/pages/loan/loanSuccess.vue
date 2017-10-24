@@ -1,15 +1,15 @@
 <template lang="pug">
   div(style="height:100%;")
-    view-box(ref="viewBox" body-padding-top="46px" body-padding-bottom="50px")
-      x-header(slot="header" title="签约" :left-options="{showBack:true,backText:''}" style="width:100%;position:absolute;left:0;top:0;z-index:100;background:#fff;color:#000;")
+    view-box(ref="viewBox" body-padding-top="46px" body-padding-bottom="0")
+      x-header(slot="header" title="签约完成" :left-options="{showBack:true,backText:''}" style="width:100%;position:absolute;left:0;top:0;z-index:100;background:#fff;color:#000;")
       .content  
         .progerss
           img(src="../../assets/imgs/progress04.png")
           div
             span(class="first") 已申请
             span 已审批
-            span 待签约
-            span(class="last") 待完成
+            span 已签约
+            span(class="last") 已完成
         .tip
           img(src="../../assets/imgs/icon-success.png")
           p 您的授信申请易完成，请使用
@@ -21,20 +21,20 @@
             ul(class="clearfix")
               li 
                 p(class="title") 授信额度(元)
-                p(class="value" style="color:#f32f2f") 10.0万
+                p(class="value" style="color:#f32f2f") {{lineCredit === '' ? '--' : lineCredit}}
               li(class="mid")
-                p(class="title") 审批利率(月)
-                p(class="value" style="color:#1f76e2;") 4.234%
+                p(class="title") 授信利率(月)
+                p(class="value" style="color:#1f76e2;") {{loanInterestRate === '' ? '--' : loanInterestRate}}%
               li 
                 p(class="title") 授信期限(月)
-                p(class="value" style="color:#1f76e2;") 24
+                p(class="value" style="color:#1f76e2;") {{timeLimit === '' ? '--' : timeLimit}}
         .module
           .module-head 银行卡信息
           .module-content
             .line(class="clearfix") 
               img(class="icon-card fl" src="../../assets/imgs/icon-card.png")
               span(class="fl" style="font-size:14px;color:#333;line-height:37px;") 卡号
-              span(class="fr" style="font-size:14px;color:#333;line-height:37px;") 11111111111111111
+              span(class="fr" style="font-size:14px;color:#333;line-height:37px;") {{creditCardNo === '' ? '--' : creditCardNo}}
         .check-contract
           a(href="javascript:void(null)") 查看合同
 </template>
@@ -54,10 +54,14 @@ export default {
   data () {
     return {
       index: 0,
-      list1: [['小米', 'iPhone', '华为', '情怀', '三星', '其他', '不告诉你']]
+      lineCredit: '',
+      loanInterestRate: '',
+      timeLimit: '',
+      creditCardNo: ''
     }
   },
   mounted () {
+    this.initData()
   },
   methods: {
     isShow () {
@@ -68,6 +72,31 @@ export default {
     },
     cancel () {
       alert('取消')
+    },
+    initData () {
+        // 页面初始化
+      let self = this
+      let path = self.$store.state.baseUrl + '/app/xsyd/signComplete.do'
+      let data = {
+        action: 'init_request',
+        path: path,
+        params: {
+          token: this.$store.state.userInfo.token,
+          applyId: self.$store.state.applyNo
+        }
+      }
+      // 初始化我的贷款
+      self.$store.dispatch('normalRequest', data).then(data => {
+        // let data = JSON.parse(res)
+        if (data.response === 'success') {
+          self.lineCredit = data.data.lineCredit
+          self.loanInterestRate = data.data.loanInterestRate
+          self.timeLimit = data.data.timeLimit
+          self.creditCardNo = data.data.creditCardNo
+        } else {
+          self.$vux.toast.text(data.data)
+        }
+      })
     }
   }
 }

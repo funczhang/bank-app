@@ -34,20 +34,20 @@
       span(class="last") 待完成
   .progerss(v-if="state === 5") 
     //- 5-签约完成
-    img(src="../../assets/imgs/progress04.png")
+    img(src="../../assets/imgs/progress03.png")
     div
       span(class="first") 已申请
       span 已审批
       span 已签约
-      span(class="last") 已完成
+      span(class="last") 待完成
   .progerss(v-if="state === 6") 
     //- 6-签约超时
-    img(src="../../assets/imgs/fail03.png")
+    img(src="../../assets/imgs/progress03.png")
     div
       span(class="first") 已申请
       span 已审批
-      span 签约超时
-      span(class="last") 未完成
+      span 担保人处理中
+      span(class="last") 待完成
   .progerss(v-if="state === 7") 
     //- 签约中
     img(src="../../assets/imgs/progress03.png")
@@ -64,8 +64,6 @@
 </script>
 <style lang="less">
 .progerss{
-  // position: fixed;
-  // top:46px;
   padding:0.5rem 0.75rem;
   height:2.5rem;
   background:#257eeb;

@@ -26,7 +26,9 @@ img,
 th,
 td {
     margin: 0;
-    padding: 0;
+    padding: 0; 
+    -webkit-user-select: none;/*禁用手机浏览器的用户选择功能 */
+  -moz-user-select: none; 
 }
 html,body{
     height:100%;
@@ -288,7 +290,7 @@ input:-moz-placeholder {
   }
   #app .box .weui-cells{
       /* font-size:0.7rem; */
-      border-top:1px solid #ededed;
+      /* border-top:1px solid #ededed; */
   }
   /* group头部字体 */
   #app .weui-cells__title{
@@ -311,4 +313,23 @@ input:-moz-placeholder {
       top:46px;
       left:0;
       right:0;
+  }
+  #app .xs-container{
+      /* overflow-y: scroll; */
+  }
+  /* 下拉加载的样式 */
+  .container{
+    font-size:0.8rem;
+    bottom:-46px;
+    color:#666;
+  }
+  .xs-plugin-pulldown-container{
+    font-size:0.8rem;
+    color:#666;
+  }
+  .content{
+      /* position: relative; */
+  }
+  #app .box vux-no-group-title{
+    border-top:none;
   }

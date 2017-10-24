@@ -87,11 +87,12 @@ export default {
         }
       }
       // 显示
-      this.$vux.loading.show({
-        text: 'Loading'
-      })
+      // this.$vux.loading.show({
+      //   text: 'Loading'
+      // })
+      // alert('111')
       self.$store.dispatch('normalRequest', data).then(res => {
-        // alert(JSON.stringify(res))
+        alert(JSON.stringify(res))
         if (res.response === 'success') {
           type === '0' ? self.systemInform = res.data : self.userInform = res.data
         } else {
@@ -131,7 +132,7 @@ export default {
 .content{
   .inform-list{
     margin-top:0.75rem;
-    border-bottom:1px solid #ededed;
+    // border-bottom:1px solid #ededed;
     li{
       border-top:1px solid #ededed;
       padding:1rem 0.75rem;

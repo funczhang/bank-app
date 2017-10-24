@@ -32,16 +32,16 @@
               .option(class="clearfix")      
                 group
                   popup-picker(title="申请用途" placeholder="请选择用途" :data="loanUseList" v-model="value1")
-        .get-more
-          .module-head 获取更高额度
-          .module-content
-            ul(class="add clearfix" style="padding:20px 0 15px;")
-              //- li(style="border-right:1px solid #ededed;") 
-              //-   img(src="../../assets/imgs/icon-addfriend.png")
-              //-   p(class="btn-guarantee") 添加担保人
-              li 
-                img(src="../../assets/imgs/icon-zhima.png")
-                p(class="btn-zhima") 芝麻信用分
+        //- .get-more
+        //-   .module-head 获取更高额度
+        //-   .module-content
+        //-     ul(class="add clearfix" style="padding:20px 0 15px;")
+        //-       //- li(style="border-right:1px solid #ededed;") 
+        //-       //-   img(src="../../assets/imgs/icon-addfriend.png")
+        //-       //-   p(class="btn-guarantee") 添加担保人
+        //-       li 
+        //-         img(src="../../assets/imgs/icon-zhima.png")
+        //-         p(class="btn-zhima") 芝麻信用分
         .title(class="clearfix") 
           span(class="fl") 法律文书送达地址
           i(class="fl" @click="showMsg")

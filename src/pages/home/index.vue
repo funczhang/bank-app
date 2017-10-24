@@ -4,7 +4,8 @@
       x-header(slot="header" title="" :left-options="{showBack:false}" style="width:100%;position:absolute;left:0;top:0;z-index:100;background:#fff;")
         img(class="icon-title" src="../../assets/imgs/icon-logo.png" slot="overwrite-title")
         img(class="icon-email" src="../../assets/imgs/icon-email.png" slot="right" @click="jumpTo('inform')")
-      scroller(ref="myScroller" :lock-x="true" :bounce="true" :use-pulldown="true" :pulldown-config="pulldownConfig" @on-pulldown-loading="onPulldownLoading")
+      scroller(ref="myScroller" height="-96" :lock-x="true" :use-pulldown="true" :use-pullup="true" :pullup-config="pullupConfig" :pulldown-config="pulldownConfig" @on-pulldown-loading="onPulldownLoading")
+        //- .content 111
         .content
           swiper(:list="imglist" v-model="index" :auto="true" :loop="true")
           .inform
@@ -70,11 +71,21 @@ export default {
       pulldownConfig: {
         content: '下拉刷新~',
         height: 60,
-        autoRefresh: false,
+        autoRefresh: true,
         downContent: '下拉刷新~',
         upContent: '释放刷新~',
         loadingContent: '加载中...',
         clsPrefix: 'xs-plugin-pulldown-'
+      },
+      pullupConfig: {
+        content: 'Pull Up To Refresh',
+        pullUpHeight: 60,
+        height: 40,
+        autoRefresh: true,
+        downContent: '-我也是有底线的哦-',
+        upContent: '-我也是有底线的哦-',
+        loadingContent: '-我也是有底线的哦-',
+        clsPrefix: ''
       }
     }
   },
@@ -266,13 +277,20 @@ export default {
 <style lang="less">
 // 首页tab切换
 html, body {
-  height: 100%;
+  // height: 100%;
   width: 100%;
   overflow-x: hidden;
   // body{
   //   background:#fff;
   // }
   .content{
+    // position: absolute;
+    // top:0;
+    // left: 0;
+    // right:0;
+    // z-index: 10;
+    // height:100%;
+    // overflow: hidden;
     .inform {
       height:1.5rem;
       background:#f5f5f5;
@@ -464,5 +482,6 @@ html, body {
     }
   }
 }
+
 </style>
 

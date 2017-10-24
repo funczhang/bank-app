@@ -54,7 +54,7 @@
                 span(v-show="bindCardNo === ''" style="font-size:14px;color:#333;") 绑定银行卡
                 span(v-show="bindCardNo !== ''" style="font-size:14px;color:#333;") {{bindCardNo}}
           .btn-area(class="clearfix")
-            a(href="javascript:void(null)" class="btn-submit fl" @click="sign") 签约
+            a(href="javascript:void(null)" class="btn-submit fl" @click="isConfirmShow = true") 签约
             a(href="javascript:void(null)" class="btn-cancel fr" @click="giveUpSign") 下次再说
       masker(color="#000" :opacity="0.4" fullscreen=true v-show="addAssurePeople")
         .box(slot="content")
@@ -79,6 +79,15 @@
               span(style="font-size:14px;color:#333;") 绑定银行卡
             .btn-area(class="clearfix")
               a(href="javascript:void(null)" class="btn-submit btn-card-certain" @click="chooseBankCard") 确定
+      masker(color="#000" :opacity="0.4" fullscreen=true v-show="isConfirmShow")
+        .box(slot="content")
+          .head 提示
+            img(src="../../assets/imgs/arrow-right.png" @click="addAssurePeople = false")
+          .content
+            span(style="display:block;padding:1rem 0;text-align:center;font-size:0.8rem;line-height:1.5;color:#333;") 您是否确定签约？
+            .btn-area(class="clearfix")
+              a(href="javascript:void(null)" class="btn-submit fl" @click="sign") 确定
+              a(href="javascript:void(null)" class="btn-cancel fr" @click="isConfirmShow = false") 取消
 </template>
 
 <script>
@@ -103,6 +112,7 @@ export default {
       isAddStatus: '1',
       radio: [],
       newRate: '',
+      isConfirmShow: true,
       couponId: '', // 优惠券id
       isSelectCard: false,
       addAssurePeople: false,
@@ -190,7 +200,14 @@ export default {
         }
       }
       self.$store.dispatch('normalRequest', data).then(res => {
-        alert(JSON.stringify(res))
+        // alert(JSON.stringify(res))
+        if (res.response === 'success') {
+          this.$vux.toast.text('您已放弃签约~')
+          this.$router.replace('/checkLoan')
+          this.$store.state.tabItem = 1
+        } else {
+          this.$vux.toast.text(data.data)
+        }
       })
     },
     couponChange (value) {
@@ -270,6 +287,7 @@ export default {
           name: '签约授权'
         }
       }
+      self.isConfirmShow = false
       this.$store.state.signInfo = data.params
       // self.$router.push({path: '/signContract'})
       // alert(JSON.stringify(data.params))
@@ -305,7 +323,7 @@ export default {
           break
         case '5': self.$store.state.applyState = 5; self.page = '/success' // 签约完成
           break
-        case '6': self.$store.state.applyState = 5; self.page = '/fail' // 签约超时
+        case '6': self.$store.state.applyState = 6; self.page = '/fail' // 签约超时
           break
       }
     },
@@ -351,7 +369,7 @@ export default {
         if (data.response === 'success') {
           self.updateAddAssureStatus()
         } else {
-          this.$vux.toast.text('撤销担保人失败~')
+          this.$vux.toast.text(data.data)
         }
         this.$vux.loading.hide()
       })

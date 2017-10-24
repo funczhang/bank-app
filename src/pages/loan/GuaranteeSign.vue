@@ -74,19 +74,17 @@ export default {
     giveUpSign () {
        // 放弃签约
       let self = this
-      let path = self.$store.state.baseUrl + '/app/xsyd/contract.html?userToken=' + self.$store.state.userInfo.token + '&applyId=' + self.$route.query.applyNo
+      let path = self.$store.state.baseUrl + '/app/xsyd/giveUpSignContract.do'
       let data = {
         action: 'jump_web_refuse',
         path: path,
         params: {
           token: self.$store.state.userInfo.token,
-          applyId: self.$store.state.applyNo, // 申请编号
-          url: self.$store.state.baseUrl + '/app/xsyd/giveUpSignContract.do',
-          name: '放弃签约授权'
+          applyId: self.$route.query.applyNo // 申请编号
         }
       }
       self.$store.dispatch('normalRequest', data).then(res => {
-        alert(JSON.stringify(res))
+        this.$router.replace('/myGurantee')
       })
     },
     sign () {
@@ -111,8 +109,7 @@ export default {
       // alert(JSON.stringify(data.params))
       self.$store.dispatch('normalRequest', data).then(res => {
         if (res.response === 'success') {
-          this.$router.replace('/')
-          this.$store.state.tabItem = 0
+          this.$router.replace('/myGurantee')
         }
       })
     },

@@ -108,7 +108,7 @@ export default {
           alert(JSON.stringify(res))
           if (res.response === 'success') {
             this.$vux.toast.text('担保成功~')
-            this.$router.replace('/handleGuarantee')
+            this.$router.replace('/myGurantee')
           } else {
             this.$vux.toast.text(res.data)
           }

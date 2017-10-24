@@ -121,12 +121,17 @@ export default {
       })
     },
     toInform () {
-      // let token = this.$store.state.userInfo.token
-      // if (token !== '') {
-      this.$router.push('/inform')
-      // } else {
-      //   this.$vux.toast.text('请登录后查看公告哦~')
-      // }
+      let token = this.$store.state.userInfo.token
+      let isAuth = this.$store.state.userInfo.isAuth
+      if (token !== '') {
+        if (isAuth !== '') {
+          this.$router.push('/inform')
+        } else {
+          this.$vux.toast.text('请实名认证后查看公告哦~')
+        }
+      } else {
+        this.$vux.toast.text('请登录后查看公告哦~')
+      }
     },
     jumpTo (page) {
       switch (page) {
@@ -136,7 +141,7 @@ export default {
           break
         case 'BankCardList': this.isLoginAndVerfied() === true ? this.$router.push('/bankCardList') : null
           break
-        case 'MyLoan': this.isLoginAndVerfied() === true ? this.$router.push('/loan') : null
+        case 'MyLoan': this.isLoginAndVerfied() === true ? this.$vux.toast.text('请去贷款模块申请~') : null
           break
         case 'MyRepayment': this.isLoginAndVerfied() === true ? this.$router.push('/repaymentRecord') : null
           break
@@ -211,17 +216,17 @@ export default {
         switch (this.$store.state.applyState) {
           case 0: this.$vux.toast.text('申请相关信息获取失败，请退出重新登录~')
             break
-          case 1: this.$router.push('/quotaEvaluations')
+          case 1: this.$router.push('/quotaEvaluations') // 额度评估
             break
-          case 2: this.$router.push('/fail')
+          case 2: this.$router.push('/fail') // 审批未通过
             break
-          case 3: this.$router.push('/sign')
+          case 3: this.$router.push('/sign') // 签约等待
             break
-          case 4: this.$router.push('/sign')
+          case 4: this.$router.push('/sign') // 签约
             break
-          case 5: this.$router.push('/sign')
+          case 5: this.$vux.toast.text('您有一笔授信申请中,暂时无法申请~') // 签约完成
             break
-          case 6: this.$router.push('/fail')
+          case 6: this.$router.push('/fail') // 签约超时
             break
         }
       }
@@ -237,7 +242,7 @@ export default {
         }
       }
       self.$store.dispatch('initRequest', data).then(res => {
-        // alert(res)
+        alert(res)
         let data = JSON.parse(res)
         self.$store.state.canApply = data.data.canApply
         self.$store.state.applyNo = data.data.applyNo

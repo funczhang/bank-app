@@ -29,22 +29,37 @@
             .pretty-rate(v-show="newRate !== ''") 
               p(class="title") 优惠后利率
               p(class="rate") {{newRate}}%
-            .tip(v-show="!isHandlerAssure") 注意：如果您觉得当前授信额度较低，可通过一下“添加担保人”获取更高额度；否则，可直接签约
-        .template(v-show="!isHandlerAssure")
-          .module
+            .tip(v-show="!isHandlerAssure && getAssureIdCard ===''") 注意：如果您觉得当前授信额度较低，可通过一下“添加担保人”获取更高额度；否则，可直接签约
+        .template
+          .module(v-show="!isHandlerAssure && getAssureIdCard ===''")
             .module-head 获取更高额度
             .module-content
               ul(class="add clearfix" style="padding:20px 0 15px;")
                 li(style="margin:0 auto;" @click="addAssure") 
                   img(src="../../assets/imgs/icon-addfriend.png")
                   p(class="btn-guarantee") 添加担保人
+          .module(v-show="getAssureIdCard !== ''")
+            .module-head 担保人信息
+            ul(class="people-module-content")
+              li
+                .option(class="clearfix")  
+                  label 担保人
+                  span {{getAssureName}} 
+              li
+                .option(class="clearfix")  
+                  label 身份证号
+                  span {{getAssureIdCard}}
+              li
+                .option(class="clearfix")  
+                  label 手机号码
+                  span {{getAssurePhone}}
           .module
             .module-head 关联贷款抵用券
             .module-content 
               group
                 popup-picker(title="抵用券" v-model="couponAmount" @on-change="couponChange" :data="couponList" :columns="1" style="padding:12px 15px;background:#fff;")
                   div(class="coupon-count" slot="title") 
-                    span 抵用券
+                    span(style="font-size:0.7rem;") 抵用券
                     span(class="count") 还剩{{couponList.length}}张
           .module
             .module-head 银行卡信息
@@ -58,7 +73,7 @@
             a(href="javascript:void(null)" class="btn-cancel fr" @click="giveUpSign") 下次再说
       masker(color="#000" :opacity="0.4" fullscreen=true v-show="addAssurePeople")
         .box(slot="content")
-          .head 更换担保人
+          .head 添加或更换担保人
             img(src="../../assets/imgs/arrow-right.png" @click="addAssurePeople = false")
           .content
             group
@@ -82,7 +97,7 @@
       masker(color="#000" :opacity="0.4" fullscreen=true v-show="isConfirmShow")
         .box(slot="content")
           .head 提示
-            img(src="../../assets/imgs/arrow-right.png" @click="addAssurePeople = false")
+            img(src="../../assets/imgs/arrow-right.png" @click="isConfirmShow = false")
           .content
             span(style="display:block;padding:1rem 0;text-align:center;font-size:0.8rem;line-height:1.5;color:#333;") 您是否确定签约？
             .btn-area(class="clearfix")
@@ -112,7 +127,7 @@ export default {
       isAddStatus: '1',
       radio: [],
       newRate: '',
-      isConfirmShow: true,
+      isConfirmShow: false,
       couponId: '', // 优惠券id
       isSelectCard: false,
       addAssurePeople: false,
@@ -131,6 +146,9 @@ export default {
       bankcardList: [], // 银行卡列表
       assureName: '', // 担保人姓名
       assurePhone: '', // 担保号码
+      getAssurePhone: '', // 已担保人姓名
+      getAssureName: '', // 已担保人姓名
+      getAssureIdCard: '', // 已担保人姓名
       assureIdcard: '' // 担保人身份证
     }
   },
@@ -256,7 +274,7 @@ export default {
           apprAmount: self.lineCredit, // 审批金额
           apprRate: self.applyRate, // 审批利率
           apprTerm: self.timeLimit, // 审批期限
-          couponId: value[0] // 优惠券id
+          couponCode: value[0] // 优惠券id
         }
       }
       self.$store.dispatch('initRequest', data).then(res => {
@@ -302,11 +320,11 @@ export default {
       self.showBindCard = false
     },
     addAssure () {
-      this.isAddStatus = '1'
+      this.isAddStatus = '1' // 添加
       this.addAssurePeople = true
     },
     changeAssure () {
-      this.isAddStatus = '2'
+      this.isAddStatus = '2' // 更换
       this.addAssurePeople = true
     },
     getProgress (type) {
@@ -397,6 +415,9 @@ export default {
           self.timeLimit = data.data.timeLimit // 授信期限
           self.lineCredit = data.data.lineCredit // 授信额度
           self.applyRate = data.data.loanInterestRate // 授信利率
+          self.getAssurePhone = data.data.assurePhone
+          self.getAssureName = data.data.assureName
+          self.getAssureIdCard = data.data.assureIdcard
           // self.couponList = data.data.couponList // 优惠券列表
           // self.bankcardList = data.data.bankcardList // 银行卡列表
           // self.assureName = data.data.assureName // 担保人姓名
@@ -723,6 +744,25 @@ export default {
     border:1px solid #1f76e2;
   }
 }
+.people-module-content{
+  label {
+    float:left;
+    color:#666;
+  }
+  span {
+    float:right;
+    color:#666;
+  }
+  .option{
+    margin:0 0.75rem;
+    padding:0.75rem 0;
+    font-size:0.7rem;
+    color:#333;
+    line-height: 1rem;
+    border-bottom:1px solid #ededed;
+  }
+  background:#fff;
+  }
 .weui-tab .weui-cell{
   padding:0.75rem 0;
   border-bottom:1px solid #ededed;

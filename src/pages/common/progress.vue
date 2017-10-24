@@ -34,7 +34,7 @@
       span(class="last") 待完成
   .progerss(v-if="state === 5") 
     //- 5-签约完成
-    img(src="../../assets/imgs/progress03.png")
+    img(src="../../assets/imgs/progress04.png")
     div
       span(class="first") 已申请
       span 已审批

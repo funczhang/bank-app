@@ -53,8 +53,8 @@
         .confirm-area
           check-icon(:value.sync="isConfirm")
           span 我已经阅读并同意
-          a(href="javascript:void(null)") 《综合查询授权书》
-          a(href="javascript:void(null)") 《法律文书送达地址确认书》
+          a(href="javascript:void(null)" @click="jumpWeb(1)") 《个人授权协议书》
+          a(href="javascript:void(null)" @click="jumpWeb(2)") 《法律文书送达地址确认书》
         .btn-area(class="clearfix")
           button(class="btn-submit fl" @click="jumpAgree" :disabled="!isConfirm" :class="{active:!isConfirm}") 提交申请
           a(href="javascript:void(null)" class="btn-cancel fr" @click="cancel") 下次再说
@@ -96,6 +96,15 @@ export default {
     this.initView()
   },
   methods: {
+    jumpWeb (type) {
+      if (type === 1) {
+        let url = this.$store.state.baseUrl + '/app/xsyd/credit.html?userToken=' + this.$store.state.userInfo.token
+        this.jumpWebShowContent('个人授权协议书', url)
+      } else {
+        let url = this.$store.state.baseUrl + '/app/xsyd/lawAddress.html?userToken=' + this.$store.state.userInfo.token
+        this.jumpWebShowContent('法律文书送达地址确认书', url)
+      }
+    },
     showMsg () {
       alert('展示更多')
     },
@@ -136,7 +145,7 @@ export default {
     jumpAgree () {
       let self = this
       let token = self.$store.state.userInfo.token
-      let path = self.$store.state.baseUrl + '/app/xsyd/contactUs.html?' + token
+      let path = self.$store.state.baseUrl + '/app/xsyd/loanUseforAgreement.html?userToken=' + token
       let data = {
         action: 'jump_web_sign',
         path: path,

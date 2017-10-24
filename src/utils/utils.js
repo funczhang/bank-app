@@ -52,5 +52,17 @@ export default {
         return false
       }
     }
+    Vue.prototype.jumpWebShowContent = function (title, url) {
+      let path = url
+      let data = {
+        action: 'jump_web_show',
+        path: path,
+        params: {
+          name: title
+        }
+      }
+      this.$store.dispatch('normalRequest', data).then(res => {
+      })
+    }
   }
 }

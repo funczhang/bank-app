@@ -106,7 +106,7 @@ export default {
       } else {
         this.$vux.toast.text('请选择一种意见类型~')
       }
-      // this.$vux.loading.hide()
+      this.$vux.loading.hide()
     }
   }
 }

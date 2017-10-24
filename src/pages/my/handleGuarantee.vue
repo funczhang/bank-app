@@ -43,7 +43,7 @@
         .option
           group
             popup-picker(title="所在地区" :data="list2" placeholder="请选择地址" v-model="address")
-        x-textarea(:max="30" v-model="detailAddress" placeholder="请填写详细地址，不少于五个字" row=4)
+        x-textarea(:max="30" style="font-size:0.75rem; color:#333" v-model="detailAddress" placeholder="请填写详细地址，不少于五个字" row=4)
         .confirm-area
           check-icon(:value.sync="isConfirm")
           span 我已经阅读并同意

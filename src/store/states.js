@@ -6,7 +6,7 @@ import * as getters from './getters'
 const state = {
   isLoading: true,
   direction: 'forward',
-  baseUrl: 'http://192.168.2.200:8080',
+  baseUrl: 'http://192.168.2.104:9080',
   imglist: [],
   faceId: '人脸照片',
   canApply: 0,

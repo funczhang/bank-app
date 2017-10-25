@@ -64,6 +64,7 @@
 </script>
 <style lang="less">
 .progerss{
+  // 修改progress
   // position: fixed;
   // top:46px;
   padding:0.5rem 0.75rem;

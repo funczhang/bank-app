@@ -121,7 +121,7 @@ export default {
         // this.$router.push({path: 'HandleGuarantee'})
         this.$router.push({path: '/handleGuarantee', query: {applyNo: applyNo}})
       } else if (status === '203') {
-        this.$router.push({path: '/sign', query: {applyNo: applyNo}})
+        this.$router.push({path: '/GuaranteeSign', query: {applyNo: applyNo}})
       } else if (status === '204') {
         this.$vux.toast.text('担保已失效~')
       }

@@ -56,6 +56,13 @@ const router = new Router({
       }
     },
     {
+      path: '/GuaranteeSign', // 担保人 签约
+      name: 'GuaranteeSign',
+      components: {
+        'default': resolve => require(['../pages/loan/GuaranteeSign.vue'], resolve)
+      }
+    },
+    {
       path: '/checkLoan', // 查看我的贷款信息
       name: 'CheckLoan',
       components: {

@@ -4,31 +4,31 @@ export default {
     state.isLoading = status
   },
   [types.INIT_USER_INFO] (state, data) {
-    if (data.isAuth) {
+    if (data.isAuth !== undefined) {
       state.userInfo.isAuth = data.isAuth
     }
-    if (data.name) {
+    if (data.name !== undefined) {
       state.userInfo.name = data.name
     }
-    if (data.imei) {
+    if (data.imei !== undefined) {
       state.imei = data.imei
     }
-    if (data.channel) {
+    if (data.channel !== undefined) {
       state.channel = data.channel
     }
-    if (data.isOpenGesture) {
+    if (data.isOpenGesture !== undefined) {
       state.isOpenGesture = data.isOpenGesture // 手势密码
     }
-    if (data.id) {
+    if (data.id !== undefined) {
       state.userInfo.id = data.id
     }
-    if (data.idCard) {
+    if (data.idCard !== undefined) {
       state.userInfo.idCard = data.idCard
     }
-    if (data.token) {
+    if (data.token !== undefined) {
       state.userInfo.token = data.token
     }
-    if (data.cellPhone) {
+    if (data.cellPhone !== undefined) {
       state.userInfo.cellphone = data.cellPhone
     }
   },

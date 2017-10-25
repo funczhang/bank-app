@@ -209,7 +209,7 @@ export default {
         switch (this.$store.state.applyState) {
           case 0: this.$vux.toast.text('申请相关信息获取失败，请退出重新登录~')
             break
-          case 1: this.$router.push('/quotaEvaluations') // 额度评估
+          case 1: this.$router.push('/quotaEvaluation') // 额度评估
             break
           case 2: this.$router.push('/fail') // 审批未通过
             break

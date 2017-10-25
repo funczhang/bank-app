@@ -41,17 +41,37 @@ export default {
   },
   data () {
     return {
-      index: 0
+      index: 0,
+      spendList: []
     }
   },
   computed: {
-    spendList () {
-      return this.$store.state.spendList
-    }
+    // spendList () {
+    //   return this.$store.state.spendList
+    // }
   },
   mounted () {
+    this.initView()
   },
   methods: {
+    initView () {
+      let self = this
+      let path = self.$store.state.baseUrl + '/app/xsyd/getSpendList.do'
+      let data = {
+        action: 'init_request',
+        path: path,
+        params: {
+          token: self.$store.state.userInfo.token
+        }
+      }
+      self.$store.dispatch('normalRequest', data).then(res => {
+        if (res.response === 'success') {
+          self.spendList = data.data.spendList
+        } else {
+          self.$vux.toast.text(data.data)
+        }
+      })
+    }
   }
 }
 </script>

@@ -44,17 +44,38 @@ export default {
   },
   data () {
     return {
-      index: 0
+      index: 0,
+      repaymentList: []
     }
   },
   computed: {
-    repaymentList () {
-      return this.$store.state.repaymentList
-    }
+    // repaymentList () {
+    //   return this.$store.state.repaymentList
+    // }
   },
   mounted () {
+    this.initView()
   },
   methods: {
+    initView () {
+      let self = this
+      let path = self.$store.state.baseUrl + '/app/xsyd/getRepaymentList.do'
+      let data = {
+        action: 'init_request',
+        path: path,
+        params: {
+          token: self.$store.state.userInfo.token
+        }
+      }
+      self.$store.dispatch('normalRequest', data).then(res => {
+        // alert(JSON.stringify(res))
+        if (res.response === 'success') {
+          this.repaymentList = data.data.repaymentList
+        } else {
+          self.$vux.toast.text(data.data)
+        }
+      })
+    }
   }
 }
 </script>

@@ -45,38 +45,58 @@ export default {
   },
   data () {
     return {
-      index: 0
+      index: 0,
+      creditList: []
     }
   },
   computed: {
-    creditList () {
-      return this.$store.state.creditList
-    },
+    // creditList () {
+    //   return this.$store.state.creditList
+    // },
     status () {
       let applyState = this.$store.state.applyState
       let status = null
       switch (applyState) {
-        case '1': status = '额度评估中'
+        case 1: status = '额度评估中'
           break
-        case '2': status = '审批未通过'
+        case 2: status = '审批未通过'
           break
-        case '3': status = '担保人处理中'
+        case 3: status = '担保人处理中'
           break
-        case '4': status = '待签约'
+        case 4: status = '待签约'
           break
-        case '5': status = '签约审批中'
+        case 5: status = '签约审批中'
           break
-        case '6': status = '签约超时'
+        case 6: status = '签约超时'
           break
-        case '7': status = '签约中'
+        case 7: status = '签约中'
           break
       }
       return status
     }
   },
   mounted () {
+    this.initView()
   },
   methods: {
+    initView () {
+      let self = this
+      let path = self.$store.state.baseUrl + '/app/xsyd/getCreditList.do'
+      let data = {
+        action: 'init_request',
+        path: path,
+        params: {
+          token: self.$store.state.userInfo.token
+        }
+      }
+      self.$store.dispatch('normalRequest', data).then(res => {
+        if (res.response === 'success') {
+          self.creditList = data.data.creditList
+        } else {
+          self.$vux.toast.text(data.data)
+        }
+      })
+    }
   }
 }
 </script>

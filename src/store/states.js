@@ -26,7 +26,7 @@ const state = {
   applyNo: '', // 本人申请编号
   loanInfo: {
   },
-  applyState: '', // 申请进度
+  applyState: 0, // 申请进度
   spendList: [], // 我的用信
   repaymentList: [], // 我的还款
   creditList: [], // 我的授信

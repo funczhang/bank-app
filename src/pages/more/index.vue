@@ -101,6 +101,7 @@ export default {
           text: 'Loading'
         })
         self.$store.dispatch('normalRequest', data).then(res => {
+          alert(JSON.stringify(res))
           // 清楚用户信息
           self.$store.commit('INIT_HEAD_IMG', {avatar: ''})
           self.$store.commit('INIT_USER_INFO', res)

@@ -171,7 +171,7 @@ export default {
         action: 'init_request',
         path: path,
         params: {
-          token: this.$store.state.userInfo.token
+          token: self.$store.state.userInfo.token
         }
       }
       // 初始化我的贷款
@@ -187,9 +187,9 @@ export default {
             self.canApply = true
           } else {
             self.canApply = false
-            self.$store.state.spendList = data.data.spendList
-            self.$store.state.repaymentList = data.data.repaymentList
-            self.$store.state.creditList = data.data.creditList
+            // self.$store.state.spendList = data.data.spendList
+            // self.$store.state.repaymentList = data.data.repaymentList
+            // self.$store.state.creditList = data.data.creditList
             self.$store.state.applyNo = data.data.applyNum
             self.getProgress(data.data.type)
           }

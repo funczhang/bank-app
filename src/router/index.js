@@ -103,8 +103,7 @@ const router = new Router({
       path: '/loan', // 贷款主页
       name: 'Loan',
       components: {
-        'default': resolve => require(['../pages/loan/index.vue'], resolve),
-        'tabbar': resolve => require(['../pages/common/tabbar.vue'], resolve)
+        'default': resolve => require(['../pages/loan/index.vue'], resolve)
       }
     },
     {

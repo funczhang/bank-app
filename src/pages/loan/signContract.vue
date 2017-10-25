@@ -47,7 +47,7 @@ export default {
         params: self.$store.state.signInfo
       }
       self.$store.dispatch('initRequest', data).then(res => {
-        alert(res)
+        // alert(res)
         let data = JSON.parse(res)
         if (data.response === 'success') {
           this.isKnow = true
@@ -70,7 +70,7 @@ export default {
         }
       }
       self.$store.dispatch('normalRequest', data).then(res => {
-        alert(JSON.stringify(res))
+        // alert(JSON.stringify(res))
       })
     }
   }

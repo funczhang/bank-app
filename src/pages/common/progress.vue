@@ -39,7 +39,7 @@
       span(class="first") 已申请
       span 已审批
       span 已签约
-      span(class="last") 待完成
+      span(class="last") 已完成
   .progerss(v-if="state === 6") 
     //- 6-签约超时
     img(src="../../assets/imgs/progress03.png")

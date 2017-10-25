@@ -19,6 +19,9 @@ import FastClick from 'fastclick'
 // })
 import util from './utils/utils'
 Vue.use(util)
+// router.beforeEach((to, from, next) => {
+//   store.commit('UPDATE_LOADING', true)
+// })
 router.afterEach(function (to) {
   store.commit('UPDATE_LOADING', false)
 })
@@ -28,7 +31,7 @@ Vue.config.productionTip = false
 FastClick.attach(document.body)
 Vue.use(Vuex)
 Vue.prototype.setTime = () => {
-  alert('settime')
+  // alert('settime')
 }
 // window.ontouchstart = function (e) { e.preventDefault() }
 /* eslint-disable no-new */

@@ -15,7 +15,7 @@
                 label 身份证号
                 span {{guaranteeInfo.applyIdCard}} 
             li
-              .option(class="clearfix")  
+              .option(class="clearfix" style="border-bottom:none;")  
                 label 手机号码
                 span {{guaranteeInfo.applyPhone}} 
         .module
@@ -34,16 +34,15 @@
                 label 借款期限(月)
                 span {{guaranteeInfo.timeLimit}} 
             li
-            .option(class="clearfix")  
+            .option(class="clearfix" style="border-bottom:none;")  
               label 借款用途
               span {{guaranteeInfo.useName}}
         .title(class="clearfix") 
           span(class="fl") 法律文书送达地址
-          i(class="fl" @click="showMsg")
         .option
           group
-            popup-picker(title="所在地区" :data="list2" placeholder="请选择地址" v-model="address")
-        x-textarea(:max="30" style="font-size:0.75rem; color:#333" v-model="detailAddress" placeholder="请填写详细地址，不少于五个字" row=4)
+            popup-picker(title="所在地区" :data="areas" :columns="3" v-model="defaultAddress" placeholder="请选择地址")
+        x-textarea(:max="30" style="font-size:0.75rem; color:#333" v-model="detailAddress" placeholder="请填写详细地址，不少于五个字" row=3)
         .confirm-area
           check-icon(:value.sync="isConfirm")
           span 我已经阅读并同意
@@ -54,8 +53,8 @@
 </template>
 
 <script>
-// 219 187
 import { ViewBox, XHeader, Masker, CheckIcon, Group, PopupPicker, XTextarea } from 'vux'
+import areas from '../../assets/json/areas'
 export default {
   components: {
     ViewBox,
@@ -79,8 +78,8 @@ export default {
         applyIdCard: '',
         applyPhone: ''
       },
-      list2: [['江苏省泰州市兴化市']],
-      address: ['江苏省泰州市兴化市'],
+      areas: areas.areas,
+      defaultAddress: ['江苏省泰州市兴化市'],
       detailAddress: ''
     }
   },
@@ -88,7 +87,6 @@ export default {
     this.initData()
   },
   methods: {
-    showMsg () {},
     agreeAuth () {
       // 别人为我担保
       let self = this
@@ -99,13 +97,12 @@ export default {
         params: {
           token: self.$store.state.userInfo.token,
           applyId: self.$route.query.applyNo.toString(),
-          addStr: self.address[0] + self.detailAddress
+          addStr: self.defaultAddress[0] + self.detailAddress
         }
       }
-      alert(JSON.stringify(self.$route.query))
       if (self.detailAddress.trim().length >= 5) {
         self.$store.dispatch('normalRequest', data).then(res => {
-          alert(JSON.stringify(res))
+          // alert(JSON.stringify(res))
           if (res.response === 'success') {
             this.$vux.toast.text('担保成功~')
             this.$router.replace('/myGurantee')
@@ -179,6 +176,8 @@ export default {
       color:#333;
     }
     .module-content{
+      border-bottom:1px solid #ededed;
+      border-top:1px solid #ededed;
       label {
         float:left;
         color:#666;
@@ -239,15 +238,16 @@ export default {
     box-shadow: none;
   }
   .title{
-    margin-top:0.75rem;
-    padding:0.75rem 0;
+    // margin-top:0.75rem;
+    padding:0.5rem 0;
     border-bottom:1px solid #ededed;
     line-height: 1rem;
-    background:#fff;
+    // background:#fff;
+    // color:#333;
     span{
       padding-left:0.75rem;
-      font-size:0.7rem;
-      color:#666;
+      font-size:0.65rem;
+      color:#333;
     }
     i{
       position: relative;

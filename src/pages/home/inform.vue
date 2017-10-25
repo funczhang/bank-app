@@ -86,19 +86,14 @@ export default {
           type: type
         }
       }
-      // 显示
-      // this.$vux.loading.show({
-      //   text: 'Loading'
-      // })
-      // alert('111')
       self.$store.dispatch('normalRequest', data).then(res => {
-        alert(JSON.stringify(res))
+        // alert(JSON.stringify(res))
         if (res.response === 'success') {
           type === '0' ? self.systemInform = res.data : self.userInform = res.data
         } else {
           this.$vux.toast.text('公告数据获取失败~')
         }
-        this.$vux.loading.hide()
+        // this.$vux.loading.hide()
       })
     }
   }

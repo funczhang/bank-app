@@ -173,7 +173,7 @@ input:-moz-placeholder {
     /* font-size:0.7rem; */
 }
 .weui-tab .weui-cell_access .weui-cell__ft:after{
-    border-color:#333;
+    border-color:#666;
 }
 .weui-label,
 .weui-cells:after{

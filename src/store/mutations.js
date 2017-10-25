@@ -4,16 +4,33 @@ export default {
     state.isLoading = status
   },
   [types.INIT_USER_INFO] (state, data) {
-    // alert('init-info:' + JSON.stringify(data))
-    state.userInfo.isAuth = data.isAuth
-    state.userInfo.name = data.name
-    state.imei = data.imei
-    state.channel = data.channel
-    state.isOpenGesture = data.isOpenGesture // 手势密码
-    state.userInfo.id = data.id
-    state.userInfo.idCard = data.idCard
-    state.userInfo.token = data.token
-    state.userInfo.cellphone = data.cellPhone
+    if (data.isAuth) {
+      state.userInfo.isAuth = data.isAuth
+    }
+    if (data.name) {
+      state.userInfo.name = data.name
+    }
+    if (data.imei) {
+      state.imei = data.imei
+    }
+    if (data.channel) {
+      state.channel = data.channel
+    }
+    if (data.isOpenGesture) {
+      state.isOpenGesture = data.isOpenGesture // 手势密码
+    }
+    if (data.id) {
+      state.userInfo.id = data.id
+    }
+    if (data.idCard) {
+      state.userInfo.idCard = data.idCard
+    }
+    if (data.token) {
+      state.userInfo.token = data.token
+    }
+    if (data.cellPhone) {
+      state.userInfo.cellphone = data.cellPhone
+    }
   },
   [types.INIT_BANKCARD_LIST] (state, data) {
     if (data.user.bankCardList) {

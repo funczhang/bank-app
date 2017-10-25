@@ -6,11 +6,11 @@ import * as getters from './getters'
 const state = {
   isLoading: true,
   direction: 'forward',
-  baseUrl: 'http://192.168.2.104:9080',
-  imglist: [],
-  faceId: '人脸照片',
+  baseUrl: 'http://192.168.2.200:8080', // 基础地址
+  imglist: [], // 轮播图
+  faceId: '人脸照片', // 人脸照片
   canApply: 0,
-  userInfo: {
+  userInfo: { // 用户信息
     isAuth: '',
     name: '张超',
     id: '', // 用户userId
@@ -23,20 +23,20 @@ const state = {
     avatar: '',
     idCard: ''
   },
-  applyNo: '', // 申请编号
+  applyNo: '', // 本人申请编号
   loanInfo: {
   },
   applyState: '', // 申请进度
   spendList: [], // 我的用信
   repaymentList: [], // 我的还款
   creditList: [], // 我的授信
-  isOpenGesture: false,
-  tabItem: 0,
+  isOpenGesture: false, // 是否开启手势密码
+  tabItem: 0, // 当前tab选择
   channel: '', // 渠道 1:安卓手机APP 2:IOS版手机APP 3:网页
   imei: '', // 设备imei
   bankCardList: [], // 银行卡列表
   avatar: '', // 头像地址
-  signInfo: {
+  signInfo: { // 签约信息
     token: '',
     applyId: '',
     image: '',

@@ -69,8 +69,8 @@
                 span(v-show="bindCardNo === ''" style="font-size:14px;color:#333;") 绑定银行卡
                 span(v-show="bindCardNo !== ''" style="font-size:14px;color:#333;") {{bindCardNo}}
           .btn-area(class="clearfix")
-            a(href="javascript:void(null)" class="btn-submit fl" @click="isConfirmShow = true") 签约
-            a(href="javascript:void(null)" class="btn-cancel fr" @click="giveUpSign") 下次再说
+            a(href="javascript:void(null)" class="btn-submit fl" @click="sign") 签约
+            a(href="javascript:void(null)" class="btn-cancel fr" @click="isConfirmShow = true") 下次再说
       masker(color="#000" :opacity="0.4" fullscreen=true v-show="addAssurePeople")
         .box(slot="content")
           .head 添加或更换担保人
@@ -101,7 +101,7 @@
           .content
             span(style="display:block;padding:1rem 0;text-align:center;font-size:0.8rem;line-height:1.5;color:#333;") 您是否确定签约？
             .btn-area(class="clearfix")
-              a(href="javascript:void(null)" class="btn-submit fl" @click="sign") 确定
+              a(href="javascript:void(null)" class="btn-submit fl" @click="giveUpSign") 确定
               a(href="javascript:void(null)" class="btn-cancel fr" @click="isConfirmShow = false") 取消
 </template>
 
@@ -158,6 +158,7 @@ export default {
   computed: {
     step () {
       return this.$store.state.applyState
+      // return 7
     },
     isHandlerAssure () {
       return this.$store.state.applyState === 3
@@ -209,14 +210,15 @@ export default {
       let self = this
       let path = self.$store.state.baseUrl + '/app/xsyd/giveUpSignContract.do'
       let data = {
-        action: 'init_request',
+        action: 'jump_web_refuse',
         path: path,
         params: {
           token: self.$store.state.userInfo.token,
-          applyId: self.$store.state.applyNo, // 申请编号
-          image: self.$store.state.faceId // 人脸照片
+          applyId: self.$route.query.applyNo // 申请编号
         }
       }
+      self.isConfirmShow = false
+       // 放弃签约
       self.$store.dispatch('normalRequest', data).then(res => {
         // alert(JSON.stringify(res))
         if (res.response === 'success') {
@@ -289,7 +291,7 @@ export default {
       // alert(this.couponId)
       // 页面初始化
       let self = this
-      let path = self.$store.state.baseUrl + '/app/xsyd/contract.html?userToken=' + self.$store.state.userInfo.token
+      let path = self.$store.state.baseUrl + '/app/xsyd/contract.html?userToken=' + self.$store.state.userInfo.token + '&applyId=' + self.$store.state.applyNo
       let data = {
         action: 'jump_web_sign',
         path: path,
@@ -305,7 +307,7 @@ export default {
           name: '签约授权'
         }
       }
-      self.isConfirmShow = false
+      // self.isConfirmShow = false
       this.$store.state.signInfo = data.params
       // self.$router.push({path: '/signContract'})
       // alert(JSON.stringify(data.params))
@@ -408,7 +410,7 @@ export default {
       // alert(JSON.stringify(data.params))
       // 初始化我的贷款
       self.$store.dispatch('normalRequest', data).then(data => {
-        alert(JSON.stringify(data))
+        // alert(JSON.stringify(data))
         if (data.response === 'success') {
           // alert(data.data.loanInterestRate)
           self.msg = data.data.message

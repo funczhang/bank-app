@@ -5,7 +5,6 @@
         img(class="icon-title" src="../../assets/imgs/icon-logo.png" slot="overwrite-title")
         img(class="icon-email" src="../../assets/imgs/icon-email.png" slot="right" @click="jumpTo('inform')")
       scroller(ref="myScroller" height="-96" :lock-x="true" :use-pulldown="true" :use-pullup="true" :pullup-config="pullupConfig" :pulldown-config="pulldownConfig" @on-pulldown-loading="onPulldownLoading")
-        //- .content 111
         .content
           swiper(:list="imglist" v-model="index" :auto="true" :loop="true")
           .inform
@@ -14,11 +13,8 @@
               span(class="line")
             .news(class="fl")
               i(v-show="informList.length !== 0")
-              //- span(style="display:inline-block;width:80%;" class="ell") 兴盛e贷APP上线啦！
               marquee(style="height:1.5rem;")
                 marquee-item(v-for="item in informList" :key="item.id") {{item.subTitle}}
-              //- marquee(style="height:1.5rem;")
-              //-   marquee-item(v-for="item in 10" :key="item.id") {{'你好的冯绍峰的沙发斯蒂芬斯蒂芬是否是地方撒发放'}}
           ul(class="btn-area clearfix")
             li(@click="jumpTo('BankCardList')")
               img(src="../../assets/imgs/icon-account.png") 
@@ -91,9 +87,9 @@ export default {
   },
   mounted () {
     // 显示
-    this.$vux.loading.show({
-      text: 'Loading'
-    })
+    // this.$vux.loading.show({
+    //   text: 'Loading'
+    // })
     // 获取设备信息和token
     this.getBaseInfo()
     this.getPicList()
@@ -101,7 +97,7 @@ export default {
     this.init()
     // 隐藏
     setTimeout(() => {
-      this.$vux.loading.hide()
+      // this.$vux.loading.hide()
     }, 0)
   },
   activated () {
@@ -113,11 +109,8 @@ export default {
       self.getPicList()
       self.applyInfo()
       self.$nextTick(() => {
-        //   // 视图更新完成后停止刷新或加载动作
+        // 视图更新完成后停止刷新或加载动作
         self.$refs.myScroller.donePulldown()
-        // self.$refs.myScrollesr.reset({
-        //   top: 0
-        // })
       })
     },
     toInform () {
@@ -242,7 +235,7 @@ export default {
         }
       }
       self.$store.dispatch('initRequest', data).then(res => {
-        alert(res)
+        // alert(res)
         let data = JSON.parse(res)
         self.$store.state.canApply = data.data.canApply
         self.$store.state.applyNo = data.data.applyNo
@@ -476,8 +469,9 @@ html, body {
     }
     .icon-title{
       position: relative;
-      top:0.25rem;
+      top:0.2rem;
       width:100%;
+      height:1.6rem;
       vertical-align: middle;
     }
     .icon-email{

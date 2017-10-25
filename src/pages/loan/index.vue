@@ -29,9 +29,9 @@
                 label 申请期限
                 span {{applyTerm}}个月
             li
-              .option(class="clearfix")      
+              .option(class="clearfix" style="border-bottom:none;")      
                 group
-                  popup-picker(title="申请用途" placeholder="请选择用途" :data="loanUseList" v-model="value1")
+                  popup-picker(title="申请用途" placeholder="请选择用途" :data="loanUseList" v-model="usedFor")
         //- .get-more
         //-   .module-head 获取更高额度
         //-   .module-content
@@ -43,13 +43,11 @@
         //-         img(src="../../assets/imgs/icon-zhima.png")
         //-         p(class="btn-zhima") 芝麻信用分
         .title(class="clearfix") 
-          span(class="fl") 法律文书送达地址
-          i(class="fl" @click="showMsg")
+          span(class="fl" style="color:#333;") 法律文书送达地址
         .option
           group
-            popup-picker(title="选择地址" :data="list2" placeholder="请选择地址" v-model="value2")
-          //- group        
-          //-   x-input(title="具体地址" placeholder="填写具体地址")
+            popup-picker(title="选择地址" :data="areas" :columns="3" placeholder="请选择地址" v-model="defaultAddr")
+        x-textarea(:max="30" style="font-size:0.75rem; color:#333;border-bottom:1px solid #ededed;" v-model="detailAddress" placeholder="请填写详细地址，不少于五个字" row=3)
         .confirm-area
           check-icon(:value.sync="isConfirm")
           span 我已经阅读并同意
@@ -58,13 +56,11 @@
         .btn-area(class="clearfix")
           button(class="btn-submit fl" @click="jumpAgree" :disabled="!isConfirm" :class="{active:!isConfirm}") 提交申请
           a(href="javascript:void(null)" class="btn-cancel fr" @click="cancel") 下次再说
-      masker(style="border-radius: 2px;" color="#000" :opacity="0.5" fullscreen=true v-show="false")
-        div(slot="content" class="msg-box")
-          span 111
 </template>
 
 <script>
-import { ViewBox, XHeader, Tab, TabItem, Scroller, Group, PopupPicker, XInput, CheckIcon, Masker } from 'vux'
+import { ViewBox, XHeader, Tab, TabItem, Scroller, Group, PopupPicker, XInput, CheckIcon, Masker, XTextarea } from 'vux'
+import areas from '../../assets/json/areas'
 export default {
   components: {
     ViewBox,
@@ -76,14 +72,16 @@ export default {
     PopupPicker,
     XInput,
     CheckIcon,
-    Masker
+    Masker,
+    XTextarea
   },
   data () {
     return {
       index: 0,
-      list2: [['宿迁', '兴化', '江都', '扬州']],
-      value1: [''],
-      value2: [''],
+      areas: areas.areas,
+      usedFor: [''],
+      defaultAddr: ['江苏省泰州市兴化市'],
+      detailAddress: '',
       isConfirm: false,
       name: '',
       listad: [],
@@ -104,9 +102,6 @@ export default {
         let url = this.$store.state.baseUrl + '/app/xsyd/lawAddress.html?userToken=' + this.$store.state.userInfo.token
         this.jumpWebShowContent('法律文书送达地址确认书', url)
       }
-    },
-    showMsg () {
-      alert('展示更多')
     },
     initView () {
       // 页面初始化
@@ -151,15 +146,15 @@ export default {
         path: path,
         params: {
           token: this.$store.state.userInfo.token,
-          usedFor: this.value1[0],
-          lowAddress: this.value2[0],
+          usedFor: this.usedFor[0],
+          lowAddress: this.defaultAddr[0] + this.detailAddress,
           zmxyFlag: '1',
           url: self.$store.state.baseUrl + '/app/xsyd/submitApply.do',
           name: '申请授权'
         }
       }
       if (data.params.usedFor !== '') {
-        if (data.params.lowAddress !== '') {
+        if (this.detailAddress.trim().length >= 5) {
           self.$store.dispatch('normalRequest', data).then(data => {
             if (data.response === 'success') {
               this.$vux.toast.text('授信信息提交成功~')
@@ -169,7 +164,7 @@ export default {
             }
           })
         } else {
-          this.$vux.toast.text('请选择法律文书送达地址~')
+          this.$vux.toast.text('请填写大于五个字详细地址~')
         }
       } else {
         this.$vux.toast.text('请选择借款用途~')
@@ -184,27 +179,28 @@ export default {
         path: path,
         params: {
           token: this.$store.state.userInfo.token,
-          usedFor: this.value1[0],
-          lowAddress: this.value2[0],
+          usedFor: this.usedFor[0],
+          lowAddress: this.detailAddress,
           zmxyFlag: '1'
         }
       }
-      if (data.params.usedFor !== '') {
-        if (data.params.lowAddress !== '') {
-          self.$store.dispatch('normalRequest', data).then(data => {
-            if (data.response === 'success') {
-              this.$vux.toast.text('授信信息提交成功~')
-              this.$router.replace('/quotaEvaluation')
-            } else {
-              this.$vux.toast.text(data.data)
-            }
-          })
-        } else {
-          this.$vux.toast.text('请选择法律文书送达地址~')
-        }
-      } else {
-        this.$vux.toast.text('请选择借款用途~')
-      }
+      alert(JSON.stringify(data.params))
+      // if (data.params.usedFor !== '') {
+      //   if (data.params.lowAddress !== '') {
+      //     self.$store.dispatch('normalRequest', data).then(data => {
+      //       if (data.response === 'success') {
+      //         this.$vux.toast.text('授信信息提交成功~')
+      //         this.$router.replace('/quotaEvaluation')
+      //       } else {
+      //         this.$vux.toast.text(data.data)
+      //       }
+      //     })
+      //   } else {
+      //     this.$vux.toast.text('请选择法律文书送达地址~')
+      //   }
+      // } else {
+      //   this.$vux.toast.text('请选择借款用途~')
+      // }
     },
     cancel () {
       this.$vux.toast.text('取消授信~')
@@ -249,6 +245,8 @@ html, body {
       color:#333;
     }
     .module-content{
+      border-top:1px solid #ededed;
+      border-bottom:1px solid #ededed;
       label {
         float:left;
         color:#666;
@@ -274,14 +272,14 @@ html, body {
     }
   }
   .title{
-    margin-top:0.75rem;
-    padding:0.75rem 0;
+    // margin-top:0.75rem;
+    padding:0.5rem 0;
     border-bottom:1px solid #ededed;
     line-height: 1rem;
-    background:#fff;
+    // background:#fff;
     span{
       padding-left:0.75rem;
-      font-size:0.7rem;
+      font-size:0.65rem;
       color:#666;
     }
     i{

@@ -14,8 +14,9 @@
             .child(slot="child" @click="consultService")
           cell(v-show="false" title="给予评价" is-link link="/suggest" style="margin-top:15px;border-bottom:none")
             img(src="../../assets/imgs/icon-give-evaluate.png" slot="icon")
-          cell(title="分享给好友" is-link link="/setting" style="margin-top:15px;border-bottom:none")
+          cell(title="分享给好友" is-link style="margin-top:15px;border-bottom:none")
             img(src="../../assets/imgs/icon-share-friends.png" slot="icon")
+            .child(slot="child" @click="shareCodePic")
           cell(title="意见反馈" is-link style="margin-top:15px;border-bottom:none")
             img(src="../../assets/imgs/icon-suggest-feedback.png" slot="icon")
             .child(slot="child" @click="toSuggest")
@@ -42,6 +43,15 @@ export default {
   mounted () {
   },
   methods: {
+    shareCodePic () {
+       // 分享二维码
+      let self = this
+      let data = {
+        action: 'jump_qr_show'
+      }
+      self.$store.dispatch('normalRequest', data).then(res => {
+      })
+    },
     jumpNormalQs () {
       let self = this
       let token = self.$store.state.userInfo.token

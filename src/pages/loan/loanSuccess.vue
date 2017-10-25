@@ -65,13 +65,13 @@ export default {
   },
   methods: {
     isShow () {
-      alert('隐藏弹窗')
+      // alert('隐藏弹窗')
     },
     confirm () {
-      alert('确定')
+      // alert('确定')
     },
     cancel () {
-      alert('取消')
+      // alert('取消')
     },
     initData () {
         // 页面初始化

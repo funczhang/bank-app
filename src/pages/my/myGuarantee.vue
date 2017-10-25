@@ -155,7 +155,6 @@ export default {
       })
       // 我为他人担保信息
       self.$store.dispatch('normalRequest', data).then(data => {
-        // alert(JSON.stringify(data))
         if (data.response === 'success') {
           data.data.myList.length === 0 ? self.color = '#fff' : self.color = ''
           self.myList = data.data.myList

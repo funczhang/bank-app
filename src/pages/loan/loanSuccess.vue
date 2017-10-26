@@ -24,7 +24,7 @@
                 p(class="value" style="color:#f32f2f") {{lineCredit === '' ? '--' : lineCredit}}
               li(class="mid")
                 p(class="title") 授信利率(月)
-                p(class="value" style="color:#1f76e2;") {{loanInterestRate === '' ? '--' : loanInterestRate}}%
+                p(class="value" style="color:#1f76e2;") {{loanInterestRate === '' ? '--' : loanInterestRate}}‰
               li 
                 p(class="title") 授信期限(月)
                 p(class="value" style="color:#1f76e2;") {{timeLimit === '' ? '--' : timeLimit}}
@@ -64,15 +64,6 @@ export default {
     this.initData()
   },
   methods: {
-    isShow () {
-      // alert('隐藏弹窗')
-    },
-    confirm () {
-      // alert('确定')
-    },
-    cancel () {
-      // alert('取消')
-    },
     initData () {
         // 页面初始化
       let self = this
@@ -87,7 +78,6 @@ export default {
       }
       // 初始化我的贷款
       self.$store.dispatch('normalRequest', data).then(data => {
-        // let data = JSON.parse(res)
         if (data.response === 'success') {
           self.lineCredit = data.data.lineCredit
           self.loanInterestRate = data.data.loanInterestRate

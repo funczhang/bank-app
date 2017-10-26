@@ -121,7 +121,6 @@ export default {
           verifyCode: this.verifyCode1
         }
       }
-      // alert(JSON.stringify(data.params))
       if (self.pwd !== '') {
         // 显示
         this.$vux.loading.show({
@@ -196,14 +195,12 @@ export default {
           imei: self.$store.state.imei
         }
       }
-      // alert(JSON.stringify(data.params))
       if (self.verifyCode !== '') {
         // 显示
         this.$vux.loading.show({
           text: 'Loading'
         })
         self.$store.dispatch('normalRequest', data).then(res => {
-          // alert(JSON.stringify(res))
           self.$store.commit('INIT_USER_INFO', res)
           // 隐藏
           this.$vux.loading.hide()
@@ -235,10 +232,8 @@ export default {
           channel: self.$store.state.channel
         }
       }
-      // alert(JSON.stringify(data))
       if (self.isPhoneCorrect(self.phoneNum)) {
         self.$store.dispatch('normalRequest', data).then(res => {
-          // alert(JSON.stringify(res))
           if (res.response === 'success') {
             self.$vux.toast.text('验证码已成功发送')
           } else {

@@ -1,6 +1,6 @@
 <template lang="pug">
   div(style="height:100%;")
-    view-box(ref="viewBox" body-padding-top="46px" body-padding-bottom="0")
+    view-box(ref="viewBox" body-padding-top="90px" body-padding-bottom="0")
       x-header(slot="header" title="密码管理" :left-options="{showBack:true,backText:''}" style="width:100%;position:absolute;left:0;top:0;z-index:100;background:#fff;color:#000;")
       .content
         tab(active-color="#1f76e2")
@@ -11,7 +11,7 @@
             x-input(placeholder="请输入旧密码" v-model="oldPwd" type="password")
             x-input(placeholder="请输入新密码" v-model="newPwd" style="margin-top:0.75rem;border-bottom:none;" type="password")
             x-input(placeholder="请再次输入新密码" v-model="reNewPwd" type="password")
-          .tip 密码必须为数字和字母组合，长度为6-12位
+          //- .tip 密码必须为数字和字母组合，长度为6-12位
           .btn-submit(@click="changePwd") 提交
         group(v-show="!isChangePwd")
           x-switch(title="手势密码" v-model="isOpenGesture" style="margin-top:0.75rem;border-top:1px solid #ededed;")

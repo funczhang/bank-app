@@ -30,6 +30,7 @@ export default {
     }
   },
   mounted () {
+    // 判断当前路由控制tab
     let self = this
     let path = self.$route.path
     if (path === '/') {

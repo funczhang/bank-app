@@ -9,10 +9,10 @@
           p {{msg}}
         .tip(v-show="isHandlerAssure")
           img(src="../../assets/imgs/icon-chuli.png")
-          p(class="msg") 担保人{{initAssureName}}正在处理，请稍后！
+          p(class="msg") 担保人正在处理，请稍后！
           .btn-area(class="clearfix")
-              a(href="javascript:void(null)" class="btn-submit fl" @click="revokeAssure") 撤销担保人
-              a(href="javascript:void(null)" class="btn-cancel fr" @click="changeAssure") 更换担保人
+              a(href="javascript:void(null)" class="btn-cancel-assure" @click="revokeAssure") 撤销担保人
+              //- a(href="javascript:void(null)" class="btn-cancel fr" @click="changeAssure") 更换担保人
         .module
           .module-head 审批结果
           .module-content
@@ -28,7 +28,7 @@
                 p(class="value" style="color:#1f76e2;") {{timeLimit}}
             .pretty-rate(v-show="newRate !== ''") 
               p(class="title") 优惠后利率
-              p(class="rate") {{newRate}}%
+              p(class="rate") {{newRate}}‰
             .tip(v-show="!isHandlerAssure && getAssureIdCard ===''") 注意：如果您觉得当前授信额度较低，可通过一下“添加担保人”获取更高额度；否则，可直接签约
         .template
           .module(v-show="!isHandlerAssure && getAssureIdCard ===''")
@@ -53,7 +53,7 @@
                 .option(class="clearfix")  
                   label 手机号码
                   span {{getAssurePhone}}
-          .module
+          .module(v-show="!isHandlerAssure")
             .module-head 关联贷款抵用券
             .module-content 
               group
@@ -61,19 +61,19 @@
                   div(class="coupon-count" slot="title") 
                     span(style="font-size:0.7rem;") 抵用券
                     span(class="count") 还剩{{couponList.length}}张
-          .module
+          .module(v-show="!isHandlerAssure")
             .module-head 银行卡信息
             .module-content
               .line(@click="showBindCard = true" class="clearfix" style="padding:0.3rem 0;") 
                 img(class="icon-card" src="../../assets/imgs/icon-card.png" @click="showBindCard = false")
                 span(v-show="bindCardNo === ''" style="font-size:14px;color:#333;") 绑定银行卡
                 span(v-show="bindCardNo !== ''" style="font-size:14px;color:#333;") {{bindCardNo}}
-          .btn-area(class="clearfix")
+          .btn-area(v-show="!isHandlerAssure" class="clearfix")
             a(href="javascript:void(null)" class="btn-submit fl" @click="sign") 签约
             a(href="javascript:void(null)" class="btn-cancel fr" @click="isConfirmShow = true") 下次再说
       masker(color="#000" :opacity="0.4" fullscreen=true v-show="addAssurePeople")
         .box(slot="content")
-          .head 添加或更换担保人
+          .head 添加担保人
             img(src="../../assets/imgs/arrow-right.png" @click="addAssurePeople = false")
           .content
             group
@@ -85,7 +85,7 @@
       masker(color="#000" :opacity="0.4" fullscreen=true v-show="showBindCard" style="position:relative;")
         .box(slot="content")
           .head 绑定银行卡
-            img(src="../../assets/imgs/arrow-right.png" @click="showBindCard = false")
+            img(src="../../assets/imgs/arrow-right.png" @click="cancelBindBankCard")
           .content
             group(title="选择绑定的银行卡")
               radio(:options="radio" :selected-label-style="{color: '#1f76e2'}" v-model="bindCardNo")
@@ -165,6 +165,10 @@ export default {
     }
   },
   methods: {
+    cancelBindBankCard () {
+      this.bindCardNo = ''
+      this.showBindCard = false
+    },
     confirm () {
       // 页面初始化
       let self = this
@@ -183,13 +187,11 @@ export default {
       if (self.assureName !== '') {
         if (self.assurePhone !== '') {
           self.$store.dispatch('normalRequest', data).then(data => {
-            // alert(JSON.stringify(data))
             self.addAssurePeople = false
             if (data.response === 'success') {
               self.assureName = ''
               self.assurePhone = ''
               self.updateAddAssureStatus()
-              // this.$router.replace('/sign')
             } else {
               self.isAddStatus === '1' ? this.$vux.toast.text('添加担保人失败~') : this.$vux.toast.text('更换担保人失败~')
             }
@@ -220,7 +222,6 @@ export default {
       self.isConfirmShow = false
        // 放弃签约
       self.$store.dispatch('normalRequest', data).then(res => {
-        // alert(JSON.stringify(res))
         if (res.response === 'success') {
           this.$vux.toast.text('您已放弃签约~')
           this.$router.replace('/checkLoan')
@@ -232,7 +233,6 @@ export default {
     },
     couponChange (value) {
       if (value) {
-        // alert(value)
         this.couponId = value[0]
         this.getNewRate(value)
       }
@@ -284,11 +284,9 @@ export default {
         if (data.response === 'success') {
           self.newRate = data.data
         }
-        // alert(self.newRate)
       })
     },
     sign () {
-      // alert(this.couponId)
       // 页面初始化
       let self = this
       let path = self.$store.state.baseUrl + '/app/xsyd/contract.html?userToken=' + self.$store.state.userInfo.token + '&applyId=' + self.$store.state.applyNo
@@ -307,16 +305,16 @@ export default {
           name: '签约授权'
         }
       }
-      // self.isConfirmShow = false
-      this.$store.state.signInfo = data.params
-      // self.$router.push({path: '/signContract'})
-      // alert(JSON.stringify(data.params))
-      self.$store.dispatch('normalRequest', data).then(res => {
-        if (res.response === 'success') {
-          this.$router.replace('/')
-          this.$store.state.tabItem = 0
-        }
-      })
+      if (data.params.cardNo !== '') {
+        self.$store.dispatch('normalRequest', data).then(res => {
+          if (res.response === 'success') {
+            this.$router.replace('/checkLoan')
+            this.$store.state.tabItem = 1
+          }
+        })
+      } else {
+        this.$vux.toast.text('请先绑定银行卡~')
+      }
     },
     bindCard () {
       self.showBindCard = false
@@ -331,7 +329,6 @@ export default {
     },
     getProgress (type) {
       let self = this
-      // alert(type)
       switch (type) {
         case '1': self.$store.state.applyState = 1; self.page = '/quotaEvaluation' // 额度评估
           break
@@ -359,7 +356,6 @@ export default {
         }
       }
       self.$store.dispatch('initRequest', data).then(res => {
-        // alert(res)
         let data = JSON.parse(res)
         if (data.response === 'success' && data.data.canApply !== 1) {
           self.getProgress(data.data.explain)
@@ -404,15 +400,11 @@ export default {
         params: {
           token: this.$store.state.userInfo.token,
           applyId: this.$store.state.applyNo
-          // token: 'e2e9e2dc-07c6-41f0-9b80-0486a1c0f5b4'
         }
       }
-      // alert(JSON.stringify(data.params))
       // 初始化我的贷款
       self.$store.dispatch('normalRequest', data).then(data => {
-        // alert(JSON.stringify(data))
         if (data.response === 'success') {
-          // alert(data.data.loanInterestRate)
           self.msg = data.data.message
           self.timeLimit = data.data.timeLimit // 授信期限
           self.lineCredit = data.data.lineCredit // 授信额度
@@ -420,10 +412,6 @@ export default {
           self.getAssurePhone = data.data.assurePhone
           self.getAssureName = data.data.assureName
           self.getAssureIdCard = data.data.assureIdcard
-          // self.couponList = data.data.couponList // 优惠券列表
-          // self.bankcardList = data.data.bankcardList // 银行卡列表
-          // self.assureName = data.data.assureName // 担保人姓名
-          // self.assureIdcard = data.data.assureIdcard // 担保人身份证
           self.initAssureName = data.data.assureName
           data.data.couponList.forEach(function (element) {
             self.couponList.push({ name: element.couponAmount, value: element.couponCode, parent: 0 })
@@ -431,7 +419,6 @@ export default {
           data.data.bankcardList.forEach(function (element) {
             self.radio.push({ key: element.bankcardNo, value: element.bankcardNo })
           })
-          // alert(JSON.stringify(self.couponList))
         } else {
           this.$vux.toast.text('签约接口数据初始化失败')
         }
@@ -644,6 +631,19 @@ export default {
     font-size:0.75rem;
     text-align: center;
     line-height: 1.8rem;
+    box-shadow: 0px 0px 1rem rgba(39,128,237,.5);
+  }
+  .btn-cancel-assure{
+    display: block;
+    margin:0 auto;
+    width:60%;
+    height:1.8rem;
+    border-radius: 0.9rem;
+    font-size:0.75rem;
+    text-align: center;
+    line-height: 1.8rem;
+    background:#1f76e2;
+    color:#fff;
     box-shadow: 0px 0px 1rem rgba(39,128,237,.5);
   }
   .btn-submit{

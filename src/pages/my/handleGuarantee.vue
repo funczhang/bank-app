@@ -102,7 +102,6 @@ export default {
       }
       if (self.detailAddress.trim().length >= 5) {
         self.$store.dispatch('normalRequest', data).then(res => {
-          // alert(JSON.stringify(res))
           if (res.response === 'success') {
             this.$vux.toast.text('担保成功~')
             this.$router.replace('/myGurantee')
@@ -141,13 +140,8 @@ export default {
           applyId: self.$route.query.applyNo
         }
       }
-      // 显示
-      // this.$vux.loading.show({
-      //   text: 'Loading'
-      // })
       // 别人为我担保信息
       self.$store.dispatch('normalRequest', data).then(res => {
-        // alert(JSON.stringify(res))
         if (res.response) {
           self.guaranteeInfo.timeLimit = res.data.timeLimit
           self.guaranteeInfo.amount = res.data.amount

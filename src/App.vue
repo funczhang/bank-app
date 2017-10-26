@@ -1,7 +1,8 @@
 <template lang="pug">
   div(id="app")
     loading(:show="isLoading")
-    transition(name="custom-classes-transition" :enter-active-class="'animated ' + direction")
+    //- transition(name="custom-classes-transition" :enter-active-class="'animated ' + direction")
+    transition(name="custom-classes-transition")
       router-view
     transition(name="custom-classes-transition" enter-active-class="animated bounceInUp")
       router-view(name="tabbar")

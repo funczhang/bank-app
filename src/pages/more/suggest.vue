@@ -7,24 +7,18 @@
           div(slot="content" class="msg-box")
         ul(class="classify clearfix")
           li
-            //- input(name="qType" type="radio" class="qtype")
             .radio(@click="selectQType('1')" :class="{active: qType1}")
-            //- check-icon(:value.sync="type01")
             span 提个建议
           li
-            //- input(name="qType" type="radio" class="qtype")
-            //- check-icon(:value.sync="type02")
             .radio(@click="selectQType('2')" :class="{active: qType2}")
             span 出错误啦
           li
-            //- check-icon(:value.sync="type03")
             .radio(:class="{active: qType3}" @click="selectQType('3')")
             span 不好用
           li
-            //- check-icon(:value.sync="type04")
             .radio(:class="{active: qType4}" @click="selectQType('4')")
             span 其他
-        x-textarea(v-model="opinion" :show-counter="true" max=50 @on-blur="show" placeholder="您的反馈帮助我们成长" :rows=7 style="padding:10px")
+        x-textarea(v-model="opinion" :show-counter="true" max=50 placeholder="您的反馈帮助我们成长" :rows=7 style="padding:10px")
         .btn-submit(@click="submit") 提交
 </template>
 
@@ -56,9 +50,6 @@ export default {
   mounted () {
   },
   methods: {
-    show () {
-      // alert(this.opinion.toString())
-    },
     selectQType (type) {
       this.reset()
       this['qType' + type] = true
@@ -83,7 +74,6 @@ export default {
           opinion: this.opinion
         }
       }
-      // alert(JSON.stringify(data.params))
       // 显示
       this.$vux.loading.show({
         text: 'Loading'
@@ -91,7 +81,6 @@ export default {
       if (this.selectType !== '') {
         if (this.opinion !== '') {
           self.$store.dispatch('normalRequest', data).then(res => {
-            // alert(JSON.stringify(res))
             if (res.response === 'success') {
               this.$vux.toast.text('意见反馈成功~')
               this.$router.replace('/more')
@@ -99,7 +88,6 @@ export default {
             } else {
               this.$vux.toast.text(res.data)
             }
-            // alert(JSON.stringify(res))
             // 隐藏
             this.$vux.loading.hide()
           })

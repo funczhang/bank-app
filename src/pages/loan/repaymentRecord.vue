@@ -13,7 +13,7 @@
               span {{item.repName}}
             li(class="clearfix")  
               label 月利率 
-              span(style="color:#f32f2f;") {{item.repMonthRate}}%
+              span(style="color:#f32f2f;") {{item.repMonthRate}}‰
             li(class="clearfix")  
               label 还款账号 
               span {{item.repCradNo}}
@@ -68,11 +68,10 @@ export default {
         }
       }
       self.$store.dispatch('normalRequest', data).then(res => {
-        // alert(JSON.stringify(res))
         if (res.response === 'success') {
-          this.repaymentList = data.data.repaymentList
+          this.repaymentList = res.data.repaymentList
         } else {
-          self.$vux.toast.text(data.data)
+          self.$vux.toast.text(res.data)
         }
       })
     }

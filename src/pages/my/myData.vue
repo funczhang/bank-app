@@ -39,7 +39,6 @@ export default {
       return this.$store.state.userInfo.avatar !== ''
     },
     headImgSrc () {
-      // alert(this.$store.state.userInfo.avatar)
       return this.$store.state.baseUrl + this.$store.state.userInfo.avatar
     }
   },
@@ -76,11 +75,7 @@ export default {
         }
       }
       self.$store.dispatch('normalRequest', data).then(data => {
-        // alert(JSON.stringify(data))
-        // let data = JSON.parse(res)
         this.$store.state.userInfo.avatar = data.data.avatar
-        // this.$router.push('/my')
-        // data.response === 'success' ? self.$store.commit('INIT_HEAD_IMG', data.data) : null
       })
     }
   }

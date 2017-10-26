@@ -18,34 +18,20 @@
 </template>
 
 <script>
-import { ViewBox, XHeader, PopupPicker, Group, Masker, XInput } from 'vux'
+import { ViewBox, XHeader } from 'vux'
 export default {
   components: {
     ViewBox,
-    XHeader,
-    PopupPicker,
-    Group,
-    Masker,
-    XInput
+    XHeader
   },
   data () {
     return {
-      index: 0,
-      list1: [['小米', 'iPhone', '华为', '情怀', '三星', '其他', '不告诉你']]
+      index: 0
     }
   },
   mounted () {
   },
   methods: {
-    isShow () {
-      // alert('隐藏弹窗')
-    },
-    confirm () {
-      // alert('确定')
-    },
-    cancel () {
-      // alert('取消')
-    }
   }
 }
 </script>

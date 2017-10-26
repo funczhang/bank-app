@@ -44,12 +44,7 @@ export default {
         }
       }
       self.$store.dispatch('normalRequest', data).then(res => {
-        // alert(JSON.stringify(res))
         if (res.response === 'success') {
-          // res.data.forEach(function (element) {
-          //   alert(JSON.stringify(element))
-          //   this.couponList.push(element)
-          // })
           this.couponList = res.data
         } else {
           this.$vux.toast.text('优惠券列表获取失败')

@@ -146,13 +146,8 @@ export default {
         path: path,
         params: {
           token: this.$store.state.userInfo.token
-          // token: 'e2e9e2dc-07c6-41f0-9b80-0486a1c0f5b4'
         }
       }
-      // 显示
-      this.$vux.loading.show({
-        text: 'Loading'
-      })
       // 我为他人担保信息
       self.$store.dispatch('normalRequest', data).then(data => {
         if (data.response === 'success') {
@@ -161,16 +156,10 @@ export default {
         } else {
           this.$vux.toast.text('我为他人担保接口返回信息有误~')
         }
-        this.$vux.loading.hide()
-        // this.$nextTick(() => {
-        // // 视图更新完成后停止刷新或加载动作
-        //   this.$refs.myScroller.donePulldown()
-        // })
         self.$refs.guaranteeScroller.reset({
           top: 0
         })
       })
-      this.$vux.loading.hide()
     },
     guaranteeForMe () {
       // 别人为我担保
@@ -181,32 +170,20 @@ export default {
         path: path,
         params: {
           token: this.$store.state.userInfo.token
-          // token: 'e2e9e2dc-07c6-41f0-9b80-0486a1c0f5b4'
         }
       }
-      // 显示
-      this.$vux.loading.show({
-        text: 'Loading'
-      })
       // 别人为我担保信息
       self.$store.dispatch('normalRequest', data).then(data => {
-        // alert(JSON.stringify(data))
-        // let data = JSON.parse(res)
         if (data.response === 'success') {
-          // data.data.othersList = []
           data.data.othersList.length === 0 ? self.color = '#fff' : self.color = ''
           self.othersList = data.data.othersList
         } else {
           this.$vux.toast.text('他人为我担保接口返回信息有误~')
         }
-        // self.$nextTick(() => {
-        //   // 视图更新完成后停止刷新或加载动作
-        //   self.$refs.myScroller.donePulldown()
-        // })
         self.$refs.guaranteeScroller.reset({
           top: 0
         })
-        this.$vux.loading.hide()
+        // this.$vux.loading.hide()
       })
     }
   }

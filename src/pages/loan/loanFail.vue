@@ -4,13 +4,6 @@
       x-header(slot="header" title="申请失败" :left-options="{showBack:true,backText:''}" style="width:100%;position:absolute;left:0;top:0;z-index:100;background:#fff;color:#000;")
       .content
         rate(:state="state")  
-        //- .progerss
-        //-   img(src="../../assets/imgs/progress01.png")
-        //-   div
-        //-     span(class="first") 待申请
-        //-     span 待审批
-        //-     span 待签约
-        //-     span(class="last") 待完成
         .tip
           img(src="../../assets/imgs/icon-fail.png")
           p 真遗憾！您的申请由于{{tip}},故申请失败！如有疑问，请到就近网点咨询或拨打咨询电话
@@ -18,7 +11,6 @@
 </template>
 
 <script>
-// 219 187
 import progress from '../common/progress'
 import { ViewBox, XHeader, Masker } from 'vux'
 export default {
@@ -31,8 +23,12 @@ export default {
   data () {
     return {
       index: 0,
-      state: 0,
       tip: ''
+    }
+  },
+  computed: {
+    state () {
+      return this.$store.state.applyState
     }
   },
   mounted () {
@@ -57,10 +53,8 @@ export default {
         if (data.response === 'success') {
           if (data.data.explain === '6') {
             self.tip = '未签约（签约超时）'
-            self.state = 5
           } else if (data.data.explain === '2') {
             self.tip = '授信审批未通过'
-            self.state = 2
           }
         } else {
           this.$vux.toast.text('获取申请接口数据失败')

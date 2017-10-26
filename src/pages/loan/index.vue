@@ -170,38 +170,6 @@ export default {
         this.$vux.toast.text('请选择借款用途~')
       }
     },
-    submit () {
-       // 页面初始化
-      let self = this
-      let path = self.$store.state.baseUrl + '/app/xsyd/submitApply.do'
-      let data = {
-        action: 'init_request',
-        path: path,
-        params: {
-          token: this.$store.state.userInfo.token,
-          usedFor: this.usedFor[0],
-          lowAddress: this.detailAddress,
-          zmxyFlag: '1'
-        }
-      }
-      alert(JSON.stringify(data.params))
-      // if (data.params.usedFor !== '') {
-      //   if (data.params.lowAddress !== '') {
-      //     self.$store.dispatch('normalRequest', data).then(data => {
-      //       if (data.response === 'success') {
-      //         this.$vux.toast.text('授信信息提交成功~')
-      //         this.$router.replace('/quotaEvaluation')
-      //       } else {
-      //         this.$vux.toast.text(data.data)
-      //       }
-      //     })
-      //   } else {
-      //     this.$vux.toast.text('请选择法律文书送达地址~')
-      //   }
-      // } else {
-      //   this.$vux.toast.text('请选择借款用途~')
-      // }
-    },
     cancel () {
       this.$vux.toast.text('取消授信~')
     }

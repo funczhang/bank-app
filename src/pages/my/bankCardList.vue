@@ -107,15 +107,11 @@ export default {
         }
       }
       self.$store.dispatch('normalRequest', data).then(res => {
-        // alert(JSON.stringify(res))
-        // let data = JSON.parse(res)
         if (res.response === 'success') {
-          // self.$store.state.bankCardList = res.data
           self.bankCardList = res.data
         } else {
           this.$vux.toast.text('获取银行卡列表数据失败')
         }
-        // alert(res)
       })
     }
   }

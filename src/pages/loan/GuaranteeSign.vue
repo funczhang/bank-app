@@ -15,7 +15,7 @@
                 p(class="value" style="color:#f32f2f") {{lineCredit}}
               li(class="mid")
                 p(class="title") 审批利率（月）
-                p(class="value" style="color:#1f76e2;") {{applyRate}}%
+                p(class="value" style="color:#1f76e2;") {{applyRate}}‰
               li 
                 p(class="title") 授信期限（月）
                 p(class="value" style="color:#1f76e2;") {{timeLimit}}
@@ -88,7 +88,6 @@ export default {
       })
     },
     sign () {
-      // alert(this.couponId)
       // 签约
       let self = this
       let path = self.$store.state.baseUrl + '/app/xsyd/contract.html?userToken=' + self.$store.state.userInfo.token + '&applyId=' + self.$route.query.applyNo
@@ -105,8 +104,6 @@ export default {
         }
       }
       this.$store.state.signInfo = data.params
-      // self.$router.push({path: '/signContract'})
-      // alert(JSON.stringify(data.params))
       self.$store.dispatch('normalRequest', data).then(res => {
         if (res.response === 'success') {
           this.$router.replace('/myGurantee')

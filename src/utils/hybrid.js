@@ -83,7 +83,6 @@ fly._judge = function (result, obj) {
       obj._fail && obj._fail(resultO)
       return
     }
-    // alert(JSON.stringify(resultO))
     obj._done && obj._done(resultO.message)
   } else {
     obj._fail && obj._fail()

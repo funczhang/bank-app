@@ -22,7 +22,7 @@
             .child(slot="child" @click="toSuggest")
           cell(title="关于" is-link link="/about")
             img(src="../../assets/imgs/icon-about.png" slot="icon")
-        .btn-exit(@click="exit") 退出
+        .btn-exit(@click="exit" v-show="isLogin") 退出
 </template>
 
 <script>
@@ -40,6 +40,11 @@ export default {
       index: 0
     }
   },
+  computed: {
+    isLogin () {
+      return this.$store.state.userInfo.token !== ''
+    }
+  },
   mounted () {
   },
   methods: {
@@ -47,7 +52,7 @@ export default {
        // 分享二维码
       let self = this
       let data = {
-        action: 'jump_qr_show'
+        action: 'jump_qr_dialog'
       }
       self.$store.dispatch('normalRequest', data).then(res => {
       })
@@ -101,7 +106,6 @@ export default {
           text: 'Loading'
         })
         self.$store.dispatch('normalRequest', data).then(res => {
-          alert(JSON.stringify(res))
           // 清楚用户信息
           self.$store.commit('INIT_HEAD_IMG', {avatar: ''})
           self.$store.commit('INIT_USER_INFO', res)

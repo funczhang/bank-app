@@ -17,7 +17,7 @@
               span(style="color:#f32f2f;") {{item.applyTime}}
             li(class="clearfix")  
               label 审批利率(月) 
-              span {{item.contLl}}%
+              span {{item.contLl}}‰
             li(class="clearfix") 
               label 合同号 
               span(style="color:#f32f2f;") {{item.contractNumber}}
@@ -91,9 +91,9 @@ export default {
       }
       self.$store.dispatch('normalRequest', data).then(res => {
         if (res.response === 'success') {
-          self.creditList = data.data.creditList
+          self.creditList = res.data.creditList
         } else {
-          self.$vux.toast.text(data.data)
+          self.$vux.toast.text(res.data)
         }
       })
     }

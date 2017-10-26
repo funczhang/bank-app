@@ -73,7 +73,6 @@ export default {
       })
     },
     addBankCard () {
-      alert('调取识别银行卡sdk')
       let self = this
       let path = self.$store.state.baseUrl + '/app/xsyd/getAppBankCardList.do'
       let data = {

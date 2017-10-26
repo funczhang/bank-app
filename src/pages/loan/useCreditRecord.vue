@@ -16,7 +16,7 @@
               span(style="color:#f32f2f;") {{item.iousNo}}
             li(class="clearfix")  
               label 月利率 
-              span {{item.payMonthRate}}%
+              span {{item.payMonthRate}}‰
             li(class="clearfix") 
               label 用款金额 
               span(style="color:#f32f2f;") {{item.payAmount}}元
@@ -66,9 +66,9 @@ export default {
       }
       self.$store.dispatch('normalRequest', data).then(res => {
         if (res.response === 'success') {
-          self.spendList = data.data.spendList
+          self.spendList = res.data.spendList
         } else {
-          self.$vux.toast.text(data.data)
+          self.$vux.toast.text(res.data)
         }
       })
     }

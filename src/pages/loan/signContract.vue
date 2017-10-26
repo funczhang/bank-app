@@ -30,14 +30,11 @@ export default {
     }
   },
   mounted () {
-    // debugger
-    // alert(JSON.stringify(this.$store.state.signInfo))
   },
   computed: {
   },
   methods: {
     signContract () {
-      // alert(this.couponId)
       // 页面初始化
       let self = this
       let path = self.$store.state.baseUrl + '/app/xsyd/signContract.do'
@@ -47,7 +44,6 @@ export default {
         params: self.$store.state.signInfo
       }
       self.$store.dispatch('initRequest', data).then(res => {
-        // alert(res)
         let data = JSON.parse(res)
         if (data.response === 'success') {
           this.isKnow = true
@@ -70,7 +66,6 @@ export default {
         }
       }
       self.$store.dispatch('normalRequest', data).then(res => {
-        // alert(JSON.stringify(res))
       })
     }
   }

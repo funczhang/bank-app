@@ -41,15 +41,11 @@
 
 <script>
 // 219 187
-import { ViewBox, XHeader, PopupPicker, Group, Masker, XInput } from 'vux'
+import { ViewBox, XHeader } from 'vux'
 export default {
   components: {
     ViewBox,
-    XHeader,
-    PopupPicker,
-    Group,
-    Masker,
-    XInput
+    XHeader
   },
   data () {
     return {

@@ -70,8 +70,6 @@ export default {
     }
   },
   mounted () {
-    // // 清除计时器
-    // window.clearInterval(window.setTime)
   },
   methods: {
     closeDialog () {
@@ -114,14 +112,14 @@ export default {
         action: 'hand_request',
         path: path,
         params: {
-          cellphone: this.phoneNum,
-          password: this.pwd,
-          channel: this.$store.state.channel,
-          imei: this.$store.state.imei,
-          verifyCode: this.verifyCode1
+          cellphone: self.phoneNum,
+          password: self.pwd,
+          channel: self.$store.state.channel,
+          imei: self.$store.state.imei,
+          verifyCode: self.verifyCode1
         }
       }
-      if (self.pwd !== '') {
+      if (self.mathchPwd(self.pwd)) {
         // 显示
         this.$vux.loading.show({
           text: 'Loading'
@@ -137,9 +135,6 @@ export default {
           this.$vux.toast.text('登录成功')
           self.$router.replace('/my')
         })
-      } else {
-        this.$vux.loading.hide()
-        this.$vux.toast.text('密码不能为空')
       }
       this.$vux.loading.hide()
     },
@@ -150,13 +145,13 @@ export default {
         action: 'hand_request',
         path: path,
         params: {
-          cellphone: this.phoneNum,
-          password: this.pwd,
-          channel: this.$store.state.channel,
-          imei: this.$store.state.imei
+          cellphone: self.phoneNum,
+          password: self.pwd,
+          channel: self.$store.state.channel,
+          imei: self.$store.state.imei
         }
       }
-      if (self.pwd !== '') {
+      if (self.mathchPwd(self.pwd)) {
         // 显示
         this.$vux.loading.show({
           text: 'Loading'
@@ -176,9 +171,6 @@ export default {
             this.showDialog = true
           }
         })
-      } else {
-        this.$vux.loading.hide()
-        this.$vux.toast.text('密码不能为空')
       }
       this.$vux.loading.hide()
     },
@@ -237,7 +229,7 @@ export default {
           if (res.response === 'success') {
             self.$vux.toast.text('验证码已成功发送')
           } else {
-            self.$vux.toast.text('验证码发送失败，请重试！')
+            self.$vux.toast.text(res.data)
           }
         })
       }

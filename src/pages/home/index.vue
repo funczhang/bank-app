@@ -6,7 +6,7 @@
         img(class="icon-email" src="../../assets/imgs/icon-email.png" slot="right" @click="jumpTo('inform')")
       scroller(ref="myScroller" height="-96" :lock-x="true" :use-pulldown="true" :use-pullup="true" :pullup-config="pullupConfig" :pulldown-config="pulldownConfig" @on-pulldown-loading="onPulldownLoading")
         .content
-          swiper(:list="imglist" v-model="index" :auto="true" :loop="true")
+          swiper(:list="imglist" dots-position="center" v-model="index" :auto="true" :loop="true")
           .inform
             .label(class="fl")
               img(src="../../assets/imgs/icon-inform.png")
@@ -14,7 +14,7 @@
             .news(class="fl")
               i(v-show="informList.length !== 0")
               marquee(style="height:1.5rem;")
-                marquee-item(v-for="item in informList" :key="item.id") {{item.subTitle}}
+                marquee-item(v-for="item in informList" :key="item.id") {{item.headingTitle}}
           ul(class="btn-area clearfix")
             li(@click="jumpTo('BankCardList')")
               img(src="../../assets/imgs/icon-account.png") 
@@ -44,13 +44,11 @@
 </template>
 
 <script>
-import { ViewBox, XHeader, Tabbar, TabbarItem, Swiper, Marquee, MarqueeItem, Scroller } from 'vux'
+import { ViewBox, XHeader, Swiper, Marquee, MarqueeItem, Scroller } from 'vux'
 export default {
   components: {
     ViewBox,
     XHeader,
-    Tabbar,
-    TabbarItem,
     Swiper,
     Marquee,
     MarqueeItem,
@@ -130,7 +128,7 @@ export default {
             break
           case 'BankCardList': this.$router.push('/bankCardList')
             break
-          case 'MyLoan': this.$vux.toast.text('请去贷款模块申请~')
+          case 'MyLoan': this.goLoan()
             break
           case 'MyRepayment': this.$router.push('/repaymentRecord')
             break
@@ -138,6 +136,10 @@ export default {
             break
         }
       }
+    },
+    goLoan () {
+      this.$router.push('/checkLoan')
+      this.$store.state.tabItem = 1
     },
     unOpen () {
       // 显示
@@ -167,6 +169,7 @@ export default {
         path: path
       }
       self.$store.dispatch('initRequest', data).then(res => {
+        // alert(res)
         // 这里使用json.parse无法处理 ？？？
         let arr = []
         let data = eval('(' + res + ')')
@@ -425,11 +428,6 @@ html, body {
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
-  }
-  .vux-slider > .vux-indicator, 
-  .vux-slider .vux-indicator-right{
-    left:50%;
-    margin-left:-1.2rem;
   }
   .vux-slider > .vux-indicator > a > .vux-icon-dot, 
   .vux-slider .vux-indicator-right > a > .vux-icon-dot{

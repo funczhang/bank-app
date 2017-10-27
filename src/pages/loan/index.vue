@@ -59,20 +59,15 @@
 </template>
 
 <script>
-import { ViewBox, XHeader, Tab, TabItem, Scroller, Group, PopupPicker, XInput, CheckIcon, Masker, XTextarea } from 'vux'
+import { ViewBox, XHeader, Group, PopupPicker, CheckIcon, XTextarea } from 'vux'
 import areas from '../../assets/json/areas'
 export default {
   components: {
     ViewBox,
     XHeader,
-    Tab,
-    TabItem,
-    Scroller,
     Group,
     PopupPicker,
-    XInput,
     CheckIcon,
-    Masker,
     XTextarea
   },
   data () {

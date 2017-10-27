@@ -55,8 +55,6 @@ export default {
     }
   },
   mounted () {
-    // // 清除计时器
-    // window.clearInterval(window.setTime)
   },
   methods: {
     jumpRegisterWeb () {
@@ -91,7 +89,7 @@ export default {
       // 注册用户
       if (self.isPhoneCorrect(self.phone)) {
         if (self.code !== '') {
-          if (self.pwd1 !== '') {
+          if (self.mathchPwd(self.pwd1)) {
             if (self.pwd1 === self.pwd2) {
               this.$vux.loading.show({
                 text: 'Loading'
@@ -113,9 +111,10 @@ export default {
             } else {
               this.$vux.toast.text('两次密码输入不一致')
             }
-          } else {
-            this.$vux.toast.text('密码不为空')
           }
+          // else {
+          //   this.$vux.toast.text('密码不为空')
+          // }
         } else {
           this.$vux.toast.text('验证码不为空')
         }
@@ -144,7 +143,7 @@ export default {
           if (response.response === 'success') {
             this.$vux.toast.text('验证码已成功发送')
           } else {
-            this.$vux.toast.text('验证码发送失败，请退出重试！')
+            this.$vux.toast.text(response.data)
           }
         })
       }

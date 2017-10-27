@@ -11,7 +11,7 @@
             x-input(placeholder="请输入旧密码" v-model="oldPwd" type="password")
             x-input(placeholder="请输入新密码" v-model="newPwd" style="margin-top:0.75rem;border-bottom:none;" type="password")
             x-input(placeholder="请再次输入新密码" v-model="reNewPwd" type="password")
-          //- .tip 密码必须为数字和字母组合，长度为6-12位
+          .tip 密码必须为数字和字母组合，长度为6-10位
           .btn-submit(@click="changePwd") 提交
         group(v-show="!isChangePwd")
           x-switch(title="手势密码" v-model="isOpenGesture" style="margin-top:0.75rem;border-top:1px solid #ededed;")
@@ -85,8 +85,8 @@ export default {
           newpass: this.newPwd
         }
       }
-      if (self.oldPwd !== '') {
-        if (self.newPwd !== '') {
+      if (self.mathchPwd(self.oldPwd)) {
+        if (self.mathchPwd(self.newPwd)) {
           if (self.newPwd === self.reNewPwd) {
             this.$vux.loading.show({
               text: 'Loading'
@@ -106,12 +106,14 @@ export default {
           } else {
             this.$vux.toast.text('两次新密码输入不一致')
           }
-        } else {
-          this.$vux.toast.text('新密码不能为空')
         }
-      } else {
-        this.$vux.toast.text('旧密码不能为空')
+        // else {
+        //   this.$vux.toast.text('新密码不能为空')
+        // }
       }
+      // else {
+      //   // this.$vux.toast.text('旧密码不能为空')
+      // }
     },
     updataGesture () {
        // 重新设置手势密码

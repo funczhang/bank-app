@@ -64,5 +64,19 @@ export default {
       this.$store.dispatch('normalRequest', data).then(res => {
       })
     }
+    Vue.prototype.mathchPwd = function (pwd) {
+      let pattern = /^[a-zA-Z0-9]{6,10}$/
+      if (pwd.trim().length !== 0) {
+        if (pattern.test(pwd)) {
+          return true
+        } else {
+          this.$vux.toast.text('密码格式错误，请重新输入')
+          return false
+        }
+      } else {
+        this.$vux.toast.text('密码不能为空')
+        return false
+      }
+    }
   }
 }

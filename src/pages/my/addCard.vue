@@ -6,19 +6,18 @@
         .module-head 请添加持卡本人的银行卡
         group
           x-input(title="持卡人" placeholder="请输入持卡人" style="border-bottom:none;font-size:0.75rem" v-model="name" type="text" disabled=true readonly=true)
-          x-input(title="卡号" placeholder="请输入银行卡号" type="text" v-model="cardNum" :show-clear="false" style="font-size:0.75rem")
+          x-input(title="卡号" placeholder="请输入银行卡号" type="number" v-model="cardNum" :show-clear="false" style="font-size:0.75rem")
             img(src="../../assets/imgs/icon-camera.png" style="width:0.9rem;height:0.7rem;" slot="right" @click="addBankCard")
         .btn-add(@click="addCard") 提交
 </template>
 
 <script>
 // 219 187
-import { ViewBox, XHeader, Masker, Group, XInput } from 'vux'
+import { ViewBox, XHeader, Group, XInput } from 'vux'
 export default {
   components: {
     ViewBox,
     XHeader,
-    Masker,
     Group,
     XInput
   },

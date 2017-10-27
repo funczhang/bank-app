@@ -15,12 +15,11 @@
 </template>
 
 <script>
-import { ViewBox, XHeader, Masker } from 'vux'
+import { ViewBox, XHeader } from 'vux'
 export default {
   components: {
     ViewBox,
-    XHeader,
-    Masker
+    XHeader
   },
   data () {
     return {

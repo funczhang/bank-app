@@ -23,7 +23,7 @@
                 img(src="../../assets/imgs/icon-inform-list.png")
               .right
                 h3(class="clearfix") 
-                  span(class="fl") 系统公告
+                  span(class="fl") 活动公告
                   span(class="fr") {{item.createTime}}
                 p(style="margin-top:0.5rem;") {{item.content}}
             p(v-show="userInform.length===0" class="empty-tip") 暂无用户公告~
@@ -87,6 +87,7 @@ export default {
         }
       }
       self.$store.dispatch('normalRequest', data).then(res => {
+        // alert(JSON.stringify(res))
         if (res.response === 'success') {
           type === '0' ? self.systemInform = res.data : self.userInform = res.data
         } else {

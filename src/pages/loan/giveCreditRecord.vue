@@ -33,15 +33,11 @@
 </template>
 
 <script>
-import { ViewBox, XHeader, Tab, TabItem, Scroller, Group } from 'vux'
+import { ViewBox, XHeader } from 'vux'
 export default {
   components: {
     ViewBox,
-    XHeader,
-    Tab,
-    TabItem,
-    Scroller,
-    Group
+    XHeader
   },
   data () {
     return {

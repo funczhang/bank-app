@@ -4,9 +4,9 @@
       x-header(slot="header" title="忘记密码" :left-options="{showBack:true,backText:''}" style="width:100%;position:absolute;left:0;top:0;z-index:100;background:#fff;color:#000;")
       .content
         group(style="margin-top:0.75rem;")
-          x-input(placeholder="请输入手机号" v-model="phone" style="border-bottom:none;")
+          x-input(placeholder="请输入手机号" type="number" v-model="phone" style="border-bottom:none;")
             img(src="../../assets/imgs/icon-setting-phone.png" style="width:0.65rem;height:0.9rem;" slot="label")
-          x-input(placeholder="请输入短信验证" v-model="code" :show-clear="showClear")
+          x-input(placeholder="请输入短信验证" type="number" v-model="code" :show-clear="showClear")
             img(src="../../assets/imgs/icon-key.png" style="width:0.9rem;height:0.9rem;" slot="label")
             button(class="btn-send-code" slot="right" @click="sendTextCode('02', 'forgetCode')" ref="forgetCode") 发送验证码
         group(style="margin-top:0.75rem;")
@@ -20,19 +20,14 @@
 </template>
 
 <script>
-import { ViewBox, XHeader, Masker, Tab, TabItem, Group, XInput, XSwitch, Cell, CheckIcon } from 'vux'
+import { ViewBox, XHeader, Group, XInput, XSwitch } from 'vux'
 export default {
   components: {
     ViewBox,
     XHeader,
-    Masker,
-    Tab,
-    TabItem,
     Group,
     XInput,
-    XSwitch,
-    Cell,
-    CheckIcon
+    XSwitch
   },
   data () {
     return {
@@ -47,8 +42,6 @@ export default {
     }
   },
   mounted () {
-    // 清除计时器
-    // window.clearInterval(window.setTime)
   },
   methods: {
     sendTextCode (type, id) {
@@ -73,13 +66,12 @@ export default {
       // 校验
       if (self.isPhoneCorrect(self.phone)) {
         if (self.code !== '') {
-          if (self.pwd1 !== '') {
+          if (self.mathchPwd(self.pwd1)) {
             if (self.pwd1 === self.pwd2) {
               self.$vux.loading.show({
                 text: 'Loading'
               })
               self.$store.dispatch('normalRequest', data).then(response => {
-                // let response = JSON.parse(res)
                 if (response.response === 'success') {
                   self.$vux.toast.text('新密码设置成功，请重新登录~')
                   self.phone = ''
@@ -93,10 +85,10 @@ export default {
                 self.$vux.loading.hide()
               })
             } else {
+              self.pwd1 = ''
+              self.pwd2 = ''
               self.$vux.toast.text('两次密码输入不一致')
             }
-          } else {
-            self.$vux.toast.text('密码不为空')
           }
         } else {
           self.$vux.toast.text('验证码不为空')
@@ -123,7 +115,7 @@ export default {
           if (response.response === 'success') {
             self.$vux.toast.text('验证码已成功发送')
           } else {
-            self.$vux.toast.text('验证码发送失败，请重试！')
+            self.$vux.toast.text(response.data)
           }
         })
       }

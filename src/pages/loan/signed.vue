@@ -77,8 +77,8 @@
             img(src="../../assets/imgs/arrow-right.png" @click="addAssurePeople = false")
           .content
             group
-              x-input(title="手机号码" placeholder="请输入手机号码" v-model="assurePhone")
-              x-input(title="姓  名" placeholder="请输入姓名" v-model="assureName")
+              x-input(title="手机号码" placeholder="请输入手机号码" type="number" v-model="assurePhone")
+              x-input(title="姓  名" placeholder="请输入姓名" type="text" v-model="assureName")
             .btn-area(class="clearfix")
               a(href="javascript:void(null)" class="btn-submit fl" @click="confirm") 确定
               a(href="javascript:void(null)" class="btn-cancel fr" @click="addAssurePeople = false") 取消
@@ -108,16 +108,14 @@
 <script>
 // 219 187
 import progress from '../common/progress.vue'
-import { ViewBox, XHeader, PopupPicker, Group, Masker, XInput, CheckIcon, Radio } from 'vux'
+import { ViewBox, XHeader, Group, Masker, XInput, Radio } from 'vux'
 export default {
   components: {
     ViewBox,
     XHeader,
-    PopupPicker,
     Group,
     Masker,
     XInput,
-    CheckIcon,
     Radio,
     'rate': progress
   },
@@ -158,7 +156,6 @@ export default {
   computed: {
     step () {
       return this.$store.state.applyState
-      // return 7
     },
     isHandlerAssure () {
       return this.$store.state.applyState === 3

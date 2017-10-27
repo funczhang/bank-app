@@ -2,7 +2,7 @@
   div(style="height:100%;")
     view-box(ref="viewBox" body-padding-top="46px" body-padding-bottom="50px")
       x-header(slot="header" title="我的贷款" :left-options="{showBack:false,backText:''}" style="width:100%;position:absolute;left:0;top:0;z-index:100;background:#fff;color:#000;")
-      .content(v-show="!canApply")
+      .content(v-show="canApply === false")
         .template(v-show="step !== 5")
           //- 贷款未完成有进度
           group(style="margin-top:15px")
@@ -52,7 +52,7 @@
                 li 
                   p(class="title") 还款日期
                   p(class="value" style="color:#1f76e2;") {{repaymentObj.repTime === undefined ? '--' : repaymentObj.repTime}}
-      .content(v-show="canApply")
+      .content(v-show="canApply === true")
         img(class="empty" src="../../assets/imgs/icon-no-apply.png")
         .tip 您暂无申请记录~
         a(href="javascript:void(null)" class="btn-apply" @click="goApply") 去申请
@@ -74,7 +74,7 @@ export default {
       index: 0,
       isLoanFinsh: false,
       hasApply: true,
-      canApply: true,
+      canApply: null,
       page: ''
     }
   },
@@ -105,6 +105,8 @@ export default {
     initPage () {
       if (this.isLogin() && this.isVerfied()) {
         this.initView()
+      } else {
+        this.canApply = true
       }
     },
     goApply () {

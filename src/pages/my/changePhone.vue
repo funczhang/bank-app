@@ -4,27 +4,23 @@
       x-header(slot="header" title="更换手机号" :left-options="{showBack:true,backText:''}" style="width:100%;position:absolute;left:0;top:0;z-index:100;background:#fff;color:#000;")
       .content
         group(style="margin-top:0.75rem;")
-          x-input(placeholder="请输入新的手机号" style="border-bottom:none;" v-model="phone")
+          x-input(placeholder="请输入新的手机号" type="number" style="border-bottom:none;" v-model="phone")
             img(src="../../assets/imgs/icon-setting-phone.png" style="width:0.65rem;height:0.9rem;" slot="label")
-          x-input(placeholder="请输入验证码" v-model="code" :show-clear="false")
+          x-input(placeholder="请输入验证码" type="number" v-model="code" :show-clear="false")
             img(src="../../assets/imgs/icon-key.png" style="width:0.9rem;height:0.9rem;" slot="label")
             button(class="btn-send-code" slot="right" @click="sendTextCode('05', 'changePhone')" ref="changePhone") 发送验证码
         .btn-submit(class="btn-submit" @click="submit") 提交 
 </template>
 
 <script>
-import { ViewBox, XHeader, Masker, Tab, TabItem, Group, XInput, XSwitch, Cell } from 'vux'
+import { ViewBox, XHeader, Group, XInput, XSwitch } from 'vux'
 export default {
   components: {
     ViewBox,
     XHeader,
-    Masker,
-    Tab,
-    TabItem,
     Group,
     XInput,
-    XSwitch,
-    Cell
+    XSwitch
   },
   data () {
     return {
@@ -64,7 +60,7 @@ export default {
           if (response.response === 'success') {
             self.$vux.toast.text('验证码已成功发送')
           } else {
-            self.$vux.toast.text('验证码发送失败，请重试！')
+            self.$vux.toast.text(response.data)
           }
         })
       }

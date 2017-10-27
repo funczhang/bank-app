@@ -8,7 +8,7 @@
             //- img(src="../../assets/imgs/person.png")
             img(v-show="!hasHeadImg" src="../../assets/imgs/default-img.png")
             img(v-show="hasHeadImg" :src="headImgSrc")
-          p(v-show="isLogin" class="phone") {{ phoneNum }}
+          p(v-show="isLogin" class="phone") {{ phoneNum.substr(0,3) + '****' + phoneNum.substr(phoneNum.length-4 ,4)}}
           p(v-show="!isLogin" class="phone" @click="login") 登录/注册
         .content
           group(style="background:green;")
@@ -31,17 +31,12 @@
 </template>
 
 <script>
-import { ViewBox, XHeader, Tab, TabItem, Scroller, Group, PopupPicker, XInput, CheckIcon, Masker, Cell } from 'vux'
+import { ViewBox, XHeader, Group, CheckIcon, Cell, Masker } from 'vux'
 export default {
   components: {
     ViewBox,
     XHeader,
-    Tab,
-    TabItem,
-    Scroller,
     Group,
-    PopupPicker,
-    XInput,
     CheckIcon,
     Masker,
     Cell
@@ -95,7 +90,8 @@ export default {
       }
     },
     uploadHeadImg () {
-      this.showHeadImg = true
+      // this.showHeadImg = true
+      this.$router.push('/myData')
     },
     hideHeadImg () {
       this.showHeadImg = false
@@ -176,7 +172,7 @@ export default {
     }
     .head-img{
       position: relative;
-      top:50%;
+      top:47%;
       margin:0 auto;
       margin-top:-2rem;
       width:4rem;

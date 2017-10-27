@@ -23,7 +23,6 @@
 </template>
 
 <script>
-// 310 160
 import { ViewBox, XHeader, Masker } from 'vux'
 export default {
   components: {

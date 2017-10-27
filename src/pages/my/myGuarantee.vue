@@ -56,7 +56,6 @@
 </template>
 
 <script>
-// 219 187
 import { ViewBox, XHeader, Masker, Tab, TabItem, Scroller } from 'vux'
 export default {
   components: {

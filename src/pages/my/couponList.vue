@@ -46,7 +46,7 @@ export default {
         if (res.response === 'success') {
           this.couponList = res.data
         } else {
-          this.$vux.toast.text('优惠券列表获取失败')
+          this.$vux.toast.text(res.data)
         }
       })
     }

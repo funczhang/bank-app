@@ -92,7 +92,7 @@ export default {
         if (res.response === 'success') {
           this.initData()
         } else {
-          this.$vux.toast.text('删除失败')
+          this.$vux.toast.text(res.data)
         }
       })
     },
@@ -110,7 +110,7 @@ export default {
         if (res.response === 'success') {
           self.bankCardList = res.data
         } else {
-          this.$vux.toast.text('获取银行卡列表数据失败')
+          this.$vux.toast.text(res.data)
         }
       })
     }

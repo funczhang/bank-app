@@ -57,7 +57,7 @@ export default {
             self.tip = '授信审批未通过'
           }
         } else {
-          this.$vux.toast.text('获取申请接口数据失败')
+          this.$vux.toast.text(data.data)
         }
       })
     }

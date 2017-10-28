@@ -91,7 +91,7 @@ export default {
         if (res.response === 'success') {
           type === '0' ? self.systemInform = res.data : self.userInform = res.data
         } else {
-          this.$vux.toast.text('公告数据获取失败~')
+          this.$vux.toast.text(res.data)
         }
       })
     }

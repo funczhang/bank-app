@@ -14,6 +14,7 @@
             img(src="../../assets/imgs/icon-pwd.png" style="width:0.8rem;height:1rem;" slot="label")
           x-input(placeholder="请再次输入密码" v-model="pwd2" type="password")
             img(src="../../assets/imgs/icon-pwd.png" style="width:0.8rem;height:1rem;" slot="label")
+        .tip *密码必须为数字和字母组合，长度为6-10位
         .confirm-area
           check-icon(:value.sync="isConfirm")
           span 我已经阅读并同意
@@ -152,6 +153,14 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+.tip{
+  padding:0.5rem;
+  font-size:0.65rem;
+  color:#999;
+  // text-align: center;
+  background:#fff;
+  // border-bottom:1px solid #ededed;
+  }
 .weui-tab{
   .weui-cell__hd{
     position: relative;

@@ -128,7 +128,7 @@ export default {
             self.applyTerm = data.data.applyTerm
           }
         } else {
-          this.$vux.toast.text('我的贷款页面初始化失败~')
+          this.$vux.toast.text(data.data)
         }
       })
     },

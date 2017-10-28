@@ -35,8 +35,8 @@
               p 授信期限(月) {{' ' + creditTerm}}
               a(href="javascript:void(null)" class="btn-apply") 去申请
           ul(class="btn-classify clearfix")
-            li(class="btn-payment" @click="unOpen")
-              span 生活缴费
+            li(class="btn-payment" @click="guid")
+              span 信贷引导
             li(class="btn-invest" @click="unOpen")
               span 投资理财
             li(class="btn-activity" @click="unOpen")
@@ -141,6 +141,9 @@ export default {
       this.$router.push('/checkLoan')
       this.$store.state.tabItem = 1
     },
+    guid () {
+      this.$router.push('/guid')
+    },
     unOpen () {
       // 显示
       this.$vux.toast.show({
@@ -184,7 +187,7 @@ export default {
             self.imglist.push({img: self.$store.state.baseUrl + element})
           })
         } else {
-          self.$vux.toast.text('首页轮播数据获取失败~')
+          self.$vux.toast.text(data.data)
         }
       })
     },

@@ -153,7 +153,7 @@ export default {
           data.data.myList.length === 0 ? self.color = '#fff' : self.color = ''
           self.myList = data.data.myList
         } else {
-          this.$vux.toast.text('我为他人担保接口返回信息有误~')
+          this.$vux.toast.text(data.data)
         }
         self.$refs.guaranteeScroller.reset({
           top: 0
@@ -177,7 +177,7 @@ export default {
           data.data.othersList.length === 0 ? self.color = '#fff' : self.color = ''
           self.othersList = data.data.othersList
         } else {
-          this.$vux.toast.text('他人为我担保接口返回信息有误~')
+          this.$vux.toast.text(data.data)
         }
         self.$refs.guaranteeScroller.reset({
           top: 0

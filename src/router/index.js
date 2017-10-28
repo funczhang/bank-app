@@ -240,6 +240,13 @@ const router = new Router({
       components: {
         'default': resolve => require(['../pages/common/progress.vue'], resolve)
       }
+    },
+    {
+      path: '/guid', // 引导贷款页面
+      name: 'Guid',
+      components: {
+        'default': resolve => require(['../pages/common/guid.vue'], resolve)
+      }
     }
   ]
 })

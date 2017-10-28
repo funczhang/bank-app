@@ -103,12 +103,19 @@
             .btn-area(class="clearfix")
               a(href="javascript:void(null)" class="btn-submit fl" @click="giveUpSign") 确定
               a(href="javascript:void(null)" class="btn-cancel fr" @click="isConfirmShow = false") 取消
+      masker(color="#000" :opacity="0.4" fullscreen=true v-show="isSignTipShow" style="position:relative;")
+          .box(slot="content")
+            .head 签约提示
+              //- img(src="../../assets/imgs/arrow-right.png" @click="isSignTipShow = false")
+            .content
+              p(class="success-tip") 您的签约已经提交，由于系统延迟，签约结果将会以短信的形式发送给您，请知晓
+              .btn-area(class="clearfix")
+                a(href="javascript:void(null)" class="btn-submit btn-card-certain" ref="knowBtn" @click="knowTip") 我知道了
 </template>
 
 <script>
-// 219 187
 import progress from '../common/progress.vue'
-import { ViewBox, XHeader, Group, Masker, XInput, Radio } from 'vux'
+import { ViewBox, XHeader, Group, Masker, XInput, Radio, PopupPicker } from 'vux'
 export default {
   components: {
     ViewBox,
@@ -117,6 +124,7 @@ export default {
     Masker,
     XInput,
     Radio,
+    PopupPicker,
     'rate': progress
   },
   data () {
@@ -126,6 +134,7 @@ export default {
       radio: [],
       newRate: '',
       isConfirmShow: false,
+      isSignTipShow: false,
       couponId: '', // 优惠券id
       isSelectCard: false,
       addAssurePeople: false,
@@ -162,6 +171,10 @@ export default {
     }
   },
   methods: {
+    knowTip () {
+      this.isSignTipShow = false
+      this.$router.replace('/checkLoan')
+    },
     cancelBindBankCard () {
       this.bindCardNo = ''
       this.showBindCard = false
@@ -224,7 +237,7 @@ export default {
           this.$router.replace('/checkLoan')
           this.$store.state.tabItem = 1
         } else {
-          this.$vux.toast.text(data.data)
+          this.$vux.toast.text(res.data)
         }
       })
     },
@@ -305,8 +318,9 @@ export default {
       if (data.params.cardNo !== '') {
         self.$store.dispatch('normalRequest', data).then(res => {
           if (res.response === 'success') {
-            this.$router.replace('/checkLoan')
-            this.$store.state.tabItem = 1
+            this.isSignTipShow = true
+            // this.$router.replace('/checkLoan')
+            // this.$store.state.tabItem = 1
           }
         })
       } else {
@@ -357,7 +371,7 @@ export default {
         if (data.response === 'success' && data.data.canApply !== 1) {
           self.getProgress(data.data.explain)
         } else {
-          this.$vux.toast.text('获取申请接口数据失败')
+          this.$vux.toast.text(data.data)
         }
       })
     },
@@ -417,7 +431,7 @@ export default {
             self.radio.push({ key: element.bankcardNo, value: element.bankcardNo })
           })
         } else {
-          this.$vux.toast.text('签约接口数据初始化失败')
+          this.$vux.toast.text(data.data)
         }
       })
     },
@@ -458,8 +472,6 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-// padding:0.5rem 0.25rem;
-// border-bottom:1px solid #ededed;
 .content{
   padding:0.1px;
   .progerss{
@@ -699,6 +711,12 @@ export default {
     }
     .weui-cell:before{
       border-top:none;
+    }
+    .success-tip {
+      padding:0.5rem 0;
+      font-size:0.75rem;
+      color:#666;
+      line-height: 1.5;
     }
     .content{
       // height: 6rem;

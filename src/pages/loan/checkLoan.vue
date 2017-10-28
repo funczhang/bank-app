@@ -141,7 +141,7 @@ export default {
             this.$vux.toast.text(data.data)
           }
         } else {
-          this.$vux.toast.text('获取申请接口数据失败')
+          this.$vux.toast.text(data.data)
         }
       })
     },
@@ -189,7 +189,7 @@ export default {
           self.$store.state.loanInfo.spendObj = data.data.spendObj
           self.$store.state.applyNo = data.data.applyNum
         } else {
-          this.$vux.toast.text('我的贷款页面初始化失败~')
+          this.$vux.toast.text(data.data)
         }
       })
     }

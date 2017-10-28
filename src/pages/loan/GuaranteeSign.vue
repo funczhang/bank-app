@@ -126,7 +126,7 @@ export default {
           self.requestPhone = data.data.applyPhone
           self.requestIdcard = data.data.applyIdCard
         } else {
-          this.$vux.toast.text('签约接口数据初始化失败')
+          this.$vux.toast.text(data.data)
         }
       })
     }

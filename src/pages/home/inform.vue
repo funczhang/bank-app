@@ -13,7 +13,7 @@
                 img(src="../../assets/imgs/icon-system-inform.png")
               .right
                 h3(class="clearfix") 
-                  span(class="fl") 系统公告
+                  span(class="fl") {{item.headingTitle}}
                   span(class="fr") {{item.createTime}}
                 p(style="margin-top:0.5rem;") {{item.content}}
             p(v-show="systemInform.length===0" class="empty-tip") 暂无系统公告~
@@ -23,7 +23,7 @@
                 img(src="../../assets/imgs/icon-inform-list.png")
               .right
                 h3(class="clearfix") 
-                  span(class="fl") 活动公告
+                  span(class="fl") {{item.headingTitle}}
                   span(class="fr") {{item.createTime}}
                 p(style="margin-top:0.5rem;") {{item.content}}
             p(v-show="userInform.length===0" class="empty-tip") 暂无用户公告~

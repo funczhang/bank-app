@@ -9,7 +9,7 @@
         div(style="background:#f5f5f5;height:20px;")
         .template(v-show="loginByAccount")
           group(style="margin-top:0.75rem;")
-            x-input(placeholder="请输入手机号" style="border-bottom:none;" v-model="phoneNum" type="number")
+            x-input(placeholder="请输入手机号" style="border-bottom:none;" v-model="phoneNum")
               img(src="../../assets/imgs/icon-setting-phone.png" style="width:0.65rem;height:0.9rem;" slot="label")
             x-input(placeholder="请输入密码" v-model="pwd" type="password")
               img(src="../../assets/imgs/icon-pwd.png" style="width:0.8rem;height:1rem;" slot="label")
@@ -60,18 +60,31 @@ export default {
     return {
       index: 0,
       loginByAccount: true,
-      phoneNum: '',
+      phoneNum: '13855309995',
       verifyCode: '',
       verifyCode1: '',
-      pwd: '',
+      pwd: '123456',
       showClear: false,
       time: 60,
       showDialog: false
     }
   },
   mounted () {
+    // this.getBaseInfo()
   },
   methods: {
+    getBaseInfo () {
+      // 获取设备信息和用户基本信息
+      let self = this
+      let data = {
+        action: 'get_request'
+      }
+      // 获取设备信息
+      self.$store.dispatch('normalRequest', data).then(res => {
+        // 存用户信息
+        self.$store.commit('INIT_USER_INFO', res)
+      })
+    },
     closeDialog () {
       this.showDialog = false
     },

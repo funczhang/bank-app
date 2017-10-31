@@ -6,13 +6,13 @@ import * as getters from './getters'
 const state = {
   isLoading: true,
   direction: 'forward',
-  baseUrl: 'http://192.168.2.200:8080', // 基础地址
+  baseUrl: 'http://194.168.1.154:8080', // 基础地址
   imglist: [], // 轮播图
   faceId: '人脸照片', // 人脸照片
   canApply: 0,
   userInfo: { // 用户信息
     isAuth: '',
-    name: '张超',
+    name: '',
     id: '', // 用户userId
     token: '', // 登录令牌
     cellphone: '', // 手机号码

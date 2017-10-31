@@ -26,6 +26,13 @@ var sendRequest = {
     return prompt('iflytek:' + JSON.stringify(requestData), JSON.stringify(args))
   },
   ios: function (action, callback, args) {
+    var requestData = action
+    requestData = typeof action === 'string' ? action.split('.') : action
+    requestData.push(callback)
+    // debugger
+    return prompt('iflytek:' + JSON.stringify(requestData), JSON.stringify(args))
+  },
+  forios: function (action, callback, args) {
     var iframe = document.createElement('iframe')
     action = typeof action === 'string' ? action.split('.') : action
     action.push(callback)

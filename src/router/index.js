@@ -16,8 +16,7 @@ const router = new Router({
       path: '/inform', // 通知公告
       name: 'Inform',
       components: {
-        'default': resolve => require(['../pages/home/inform.vue'], resolve),
-        'tabbar': resolve => require(['../pages/common/tabbar.vue'], resolve)
+        'default': resolve => require(['../pages/home/inform.vue'], resolve)
       }
     },
     // {

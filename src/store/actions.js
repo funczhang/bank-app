@@ -1,5 +1,5 @@
 import fly from '../utils/hybrid.js'
-// 初始化用户信息
+//  通用数据请求
 export const normalRequest = ({ commit }, data) => {
   return new Promise((resolve, reject) => {
     data.path = data.path || ''
@@ -21,7 +21,7 @@ export const normalRequest = ({ commit }, data) => {
   })
 }
 
-// 通用获取信息请求
+// 数据请求 返回字符串
 export const initRequest = ({ commit }, data) => {
   return new Promise((resolve, reject) => {
     data.path = data.path || ''

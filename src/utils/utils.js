@@ -78,5 +78,17 @@ export default {
         return false
       }
     }
+    Vue.prototype.getUserInfo = function () {
+      // 获取设备信息和用户基本信息
+      let self = this
+      let data = {
+        action: 'get_request'
+      }
+      // 获取设备信息
+      self.$store.dispatch('normalRequest', data).then(res => {
+        // 存用户信息
+        self.$store.commit('INIT_USER_INFO', res)
+      })
+    }
   }
 }

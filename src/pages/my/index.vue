@@ -62,7 +62,8 @@ export default {
       return this.$store.state.userInfo.avatar !== ''
     },
     headImgSrc () {
-      return this.$store.state.baseUrl + this.$store.state.userInfo.avatar
+      // return
+      return this.$store.state.baseUrl + '/app/fileUpload/showHeadImage?fileName=' + this.$store.state.userInfo.avatar
     }
   },
   methods: {
@@ -83,6 +84,7 @@ export default {
       }
       if (token !== '' && token !== undefined) {
         self.$store.dispatch('normalRequest', data).then(res => {
+          // alert(JSON.stringify(res))
           res.response === 'success' ? self.$store.commit('INIT_HEAD_IMG', res.data) : self.$vux.toast.text('头像信息获取失败')
         })
       } else {
@@ -91,6 +93,11 @@ export default {
     },
     uploadHeadImg () {
       // this.showHeadImg = true
+      if (this.$store.state.userInfo.token === '') {
+        this.$router.push('/login')
+        this.$vux.toast.text('请先登录~')
+        return
+      }
       this.$router.push('/myData')
     },
     hideHeadImg () {

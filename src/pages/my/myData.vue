@@ -31,6 +31,9 @@ export default {
       noarrow: false
     }
   },
+  mounted () {
+    // this.getBaseInfo()
+  },
   computed: {
     phoneNum () {
       return this.$store.state.userInfo.cellphone
@@ -39,10 +42,23 @@ export default {
       return this.$store.state.userInfo.avatar !== ''
     },
     headImgSrc () {
-      return this.$store.state.baseUrl + this.$store.state.userInfo.avatar
+      return this.$store.state.baseUrl + '/app/fileUpload/showHeadImage?fileName=' + this.$store.state.userInfo.avatar
     }
   },
   methods: {
+    getBaseInfo () {
+      // 获取设备信息和用户基本信息
+      let self = this
+      let data = {
+        action: 'get_request'
+      }
+      // 获取设备信息
+      self.$store.dispatch('normalRequest', data).then(res => {
+        alert('2222222' + JSON.stringify(res))
+        // 存用户信息
+        self.$store.commit('INIT_USER_INFO', res)
+      })
+    },
     toVerfied () {
       if (this.$store.state.userInfo.isAuth === true) {
         this.$router.push('/verfied')
@@ -66,7 +82,7 @@ export default {
     },
     getHeadImg () {
       let self = this
-      let path = self.$store.state.baseUrl + '/app/xsyd/loginPageInit.do?' + new Date().getTime()
+      let path = self.$store.state.baseUrl + '/app/xsyd/loginPageInit.do'
       let data = {
         action: 'init_request',
         path: path,
@@ -75,6 +91,7 @@ export default {
         }
       }
       self.$store.dispatch('normalRequest', data).then(data => {
+        // alert(JSON.stringify(data))
         this.$store.state.userInfo.avatar = data.data.avatar
       })
     }

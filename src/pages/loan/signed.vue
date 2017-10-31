@@ -87,7 +87,7 @@
           .head 绑定银行卡
             img(src="../../assets/imgs/arrow-right.png" @click="cancelBindBankCard")
           .content
-            group(title="选择绑定的银行卡")
+            group()
               radio(:options="radio" :selected-label-style="{color: '#1f76e2'}" v-model="bindCardNo")
             .line(@click="toVertify") 
               img(class="icon-card" src="../../assets/imgs/icon-card.png")
@@ -215,7 +215,7 @@ export default {
     },
     toVertify () {
       this.showBindCard = false
-      this.$router.replace('/addCard')
+      this.$router.push('/addCard')
     },
     giveUpSign () {
        // 放弃签约
@@ -395,6 +395,7 @@ export default {
         let data = JSON.parse(res)
         if (data.response === 'success') {
           self.updateAddAssureStatus()
+          self.initPage()
         } else {
           this.$vux.toast.text(data.data)
         }

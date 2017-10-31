@@ -122,7 +122,7 @@ export default {
       } else if (status === '203') {
         this.$router.push({path: '/GuaranteeSign', query: {applyNo: applyNo}})
       } else if (status === '204') {
-        this.$vux.toast.text('担保已失效~')
+        this.$vux.toast.text('待准入~')
       }
     },
     onPulldownLoading () {

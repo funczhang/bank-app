@@ -4,43 +4,43 @@
       x-header(slot="header" title="" :left-options="{showBack:false}" style="width:100%;position:absolute;left:0;top:0;z-index:100;background:#fff;")
         img(class="icon-title" src="../../assets/imgs/icon-logo.png" slot="overwrite-title")
         img(class="icon-email" src="../../assets/imgs/icon-email.png" slot="right" @click="jumpTo('inform')")
-      scroller(ref="myScroller" height="-96" :lock-x="true" :use-pulldown="true" :use-pullup="true" :pullup-config="pullupConfig" :pulldown-config="pulldownConfig" @on-pulldown-loading="onPulldownLoading")
-        .content
-          swiper(:list="imglist" dots-position="center" v-model="index" :auto="true" :loop="true")
-          .inform
-            .label(class="fl")
-              img(src="../../assets/imgs/icon-inform.png")
-              span(class="line")
-            .news(class="fl")
-              i(v-show="informList.length !== 0")
-              marquee(style="height:1.5rem;")
-                marquee-item(v-for="item in informList" :key="item.id") {{item.headingTitle}}
-          ul(class="btn-area clearfix")
-            li(@click="jumpTo('BankCardList')")
-              img(src="../../assets/imgs/icon-account.png") 
-              span 我的银行卡
-            li(@click="jumpTo('MyLoan')") 
-              img(src="../../assets/imgs/icon-loan.png") 
-              span 我的贷款
-            li(@click="jumpTo('MyRepayment')") 
-              img(src="../../assets/imgs/icon-pay.png") 
-              span 我的还款
-            li(@click="jumpTo('MyGuarantee')") 
-              img(src="../../assets/imgs/icon-guarantee.png") 
-              span 我的担保
-          .btn-loan(@click="jumpTo('goApply')")
-            div
-              img(src="../../assets/imgs/icon-title.png")
-              p 授信金额(元) {{' ' + minAmount + '万~' + maxAmount + '万'}}
-              p 授信期限(月) {{' ' + creditTerm}}
-              a(href="javascript:void(null)" class="btn-apply") 去申请
-          ul(class="btn-classify clearfix")
-            li(class="btn-payment" @click="guid")
-              span 信贷引导
-            li(class="btn-invest" @click="unOpen")
-              span 投资理财
-            li(class="btn-activity" @click="unOpen")
-              span 热门活动 
+      //- scroller(ref="myScroller" height="-96" :lock-x="true" :use-pulldown="true" :use-pullup="true" :pullup-config="pullupConfig" :pulldown-config="pulldownConfig" @on-pulldown-loading="onPulldownLoading")
+      .content
+        swiper(:list="imglist" dots-position="center" v-model="index" :auto="true" :loop="true")
+        .inform
+          .label(class="fl")
+            img(src="../../assets/imgs/icon-inform.png")
+            span(class="line")
+          .news(class="fl")
+            i(v-show="informList.length !== 0")
+            marquee(style="height:1.5rem;")
+              marquee-item(v-for="item in informList" :key="item.id") {{item.headingTitle}}
+        ul(class="btn-area clearfix")
+          li(@click="jumpTo('BankCardList')")
+            img(src="../../assets/imgs/icon-account.png") 
+            span 我的银行卡
+          li(@click="jumpTo('MyLoan')") 
+            img(src="../../assets/imgs/icon-loan.png") 
+            span 我的贷款
+          li(@click="jumpTo('MyRepayment')") 
+            img(src="../../assets/imgs/icon-pay.png") 
+            span 我的还款
+          li(@click="jumpTo('MyGuarantee')") 
+            img(src="../../assets/imgs/icon-guarantee.png") 
+            span 我的担保
+        .btn-loan(@click="jumpTo('goApply')")
+          div
+            img(src="../../assets/imgs/icon-title.png")
+            p 授信金额(元) {{' ' + minAmount + '万~' + maxAmount + '万'}}
+            p 授信期限(月) {{' ' + creditTerm}}
+            a(href="javascript:void(null)" class="btn-apply") 去申请
+        ul(class="btn-classify clearfix")
+          li(class="btn-payment" @click="guid")
+            span 信贷引导
+          li(class="btn-invest" @click="unOpen")
+            span 投资理财
+          li(class="btn-activity" @click="unOpen")
+            span 热门活动 
 </template>
 
 <script>
@@ -87,7 +87,7 @@ export default {
     // 获取设备信息和token
     this.getBaseInfo() // 获取设备信息
     this.getPicList() // 获取轮播图和通知通告
-    this.applyInfo() // 获取当前申请状态信息
+    // this.applyInfo() // 获取当前申请状态信息
     this.init() // 全局函数给原生调用
   },
   activated () {
@@ -96,12 +96,12 @@ export default {
     onPulldownLoading () {
       // 下拉函数
       let self = this
-      self.getBaseInfo()
+      // self.getBaseInfo()
       self.getPicList()
-      self.applyInfo()
+      // self.applyInfo()
       self.$nextTick(() => {
         // 视图更新完成后停止刷新或加载动作
-        self.$refs.myScroller.donePulldown()
+        // self.$refs.myScroller.donePulldown()
       })
     },
     toInform () {
@@ -159,9 +159,13 @@ export default {
       }
       // 获取设备信息
       self.$store.dispatch('normalRequest', data).then(res => {
+        // alert('1111' + JSON.stringify(res))
         // 存用户信息
         self.$store.commit('INIT_USER_INFO', res)
+        self.applyInfo()
+        // alert('userinfo--' + JSON.stringify(this.$store.state.userInfo))
       })
+      // alert('userinfo--' + JSON.stringify(this.$store.state.userInfo))
     },
     getPicList () {
       // 获取轮播图
@@ -184,7 +188,7 @@ export default {
           self.informList = data.data.noticeList
           arr = data.data.carouselList
           arr.forEach((element) => {
-            self.imglist.push({img: self.$store.state.baseUrl + element})
+            self.imglist.push({img: self.$store.state.baseUrl + '/app/fileUpload/showImage?id=' + element})
           })
         } else {
           self.$vux.toast.text(data.data)
@@ -195,10 +199,28 @@ export default {
       let self = this
       // 退出进程，给我原生数据库信息
       window.toLogin = (res) => {
-        let data = JSON.parse(JSON.stringify(res))
-        self.$store.state.userInfo.avatar = ''
-        self.$store.commit('INIT_USER_INFO', data)
+        self.getUserInfo()
+        // // alert('tologin---11111111' + JSON.stringify(res))
+        // let data = null
+        // if (typeof res === 'string') {
+        //   data = JSON.parse(JSON.stringify(res))
+        // } else {
+        //   data = res
+        // }
+        // self.$store.state.userInfo.avatar = ''
+        // self.$store.commit('INIT_USER_INFO', data.message)
         self.$router.replace('/login')
+      }
+      window.setUserInfo = (res) => {
+        self.getUserInfo()
+        // let data = null
+        // if (typeof res === 'string') {
+        //   data = JSON.parse(JSON.stringify(res))
+        // } else {
+        //   data = res
+        // }
+        // data.code === 'OK' ? self.$store.commit('INIT_USER_INFO', data.message) : null
+        self.$router.replace('/setting')
       }
     },
     goApply () {
@@ -235,6 +257,7 @@ export default {
           token: this.$store.state.userInfo.token
         }
       }
+      // alert('params------' + JSON.stringify(data))
       self.$store.dispatch('initRequest', data).then(res => {
         let data = JSON.parse(res)
         self.$store.state.canApply = data.data.canApply

@@ -67,7 +67,7 @@ export default {
   }
   .tip{
     position: absolute;
-    top:6.5rem;
+    top:7rem;
     bottom:0;
     background:#fff;
     img{

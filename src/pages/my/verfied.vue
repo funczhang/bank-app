@@ -1,25 +1,25 @@
 <template lang="pug">
   div(style="height:100%;")
     view-box(ref="viewBox" body-padding-top="46px" body-padding-bottom="0")
-      x-header(slot="header" title="实名认证" :left-options="{showBack:true,backText:''}" style="width:100%;position:absolute;left:0;top:0;z-index:100;background:#fff;color:#000;")
+      x-header(slot="header" title="实名认证信息" :left-options="{showBack:true,backText:''}" style="width:100%;position:absolute;left:0;top:0;z-index:100;background:#fff;color:#000;")
       .content
-        ul(v-show="hasVerfied")
+        ul
           li(class="clearfix")
             label 真实姓名
-            span {{this.$store.state.userInfo.name}}
+            span {{name}}
           li(class="clearfix" style="border-bottom:1px solid #ededed;")
             label 身份证号
-            span(class="ell") {{this.$store.state.userInfo.idCard}}
-        .template(v-show="!hasVerfied")
-          .positive
-            .img(@click="getPhoto")
-            .tip 上传身份证正面照（人像面）
-          .negative
-            .img
-            .tip 上传身份证背面照（国徽面）
-          .scanning
-            .img
-            .tip(style="color:#1f76e2") 点击启动人脸识别
+            span(class="ell") {{idCard}}
+        //- .template(v-show="!hasVerfied")
+        //-   .positive
+        //-     .img(@click="getPhoto")
+        //-     .tip 上传身份证正面照（人像面）
+        //-   .negative
+        //-     .img
+        //-     .tip 上传身份证背面照（国徽面）
+        //-   .scanning
+        //-     .img
+        //-     .tip(style="color:#1f76e2") 点击启动人脸识别
 </template>
 
 <script>
@@ -36,23 +36,16 @@ export default {
     }
   },
   computed: {
-    hasVerfied () {
-      return this.$store.state.userInfo.isAuth
+    name () {
+      return this.$store.state.userInfo.name
+    },
+    idCard () {
+      return this.$store.state.userInfo.idCard
     }
   },
   mounted () {
   },
   methods: {
-    getPhoto () {
-      let self = this
-      let data = {
-        action: 'photo_request'
-      }
-      self.$store.dispatch('normalRequest', data).then(res => {
-        // this.$store.state.userInfo.base64 = res
-        this.$router.push('/my')
-      })
-    }
   }
 }
 </script>

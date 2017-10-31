@@ -46,7 +46,7 @@
         .confirm-area
           check-icon(:value.sync="isConfirm")
           span 我已经阅读并同意
-          a(href="javascript:void(null)") 《综合查询授权书》
+          a(href="javascript:void(null)" @click="jumpWeb") 《个人授权协议书》
         .btn-area(class="clearfix")
           button(href="javascript:void(null)" class="btn-submit fl" :disabled="!isConfirm" :class="{active:!isConfirm}" @click="agreeAuth") 同意
           button(href="javascript:void(null)" class="btn-cancel fr" @click="cancleAuth") 拒绝
@@ -86,6 +86,10 @@ export default {
     this.initData()
   },
   methods: {
+    jumpWeb () {
+      let url = this.$store.state.baseUrl + '/app/xsyd/credit.html?userToken=' + this.$store.state.userInfo.token
+      this.jumpWebShowContent('个人授权协议书', url)
+    },
     agreeAuth () {
       // 别人为我担保
       let self = this

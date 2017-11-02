@@ -123,9 +123,9 @@ export default {
       }
     },
     cancleAuth () {
-      // 别人为我担保
+      // 拒绝为他人担保
       let self = this
-      let path = self.$store.state.baseUrl + '/app/xsyd/assurePageInit.do'
+      let path = self.$store.state.baseUrl + '/app/xsyd/cancleAuth.do'
       let data = {
         action: 'init_request',
         path: path,

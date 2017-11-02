@@ -5,28 +5,28 @@
         tab(slot="default" bar-active-color="transparent")
           tab-item(selected @on-item-click="onItemClick('0')") 系统公告
           tab-item(@on-item-click="onItemClick('1')") 活动公告
-      scroller(ref="informScroller" :lock-x="true"  :bounce="true" :use-pulldown="true" :pulldown-config="pulldownConfig" @on-pulldown-loading="onPulldownLoading")
-        .content
-          ul(v-show="isSystemInform" class="inform-list")
-            li(class="clearfix" v-for="item in systemInform")
-              .left
-                img(src="../../assets/imgs/icon-system-inform.png")
-              .right
-                h3(class="clearfix") 
-                  span(class="fl") {{item.headingTitle}}
-                  span(class="fr") {{item.createTime}}
-                p(style="margin-top:0.5rem;") {{item.content}}
-            p(v-show="systemInform.length===0" class="empty-tip") 暂无系统公告
-          ul(v-show="!isSystemInform" class="inform-list")
-            li(class="clearfix" v-for="item in userInform")
-              .left
-                img(src="../../assets/imgs/icon-inform-list.png")
-              .right
-                h3(class="clearfix") 
-                  span(class="fl") {{item.headingTitle}}
-                  span(class="fr") {{item.createTime}}
-                p(style="margin-top:0.5rem;") {{item.content}}
-            p(v-show="userInform.length===0" class="empty-tip") 暂无用户公告
+        //- scroller(ref="informScroller" :lock-x="true"  :bounce="true" :use-pulldown="true" :pulldown-config="pulldownConfig" @on-pulldown-loading="onPulldownLoading")
+      .content
+        ul(v-show="isSystemInform" class="inform-list")
+          li(class="clearfix" v-for="item in systemInform")
+            .left
+              img(src="../../assets/imgs/icon-system-inform.png")
+            .right
+              h3(class="clearfix") 
+                span(class="fl") {{item.headingTitle}}
+                span(class="fr") {{item.createTime}}
+              p(style="margin-top:0.5rem;") {{item.content}}
+          p(v-show="systemInform.length===0" class="empty-tip") 暂无系统公告
+        ul(v-show="!isSystemInform" class="inform-list")
+          li(class="clearfix" v-for="item in userInform")
+            .left
+              img(src="../../assets/imgs/icon-inform-list.png")
+            .right
+              h3(class="clearfix") 
+                span(class="fl") {{item.headingTitle}}
+                span(class="fr") {{item.createTime}}
+              p(style="margin-top:0.5rem;") {{item.content}}
+          p(v-show="userInform.length===0" class="empty-tip") 暂无用户公告
 
 </template>
 

@@ -6,53 +6,53 @@
         tab(active-color="#1f76e2")
           tab-item(selected style="border-right:1px solid #ededed;" @on-item-click="handler(0)") 我为他人担保
           tab-item(@on-item-click="handler(1)") 他人为我担保
-        scroller(ref="guaranteeScroller" height="-90" :lock-x="true" :use-pulldown="true" :pulldown-config="pulldownConfig" @on-pulldown-loading="onPulldownLoading")
-          .template(v-show="isForOther")
-            .for-other(v-for="item in myList")
-              .applyer
-                p(class="clearfix")
-                  label 借款人
-                  span {{item.manName}}
-                p(class="clearfix")
-                  label 身份证号
-                  span {{item.idCard}}
-                p(class="clearfix")
-                  label 申请额度(元)
-                  span(style="color:red;") {{item.amount}}
-                p(class="clearfix to-guarantee" style="border-bottom:none;" @click="toGuarantee(item.statusNo, item.applyNo)")
-                  label 状态名称
-                  span(style="margin-right:1rem;") {{item.statusName}}
-            img(v-show="myList.length===0" src="../../assets/imgs/icon-empty.png")
-            p(v-show="myList.length===0" style="padding:2rem 1rem;text-align:center;font-size:0.75rem;color:#999;") 没有我为他人担保信息
-          .template(v-show="!isForOther")
-            .for-me(v-for="item in othersList")
-              //- .amount
-              //-   p(class="title") 申请金额(元)
-              //-   p(class="account") {{item.amount}}
-              .applyer
-                p(class="clearfix")
-                  label 申请人
-                  span {{item.manName}}
-                p(class="clearfix")
-                  label 申请金额
-                  span(style="color:red;") {{item.amount}}
-                p(class="clearfix")
-                  label 申请时间
-                  span {{item.applyTime}}
-                p(class="clearfix")
-                  label 担保人姓名
-                  span {{item.assName}}
-                p(class="clearfix")
-                  label 担保人手机
-                  span {{item.assPhone}}
-                p(class="clearfix")
-                  label 担保人身份证号
-                  span {{item.assIdCard}}
-                p(class="clearfix" style="border-bottom:none;")
-                  label 状态名称
-                  span {{item.statusName}}
-            img(v-show="othersList.length===0" src="../../assets/imgs/icon-empty.png")
-            p(v-show="othersList.length===0" style="padding:2rem 1rem;text-align:center;font-size:0.75rem;color:#999;") 没有他人为我担保信息
+          //- scroller(ref="guaranteeScroller" height="-90" :lock-x="true" :use-pulldown="true" :pulldown-config="pulldownConfig" @on-pulldown-loading="onPulldownLoading")
+        .template(v-show="isForOther")
+          .for-other(v-for="item in myList")
+            .applyer
+              p(class="clearfix")
+                label 借款人
+                span {{item.manName}}
+              p(class="clearfix")
+                label 身份证号
+                span {{item.idCard}}
+              p(class="clearfix")
+                label 申请额度(元)
+                span(style="color:red;") {{item.amount}}
+              p(class="clearfix to-guarantee" style="border-bottom:none;" @click="toGuarantee(item.statusNo, item.applyNo)")
+                label 状态名称
+                span(style="margin-right:1rem;") {{item.statusName}}
+          img(v-show="myList.length===0" src="../../assets/imgs/icon-empty.png")
+          p(v-show="myList.length===0" style="padding:2rem 1rem;text-align:center;font-size:0.75rem;color:#999;") 没有我为他人担保信息
+        .template(v-show="!isForOther")
+          .for-me(v-for="item in othersList")
+            //- .amount
+            //-   p(class="title") 申请金额(元)
+            //-   p(class="account") {{item.amount}}
+            .applyer
+              p(class="clearfix")
+                label 申请人
+                span {{item.manName}}
+              p(class="clearfix")
+                label 申请金额
+                span(style="color:red;") {{item.amount}}
+              p(class="clearfix")
+                label 申请时间
+                span {{item.applyTime}}
+              p(class="clearfix")
+                label 担保人姓名
+                span {{item.assName}}
+              p(class="clearfix")
+                label 担保人手机
+                span {{item.assPhone}}
+              p(class="clearfix")
+                label 担保人身份证号
+                span {{item.assIdCard}}
+              p(class="clearfix" style="border-bottom:none;")
+                label 状态名称
+                span {{item.statusName}}
+          img(v-show="othersList.length===0" src="../../assets/imgs/icon-empty.png")
+          p(v-show="othersList.length===0" style="padding:2rem 1rem;text-align:center;font-size:0.75rem;color:#999;") 没有他人为我担保信息
 </template>
 
 <script>
@@ -87,16 +87,16 @@ export default {
     }
   },
   mounted () {
-    // this.guaranteeForOther()
+    this.guaranteeForOther()
     // 调用两次解决内容显示不全的问题
-    this.onPulldownLoading()
-    this.onPulldownLoading()
-    this.$nextTick(() => {
-      //   // 视图更新完成后停止刷新或加载动作
-      this.$refs.guaranteeScroller.reset({
-        top: 0
-      })
-    })
+    // this.onPulldownLoading()
+    // this.onPulldownLoading()
+    // this.$nextTick(() => {
+    //   //   // 视图更新完成后停止刷新或加载动作
+    //   this.$refs.guaranteeScroller.reset({
+    //     top: 0
+    //   })
+    // })
   },
   methods: {
     handler (flag) {

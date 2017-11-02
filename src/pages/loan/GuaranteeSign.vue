@@ -36,7 +36,7 @@
                 span {{requestPhone}}
           .btn-area(class="clearfix")
             a(href="javascript:void(null)" class="btn-submit fl" @click="sign") 签约
-            a(href="javascript:void(null)" class="btn-cancel fr" @click="giveUpSign") 下次再说
+            a(href="javascript:void(null)" class="btn-cancel fr" @click="giveUpSign") 拒绝签约
 </template>
 
 <script>

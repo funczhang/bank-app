@@ -11,15 +11,13 @@ const state = {
   faceId: '人脸照片', // 人脸照片
   canApply: 0,
   userInfo: { // 用户信息
-    isAuth: '',
+    isAuth: false,
     name: '',
     id: '', // 用户userId
     token: '', // 登录令牌
     cellphone: '', // 手机号码
-    channel: '', // 渠道 1:安卓手机APP  2:IOS版手机APP  3:网页
     status: '', // 用户状态 1:正常 2:锁定
     avatarUploaded: '', // 是否上传头像 0:未上传 1:已上传
-    base64: '',
     avatar: '',
     idCard: ''
   },

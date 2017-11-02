@@ -22,7 +22,7 @@
                 p(class="value" style="color:#f32f2f") {{lineCredit}}
               li(class="mid")
                 p(class="title") 审批利率（月）
-                p(class="value" style="color:#1f76e2;") {{applyRate}}%
+                p(class="value" style="color:#1f76e2;") {{applyRate}}‰
               li 
                 p(class="title") 授信期限（月）
                 p(class="value" style="color:#1f76e2;") {{timeLimit}}
@@ -33,8 +33,8 @@
         .template
           .module(v-show="!isHandlerAssure && getAssureIdCard ===''")
             .module-head 获取更高额度
-            .module-content
-              ul(class="add clearfix" style="padding:20px 0 15px;")
+            .module-content(style="border-top:1px solid #ededed;")
+              ul(class="add clearfix" style="padding:20px 0 15px;border-bottom:none;")
                 li(style="margin:0 auto;" @click="addAssure") 
                   img(src="../../assets/imgs/icon-addfriend.png")
                   p(class="btn-guarantee") 添加担保人
@@ -57,7 +57,7 @@
             .module-head 关联贷款抵用券
             .module-content 
               group
-                popup-picker(title="抵用券" v-model="couponAmount" @on-change="couponChange" :data="couponList" :columns="1" style="padding:12px 15px;background:#fff;")
+                popup-picker(title="抵用券" :show-name="true" v-model="couponAmount" @on-change="couponChange" :data="couponList" :columns="1" style="padding:12px 15px;background:#fff;")
                   div(class="coupon-count" slot="title") 
                     span(style="font-size:0.7rem;") 抵用券
                     span(class="count") 还剩{{couponList.length}}张
@@ -66,11 +66,11 @@
             .module-content
               .line(@click="showBindCard = true" class="clearfix" style="padding:0.3rem 0;") 
                 img(class="icon-card" src="../../assets/imgs/icon-card.png" @click="showBindCard = false")
-                span(v-show="bindCardNo === ''" style="font-size:14px;color:#333;") 绑定银行卡
-                span(v-show="bindCardNo !== ''" style="font-size:14px;color:#333;") {{bindCardNo}}
+                span(v-show="hasBindCardNo === ''" style="font-size:14px;color:#333;") 绑定银行卡
+                span(v-show="hasBindCardNo !== ''" style="font-size:14px;color:#333;") {{hasBindCardNo}}
           .btn-area(v-show="!isHandlerAssure" class="clearfix")
             a(href="javascript:void(null)" class="btn-submit fl" @click="sign") 签约
-            a(href="javascript:void(null)" class="btn-cancel fr" @click="isConfirmShow = true") 下次再说
+            a(href="javascript:void(null)" class="btn-cancel fr" @click="nextTimeSign") 下次再说
       masker(color="#000" :opacity="0.4" fullscreen=true v-show="addAssurePeople")
         .box(slot="content")
           .head 添加担保人
@@ -99,7 +99,7 @@
           .head 提示
             img(src="../../assets/imgs/arrow-right.png" @click="isConfirmShow = false")
           .content
-            span(style="display:block;padding:1rem 0;text-align:center;font-size:0.8rem;line-height:1.5;color:#333;") 您是否确定签约？
+            span(style="display:block;padding:1rem 0;text-align:center;font-size:0.8rem;line-height:1.5;color:#333;") 是否取消签约？
             .btn-area(class="clearfix")
               a(href="javascript:void(null)" class="btn-submit fl" @click="giveUpSign") 确定
               a(href="javascript:void(null)" class="btn-cancel fr" @click="isConfirmShow = false") 取消
@@ -140,6 +140,7 @@ export default {
       addAssurePeople: false,
       showBindCard: false,
       bindCardNo: '', // 绑定银行卡账号
+      hasBindCardNo: '', // 已绑定的银行卡
       initAssureName: '',
       initAssurePhone: '',
       msg: '', // 提示信息
@@ -171,16 +172,20 @@ export default {
     }
   },
   methods: {
+    nextTimeSign () {
+      this.$router.replace('/checkLoan')
+      this.$store.state.tabItem = 1
+    },
     knowTip () {
       this.isSignTipShow = false
       this.$router.replace('/checkLoan')
     },
     cancelBindBankCard () {
-      this.bindCardNo = ''
+      // this.bindCardNo === '' ? this.bindCardNo = '' : null
       this.showBindCard = false
     },
     confirm () {
-      // 页面初始化
+      // 添加担保人
       let self = this
       let path = self.$store.state.baseUrl + '/app/xsyd/addOrUpdateAssure.do'
       let data = {
@@ -191,7 +196,7 @@ export default {
           assureName: self.assureName,
           assurePhone: self.assurePhone,
           applyId: self.$store.state.applyNo,
-          type: self.isAddStatus // 1添加 2更换
+          type: '1' // 1添加 2更换 更换已取消
         }
       }
       if (self.assureName !== '') {
@@ -203,14 +208,14 @@ export default {
               self.assurePhone = ''
               self.updateAddAssureStatus()
             } else {
-              self.isAddStatus === '1' ? this.$vux.toast.text('添加担保人失败~') : this.$vux.toast.text('更换担保人失败~')
+              self.isAddStatus === '1' ? this.$vux.toast.text('添加担保人失败') : this.$vux.toast.text('更换担保人失败')
             }
           })
         } else {
-          this.$vux.toast.text('请输入姓名~')
+          this.$vux.toast.text('请输入姓名')
         }
       } else {
-        this.$vux.toast.text('请输入号码~')
+        this.$vux.toast.text('请输入号码')
       }
     },
     toVertify () {
@@ -233,7 +238,7 @@ export default {
        // 放弃签约
       self.$store.dispatch('normalRequest', data).then(res => {
         if (res.response === 'success') {
-          this.$vux.toast.text('您已放弃签约~')
+          this.$vux.toast.text('您已放弃签约')
           this.$router.replace('/checkLoan')
           this.$store.state.tabItem = 1
         } else {
@@ -248,8 +253,7 @@ export default {
       }
     },
     chooseBankCard () {
-      // showBindCard = false
-       // 获取新利率
+       // 绑定银行卡
       let self = this
       let path = self.$store.state.baseUrl + '/app/xsyd/chooseBankCard.do'
       let data = {
@@ -264,13 +268,14 @@ export default {
       if (self.bindCardNo !== '') {
         self.$store.dispatch('normalRequest', data).then(res => {
           if (res.response === 'success') {
-            this.$vux.toast.text('绑定银行卡成功~')
+            self.hasBindCardNo = self.bindCardNo
+            this.$vux.toast.text('绑定银行卡成功')
           } else {
-            this.$vux.toast.text('绑定银行卡失败~')
+            this.$vux.toast.text('绑定银行卡失败')
           }
         })
       } else {
-        this.$vux.toast.text('绑定银行卡借口失败~')
+        this.$vux.toast.text('绑定银行卡借口失败')
       }
       this.showBindCard = false
     },
@@ -289,8 +294,8 @@ export default {
           couponCode: value[0] // 优惠券id
         }
       }
-      self.$store.dispatch('initRequest', data).then(res => {
-        let data = JSON.parse(res)
+      self.$store.dispatch('normalRequest', data).then(data => {
+        // let data = JSON.parse(res)
         if (data.response === 'success') {
           self.newRate = data.data
         }
@@ -306,7 +311,6 @@ export default {
         params: {
           token: self.$store.state.userInfo.token,
           applyId: self.$store.state.applyNo,
-          image: self.$store.state.faceId,
           type: '1', // 1申请人 2担保人
           couponId: self.couponId,
           newRate: self.newRate,
@@ -324,7 +328,7 @@ export default {
           }
         })
       } else {
-        this.$vux.toast.text('请先绑定银行卡~')
+        this.$vux.toast.text('请先绑定银行卡')
       }
     },
     bindCard () {
@@ -366,8 +370,8 @@ export default {
           token: this.$store.state.userInfo.token
         }
       }
-      self.$store.dispatch('initRequest', data).then(res => {
-        let data = JSON.parse(res)
+      self.$store.dispatch('normalRequest', data).then(data => {
+        // let data = JSON.parse(res)
         if (data.response === 'success' && data.data.canApply !== 1) {
           self.getProgress(data.data.explain)
         } else {
@@ -391,8 +395,8 @@ export default {
       this.$vux.loading.show({
         text: 'Loading'
       })
-      self.$store.dispatch('initRequest', data).then(res => {
-        let data = JSON.parse(res)
+      self.$store.dispatch('normalRequest', data).then(data => {
+        // let data = JSON.parse(res)
         if (data.response === 'success') {
           self.updateAddAssureStatus()
           self.initPage()
@@ -456,17 +460,17 @@ export default {
         if (data.params.lowAddress !== '') {
           self.$store.dispatch('normalRequest', data).then(data => {
             if (data.response === 'success') {
-              this.$vux.toast.text('授信信息提交成功~')
+              this.$vux.toast.text('授信信息提交成功')
               this.$router.replace('/quotaEvaluation')
             } else {
               this.$vux.toast.text(data.data)
             }
           })
         } else {
-          this.$vux.toast.text('请选择法律文书送达地址~')
+          this.$vux.toast.text('请选择法律文书送达地址')
         }
       } else {
-        this.$vux.toast.text('请选择借款用途~')
+        this.$vux.toast.text('请选择借款用途')
       }
     }
   }
@@ -535,6 +539,8 @@ export default {
     }
   .module-content{
     background:#fff;
+    border-top:1px solid #ededed;
+    border-bottom:1px solid #ededed;
     .tip{
       padding:0.75rem 0;
       margin:0 auto;
@@ -605,15 +611,15 @@ export default {
       }
     }
     .icon-card{
-      padding:0.5rem 0.75rem;
+      padding:0.5rem 0.75rem 0.5rem 0.25rem;
+      margin-left:0.5rem;
       width:1.15rem;
       height: 0.85rem;
       vertical-align: middle;
     }
     .line{
       margin:0 auto;
-      width:94%;
-      border-bottom:1px solid #ededed;
+      // border-bottom:1px solid #ededed;
     }
     .pretty-rate{
       padding:0.5rem 0;

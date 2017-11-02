@@ -9,19 +9,18 @@
         div(style="background:#f5f5f5;height:20px;")
         .template(v-show="loginByAccount")
           group(style="margin-top:0.75rem;")
-            x-input(placeholder="请输入手机号" style="border-bottom:none;" v-model="phoneNum")
+            x-input(placeholder="请输入手机号" style="border-bottom:none;" v-model="phoneNum" :max="15")
               img(src="../../assets/imgs/icon-setting-phone.png" style="width:0.65rem;height:0.9rem;" slot="label")
-            x-input(placeholder="请输入密码" v-model="pwd" type="password")
+            x-input(placeholder="请输入密码" v-model="pwd" type="password" :min="6" :max="10")
               img(src="../../assets/imgs/icon-pwd.png" style="width:0.8rem;height:1rem;" slot="label")
           a(class="btn-forgetpwd" href="javascript:void(null)" @click="forgetPwd") 忘记密码
         .template(v-show="!loginByAccount")
           group(style="margin-top:0.75rem;")
-            x-input(placeholder="请输入手机号" style="border-bottom:none;" v-model="phoneNum" type="number")
+            x-input(placeholder="请输入手机号" style="border-bottom:none;" v-model="phoneNum" :max="15")
               img(src="../../assets/imgs/icon-setting-phone.png" style="width:0.65rem;height:0.9rem;" slot="label")
-            x-input(placeholder="请输入短信验证" v-model="verifyCode" :show-clear="showClear" type="number")
+            x-input(placeholder="请输入短信验证" v-model="verifyCode" :show-clear="showClear" :max="8")
               img(src="../../assets/imgs/icon-key.png" style="width:0.9rem;height:0.9rem;" slot="label")
               button(class="btn-send-code" slot="right" ref="textLogin" @click="sendTextCode('04', 'textLogin')") 发送验证码
-              //- btn(slot="right" id="textLogin")
         .template(style="background:#fff;")
           .clear
           .btn-login(@click="login") 登录
@@ -60,10 +59,10 @@ export default {
     return {
       index: 0,
       loginByAccount: true,
-      phoneNum: '13855309995',
+      phoneNum: '',
       verifyCode: '',
       verifyCode1: '',
-      pwd: '123456',
+      pwd: '',
       showClear: false,
       time: 60,
       showDialog: false
@@ -256,7 +255,7 @@ export default {
     position: relative;
     img{
       position: relative;
-      top:0.15rem;
+      top:0.2rem;
       margin-right:0.5rem;
     }
   }
@@ -343,6 +342,7 @@ export default {
   .warm-tip{
     // position: absolute;
     // bottom:0;
+    margin-top:5rem;
     padding:1rem 0.75rem;
     h3{
       font-size:0.75rem;

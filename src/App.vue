@@ -4,7 +4,7 @@
     //- transition(name="custom-classes-transition" :enter-active-class="'animated ' + direction")
     transition(name="custom-classes-transition")
       router-view
-    transition(name="custom-classes-transition" enter-active-class="animated bounceInUp")
+    transition(name="custom-classes-transition")
       router-view(name="tabbar")
 </template>
 <script>

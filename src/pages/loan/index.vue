@@ -1,6 +1,6 @@
 <template lang="pug">
   div(style="height:100%;")
-    view-box(ref="viewBox" body-padding-top="46px" body-padding-bottom="50px")
+    view-box(ref="viewBox" body-padding-top="46px" body-padding-bottom="0")
       x-header(slot="header" title="授信申请" :left-options="{showBack:true,backText:''}" style="width:100%;position:absolute;left:0;top:0;z-index:100;background:#fff;")
       .content  
         .progerss
@@ -47,7 +47,7 @@
         .option
           group
             popup-picker(title="选择地址" :data="areas" :columns="3" placeholder="请选择地址" v-model="defaultAddr")
-        x-textarea(:max="30" style="font-size:0.75rem; color:#333;border-bottom:1px solid #ededed;" v-model="detailAddress" placeholder="请填写详细地址，不少于五个字" row=3)
+        x-textarea(:max="30" style="font-size:0.75rem; color:#333;border-bottom:1px solid #ededed;" v-model="detailAddress" placeholder="请填写详细地址" row=3)
         .confirm-area
           check-icon(:value.sync="isConfirm")
           span 我已经阅读并同意
@@ -149,24 +149,24 @@ export default {
         }
       }
       if (data.params.usedFor !== '') {
-        if (this.detailAddress.trim().length >= 5) {
+        if (this.detailAddress.trim().length > 0) {
           self.$store.dispatch('normalRequest', data).then(data => {
             if (data.response === 'success') {
-              this.$vux.toast.text('授信信息提交成功~')
               this.$router.replace('/quotaEvaluation')
             } else {
               this.$vux.toast.text(data.data)
             }
           })
         } else {
-          this.$vux.toast.text('请填写大于五个字详细地址~')
+          this.$vux.toast.text('请填写详细地址')
         }
       } else {
-        this.$vux.toast.text('请选择借款用途~')
+        this.$vux.toast.text('请选择借款用途')
       }
     },
     cancel () {
-      this.$vux.toast.text('取消授信~')
+      this.$router.push('/checkLoan')
+      this.$store.state.tabItem = 1
     }
   }
 }
@@ -212,7 +212,7 @@ html, body {
       border-bottom:1px solid #ededed;
       label {
         float:left;
-        color:#666;
+        color:#333;
       }
       span {
         float:right;

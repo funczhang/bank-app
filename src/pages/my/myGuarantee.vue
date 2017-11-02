@@ -20,7 +20,7 @@
                   label 申请额度(元)
                   span(style="color:red;") {{item.amount}}
                 p(class="clearfix to-guarantee" style="border-bottom:none;" @click="toGuarantee(item.statusNo, item.applyNo)")
-                  label 状态名称 {{item.statusNo}}
+                  label 状态名称
                   span(style="margin-right:1rem;") {{item.statusName}}
             img(v-show="myList.length===0" src="../../assets/imgs/icon-empty.png")
             p(v-show="myList.length===0" style="padding:2rem 1rem;text-align:center;font-size:0.75rem;color:#999;") 没有我为他人担保信息
@@ -79,7 +79,7 @@ export default {
         content: '',
         height: 60,
         autoRefresh: true,
-        downContent: '释放刷新~',
+        downContent: '释放刷新',
         upContent: '',
         loadingContent: '加载中...',
         clsPrefix: 'xs-plugin-pulldown-'
@@ -122,7 +122,7 @@ export default {
       } else if (status === '203') {
         this.$router.push({path: '/GuaranteeSign', query: {applyNo: applyNo}})
       } else if (status === '204') {
-        this.$vux.toast.text('待准入~')
+        this.$vux.toast.text('当前状态无法查看详情')
       }
     },
     onPulldownLoading () {

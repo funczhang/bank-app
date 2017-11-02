@@ -4,17 +4,19 @@
       x-header(slot="header" title="银行卡" :left-options="{showBack:true,backText:''}" style="width:100%;position:absolute;left:0;top:0;z-index:100;background:#fff;color:#000;border-bottom:1px solid #ededed;")
       .content 
         p(class="empty-tip" v-show="bankCardList.length ===0") 暂无绑定银行卡
-        transition-group(v-show="bankCardList.length !== 0" class="card-list" tag="ul"  name="bounceInUp" enter-active-class="animated bounceInUp" leave-active-class="animated bounceOutLeft")
+        //- transition-group(v-show="bankCardList.length !== 0" class="card-list" tag="ul"  name="bounceInUp" enter-active-class="animated bounceInUp" leave-active-class="animated bounceOutLeft")
+        ul(v-show="bankCardList.length !== 0" class="card-list")
           li(v-for="item in bankCardList" :key="item.id")
-            swipeout(style="height:100%")
-              swipeout-item(transition-mode="follow" :threshold=".5" style="position:relative;z-index:0;height:100%")
-                .item-content(slot="content" style="position:relative;z-index:0;height:100%;padding:10px")
-                  .btn-del(@click="showDialog(item.bankcardNo)")
-                  h3() 兴化农商行
-                  .type 储蓄卡
-                  .card-num **** **** **** {{item.bankcardNo.substr(item.bankcardNo.length-4,item.bankcardNo.length-4)}}
-                .item-menu(slot="right-menu" )
-                  swipeout-button(@click.native="showDialog(item.bankcardNo)" type="warn" style="border-radius: 8px;") 删除
+            //- swipeout(style="height:100%")
+            //-   swipeout-item(transition-mode="follow" :threshold=".5" style="position:relative;z-index:0;height:100%")
+            .item-content(slot="content" style="position:relative;z-index:0;padding:10px 10px px 3rem;")
+              img(src="../../assets/imgs/bank-logo.png")
+              .btn-del(@click="showDialog(item.bankcardNo)")
+              h3() 兴化农商行
+              .type 储蓄卡
+              .card-num **** **** **** {{item.bankcardNo.substr(item.bankcardNo.length-4,item.bankcardNo.length-4)}}
+                //- .item-menu(slot="right-menu" )
+                  //- swipeout-button(@click.native="showDialog(item.bankcardNo)" type="warn" style="border-radius: 8px;") 删除
         .btn-add(@click="addBankCard") 
           .title 添加银行卡
       masker(color="#000" :opacity="0.4" fullscreen=true v-show="status" style="position:relative;")
@@ -46,17 +48,13 @@ export default {
       dcontent: '操作提示',
       status: false,
       cardNo: '',
-      bankCardList: []
+      bankCardList: [{bankcardNo: '1111111111111111111'}]
     }
   },
   mounted () {
     this.initData()
   },
   computed: {
-    // bankCardList () {
-    //   return this.$store.state.bankCardList
-    //   // return []
-    // }
   },
   methods: {
     onCancel () {
@@ -125,13 +123,13 @@ export default {
 }
 .content{
   padding:0.1px;
-  // background:#f5f5f5;
+  background:#f5f5f5;
   .empty-tip {
     padding:5rem 0;
-    // margin-bottom:1rem;
     font-size:0.8rem;
     color:#999;
     text-align: center;
+    background:#fff;
   }
   .card-list{
     margin-top:0.75rem;
@@ -155,6 +153,15 @@ export default {
         background-size:100% 100%;
       }
       .item-content{
+        img{
+          position: absolute;
+          left:0.5rem;
+          top:0.5rem;
+          width:2rem;
+          height:2rem;
+        }
+        padding-left:2.5rem;
+        // background:url(../../assets/imgs/bank-logo.png);
         border-radius: 8px;
         background:-webkit-gradient(linear,100% 0%, 50% 0%, from(#378CF4), to(#2B7DE2));
       }
@@ -204,7 +211,7 @@ export default {
 // 遮罩
 .box{
     position: relative;
-    top:50%;
+    // top:50%;
     margin:0 auto;
     margin-top:7rem;
     // margin-top:-5.85rem;
@@ -231,6 +238,7 @@ export default {
     }
     .content{
       padding:0.5rem 0.75rem 1rem;
+      background:#fff;
       .card{
         margin-top: 1rem;
         padding:0.5rem 0.25rem;

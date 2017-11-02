@@ -14,6 +14,9 @@
           cell(title="登录手机号" :value="phoneNum")
           cell(title="实名认证" is-link style="margin-top:0.75rem;border-bottom:none")
             .child(slot="child" @click="toVerfied")
+              .name {{name}}
+              .btn {{isTip}}
+              
 </template>
 <script>
 import { ViewBox, XHeader, Masker, Group, Cell } from 'vux'
@@ -36,29 +39,23 @@ export default {
   },
   computed: {
     phoneNum () {
-      return this.$store.state.userInfo.cellphone
+      let msg = this.$store.state.userInfo.cellphone
+      return msg.substr(0, 3) + '****' + msg.substr(msg.length - 4, 4)
     },
     hasHeadImg () {
       return this.$store.state.userInfo.avatar !== ''
     },
     headImgSrc () {
       return this.$store.state.baseUrl + '/app/fileUpload/showHeadImage?fileName=' + this.$store.state.userInfo.avatar
+    },
+    isTip () {
+      return this.$store.state.userInfo.isAuth ? '已认证' : '未认证'
+    },
+    name () {
+      return this.$store.state.userInfo.name
     }
   },
   methods: {
-    getBaseInfo () {
-      // 获取设备信息和用户基本信息
-      let self = this
-      let data = {
-        action: 'get_request'
-      }
-      // 获取设备信息
-      self.$store.dispatch('normalRequest', data).then(res => {
-        alert('2222222' + JSON.stringify(res))
-        // 存用户信息
-        self.$store.commit('INIT_USER_INFO', res)
-      })
-    },
     toVerfied () {
       if (this.$store.state.userInfo.isAuth === true) {
         this.$router.push('/verfied')
@@ -91,7 +88,6 @@ export default {
         }
       }
       self.$store.dispatch('normalRequest', data).then(data => {
-        // alert(JSON.stringify(data))
         this.$store.state.userInfo.avatar = data.data.avatar
       })
     }
@@ -113,6 +109,29 @@ export default {
     left: 0;
     right: 0;
     bottom:0;
+    .btn{
+      position: relative;
+      float: right;
+      top:0.65rem;
+      width:3.2rem;
+      height: 1.2rem;
+      background:#1f76e2;
+      font-size:0.7rem;
+      color:#fff;
+      text-align: center;
+      line-height: 1.2rem;
+      border-radius: 3px;
+    }
+    .name{
+      position: relative;
+      float:right;
+      margin-right:1.5rem;
+      margin-left:0.5rem;
+      top:0.8rem;
+      height:1rem;
+      line-height: 1rem;
+      font-size:0.7rem;
+    }
   }
 }
 .weui-tab .weui-cell:before{

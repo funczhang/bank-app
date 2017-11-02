@@ -4,7 +4,6 @@ export default {
     state.isLoading = status
   },
   [types.INIT_USER_INFO] (state, data) {
-    // alert('data----' + data.imei)
     if (data.isAuth !== undefined) {
       state.userInfo.isAuth = data.isAuth
     }

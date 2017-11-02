@@ -1,20 +1,20 @@
 <template lang="pug">
   div(style="height:100%;")
-    view-box(ref="viewBox" body-padding-top="46px" body-padding-bottom="0" style="background:#fff;s")
+    view-box(ref="viewBox" body-padding-top="46px" body-padding-bottom="0" bgColor="#fff")
       x-header(slot="header" title="注册" :left-options="{showBack:true,backText:''}" style="width:100%;position:absolute;left:0;top:0;z-index:100;background:#fff;color:#000;")
       .content
         group(style="margin-top:0.75rem;")
-          x-input(placeholder="请输入手机号" v-model="phone" style="border-bottom:none;" type="number")
+          x-input(placeholder="请输入手机号" v-model="phone" style="border-bottom:none;" :max="15")
             img(src="../../assets/imgs/icon-setting-phone.png" style="width:0.65rem;height:0.9rem;" slot="label")
-          x-input(placeholder="请输入短信验证" v-model="code" :show-clear="showClear" type="number")
+          x-input(placeholder="请输入短信验证" v-model="code" :show-clear="showClear" :max="8")
             img(src="../../assets/imgs/icon-key.png" style="width:0.9rem;height:0.9rem;" slot="label")
             button(class="btn-send-code" slot="right" @click="sendTextCode('01', 'registerCode')" ref="registerCode") 发送验证码
         group(style="margin-top:0.75rem;")
-          x-input(placeholder="请输入密码" style="border-bottom:none;" v-model="pwd1" type="password")
+          x-input(placeholder="请输入密码" style="border-bottom:none;" v-model="pwd1" :min="6" :max="10" type="password")
             img(src="../../assets/imgs/icon-pwd.png" style="width:0.8rem;height:1rem;" slot="label")
-          x-input(placeholder="请再次输入密码" v-model="pwd2" type="password")
+          x-input(placeholder="请再次输入密码" v-model="pwd2" type="password" :min="6" :max="10")
             img(src="../../assets/imgs/icon-pwd.png" style="width:0.8rem;height:1rem;" slot="label")
-        .tip *密码必须为数字和字母组合，长度为6-10位
+        .tip *密码只能设置为数字/字母/数字字母组合，且长度为6-10位
         .confirm-area
           check-icon(:value.sync="isConfirm")
           span 我已经阅读并同意
@@ -98,7 +98,7 @@ export default {
               self.$store.dispatch('normalRequest', data).then(response => {
                 // let response = JSON.parse(res)
                 if (response.response === 'success') {
-                  this.$vux.toast.text('注册成功请登录~')
+                  this.$vux.toast.text('注册成功请登录')
                   this.phone = ''
                   this.code = ''
                   this.pwd1 = ''
@@ -113,9 +113,6 @@ export default {
               this.$vux.toast.text('两次密码输入不一致')
             }
           }
-          // else {
-          //   this.$vux.toast.text('密码不为空')
-          // }
         } else {
           this.$vux.toast.text('验证码不为空')
         }
@@ -253,6 +250,7 @@ export default {
     // position: absolute;
     // bottom:0;
     padding:1rem 0.75rem;
+    background:#fff;
     h3{
       font-size:0.75rem;
       color:#333;

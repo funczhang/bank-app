@@ -4,15 +4,15 @@
       x-header(slot="header" title="忘记密码" :left-options="{showBack:true,backText:''}" style="width:100%;position:absolute;left:0;top:0;z-index:100;background:#fff;color:#000;")
       .content
         group(style="margin-top:0.75rem;")
-          x-input(placeholder="请输入手机号" type="number" v-model="phone" style="border-bottom:none;")
+          x-input(placeholder="请输入手机号" :max="15" v-model="phone" style="border-bottom:none;")
             img(src="../../assets/imgs/icon-setting-phone.png" style="width:0.65rem;height:0.9rem;" slot="label")
-          x-input(placeholder="请输入短信验证" type="number" v-model="code" :show-clear="showClear")
+          x-input(placeholder="请输入短信验证" :max="6" v-model="code" :show-clear="showClear")
             img(src="../../assets/imgs/icon-key.png" style="width:0.9rem;height:0.9rem;" slot="label")
             button(class="btn-send-code" slot="right" @click="sendTextCode('02', 'forgetCode')" ref="forgetCode") 发送验证码
         group(style="margin-top:0.75rem;")
-          x-input(placeholder="请输入新密码" style="border-bottom:none;" v-model="pwd1" type="password" :max="max")
+          x-input(placeholder="请输入新密码" style="border-bottom:none;" :min="6" :max="10" v-model="pwd1" type="password")
             img(src="../../assets/imgs/icon-pwd.png" style="width:0.8rem;height:1rem;" slot="label")
-          x-input(placeholder="请再次输入新密码" v-model="pwd2" type="password" :max="max")
+          x-input(placeholder="请再次输入新密码" v-model="pwd2" type="password" :min="6" :max="10")
             img(src="../../assets/imgs/icon-pwd.png" style="width:0.8rem;height:1rem;" slot="label")
         .clear
         .btn-area
@@ -73,7 +73,7 @@ export default {
               })
               self.$store.dispatch('normalRequest', data).then(response => {
                 if (response.response === 'success') {
-                  self.$vux.toast.text('新密码设置成功，请重新登录~')
+                  self.$vux.toast.text('新密码设置成功，请重新登录')
                   self.phone = ''
                   self.code = ''
                   self.pwd1 = ''

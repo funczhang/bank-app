@@ -54,7 +54,7 @@
                   p(class="value" style="color:#1f76e2;") {{repaymentObj.repTime === undefined ? '--' : repaymentObj.repTime}}
       .content(v-show="canApply === true")
         img(class="empty" src="../../assets/imgs/icon-no-apply.png")
-        .tip 您暂无申请记录~
+        .tip 您暂无申请记录
         a(href="javascript:void(null)" class="btn-apply" @click="goApply") 去申请
 </template>
 
@@ -114,7 +114,8 @@ export default {
         if (this.isVerfied()) {
           this.apply()
         } else {
-          this.$router.push('/verfied')
+          // 跳转实名认证界面
+          this.toVerfiedPage()
         }
       } else {
         this.$router.push('/login')
@@ -131,8 +132,8 @@ export default {
           token: this.$store.state.userInfo.token
         }
       }
-      self.$store.dispatch('initRequest', data).then(res => {
-        let data = JSON.parse(res)
+      self.$store.dispatch('normalRequest', data).then(data => {
+        // let data = JSON.parse(res)
         if (data.response === 'success') {
           if (data.data.canApply === 1) { // 1可以申请 2不可申请
             this.$router.push('/loan')
@@ -175,8 +176,7 @@ export default {
           token: self.$store.state.userInfo.token
         }
       }
-      self.$store.dispatch('initRequest', data).then(res => {
-        let data = JSON.parse(res)
+      self.$store.dispatch('normalRequest', data).then(data => {
         if (data.response === 'success') {
           if (data.data.type === '') {
             self.canApply = true

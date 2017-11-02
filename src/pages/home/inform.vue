@@ -1,12 +1,12 @@
 <template lang="pug">
   div(style="height:100%;")
-    view-box(ref="viewBox" body-padding-top="46px" body-padding-bottom="50px")
+    view-box(ref="viewBox" body-padding-top="46px" body-padding-bottom="0" bgColor="#fff")
       x-header(slot="header" title="我的" :left-options="{showBack:true,backText:''}" style="width:100%;position:absolute;left:0;top:0;z-index:100;background:#fff;")
         tab(slot="default" bar-active-color="transparent")
           tab-item(selected @on-item-click="onItemClick('0')") 系统公告
           tab-item(@on-item-click="onItemClick('1')") 活动公告
       scroller(ref="informScroller" :lock-x="true"  :bounce="true" :use-pulldown="true" :pulldown-config="pulldownConfig" @on-pulldown-loading="onPulldownLoading")
-        .content  
+        .content
           ul(v-show="isSystemInform" class="inform-list")
             li(class="clearfix" v-for="item in systemInform")
               .left
@@ -16,7 +16,7 @@
                   span(class="fl") {{item.headingTitle}}
                   span(class="fr") {{item.createTime}}
                 p(style="margin-top:0.5rem;") {{item.content}}
-            p(v-show="systemInform.length===0" class="empty-tip") 暂无系统公告~
+            p(v-show="systemInform.length===0" class="empty-tip") 暂无系统公告
           ul(v-show="!isSystemInform" class="inform-list")
             li(class="clearfix" v-for="item in userInform")
               .left
@@ -26,7 +26,7 @@
                   span(class="fl") {{item.headingTitle}}
                   span(class="fr") {{item.createTime}}
                 p(style="margin-top:0.5rem;") {{item.content}}
-            p(v-show="userInform.length===0" class="empty-tip") 暂无用户公告~
+            p(v-show="userInform.length===0" class="empty-tip") 暂无用户公告
 
 </template>
 
@@ -47,11 +47,11 @@ export default {
       systemInform: [],
       userInform: [],
       pulldownConfig: {
-        content: '下拉刷新~',
+        content: '下拉刷新',
         height: 60,
         autoRefresh: false,
-        downContent: '下拉刷新~',
-        upContent: '释放刷新~',
+        downContent: '下拉刷新',
+        upContent: '释放刷新',
         loadingContent: '加载中...',
         clsPrefix: 'xs-plugin-pulldown-'
       }
@@ -87,7 +87,6 @@ export default {
         }
       }
       self.$store.dispatch('normalRequest', data).then(res => {
-        // alert(JSON.stringify(res))
         if (res.response === 'success') {
           type === '0' ? self.systemInform = res.data : self.userInform = res.data
         } else {
@@ -123,11 +122,12 @@ export default {
   }
 }
 .content{
+  padding-top:0.75rem;
+  background:#f5f5f5;
   .inform-list{
-    margin-top:0.75rem;
-    // border-bottom:1px solid #ededed;
+    border-top:1px solid #ededed;
     li{
-      border-top:1px solid #ededed;
+      border-bottom:1px solid #ededed;
       padding:1rem 0.75rem;
       background:#fff;
       h3{
@@ -158,6 +158,7 @@ export default {
     text-align: center;
     padding:3rem 0;
     color:#999;
+    background:#fff;
   }
 }
 </style>

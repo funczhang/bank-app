@@ -1,6 +1,6 @@
 <template lang="pug">
   div(style="height:100%;")
-    view-box(ref="viewBox" body-padding-top="46px" body-padding-bottom="50px")
+    view-box(ref="viewBox" body-padding-top="46px" body-padding-bottom="0" bgColor="#fff")
       x-header(slot="header" title="我的还款" :left-options="{showBack:true,backText:''}" style="width:100%;position:absolute;left:0;top:0;z-index:100;background:#fff;")
       .content
         template(v-for="item in repaymentList")
@@ -26,9 +26,9 @@
             li(class="clearfix") 
               label 还款时间 
               span {{item.repTime}}
-      .content(v-show="repaymentList.length ===0")
+      .empty-tip(v-show="repaymentList.length ===0")
         img(class="empty" src="../../assets/imgs/icon-no-apply.png")
-        .tip 您暂无还款记录哦~
+        .tip 您暂无还款记录
 </template>
 
 <script>
@@ -49,9 +49,6 @@ export default {
     }
   },
   computed: {
-    // repaymentList () {
-    //   return this.$store.state.repaymentList
-    // }
   },
   mounted () {
     this.initView()
@@ -80,9 +77,11 @@ export default {
 </script>
 <style lang="less" scoped>
 .content{
+  padding:0.1px;
+  background:#f5f5f5;
   .record{
     padding:0.75rem 1.25rem;
-    margin-top:0.75rem;
+    margin:0.75rem 0;
     border-top:1px solid #ededed;
     border-bottom:1px solid #ededed;
     background:#fff;
@@ -105,7 +104,9 @@ export default {
       }
     }
   }
-  .empty{
+}
+.empty-tip{
+.empty{
     display: block;
     margin:5rem auto 3rem;
     width:10rem;

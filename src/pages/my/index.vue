@@ -3,7 +3,7 @@
     view-box(ref="viewBox" body-padding-top="0" body-padding-bottom="50px")
       .container
         .header
-          a(v-show="isLogin" class="btn-code" @click="shareCodePic" href="javascript:void(null)")
+          a(v-show="isLoginAndVerfied" class="btn-code" @click="shareCodePic" href="javascript:void(null)")
           .head-img(@click="uploadHeadImg")
             //- img(src="../../assets/imgs/person.png")
             img(v-show="!hasHeadImg" src="../../assets/imgs/default-img.png")
@@ -56,7 +56,10 @@ export default {
       return this.$store.state.userInfo.cellphone
     },
     isLogin () {
-      return this.$store.state.userInfo.token !== ''
+      return this.$store.state.userInfo.token
+    },
+    isLoginAndVerfied () {
+      return this.$store.state.userInfo.token !== '' && this.$store.state.userInfo.isAuth
     },
     hasHeadImg () {
       return this.$store.state.userInfo.avatar !== ''
@@ -84,18 +87,15 @@ export default {
       }
       if (token !== '' && token !== undefined) {
         self.$store.dispatch('normalRequest', data).then(res => {
-          // alert(JSON.stringify(res))
           res.response === 'success' ? self.$store.commit('INIT_HEAD_IMG', res.data) : self.$vux.toast.text('头像信息获取失败')
         })
       } else {
-        self.$vux.toast.text('请先登录~')
+        self.$vux.toast.text('请先登录')
       }
     },
     uploadHeadImg () {
-      // this.showHeadImg = true
       if (this.$store.state.userInfo.token === '') {
         this.$router.push('/login')
-        this.$vux.toast.text('请先登录~')
         return
       }
       this.$router.push('/myData')
@@ -115,43 +115,39 @@ export default {
     toGuarantee () {
       if (this.$store.state.userInfo.token === '') {
         this.$router.push('/login')
-        this.$vux.toast.text('请先登录~')
         return
       }
       if (this.$store.state.userInfo.isAuth === true) {
         this.$router.push('/myGurantee')
       } else {
-        this.$vux.toast.text('请先实名认证哦~')
+        this.toVerfiedPage()
       }
     },
     toBankCardList () {
       if (this.$store.state.userInfo.token === '') {
         this.$router.push('/login')
-        this.$vux.toast.text('请先登录~')
         return
       }
       if (this.$store.state.userInfo.isAuth === true) {
         this.$router.push('/bankCardList')
       } else {
-        this.$vux.toast.text('请先实名认证哦~')
+        this.toVerfiedPage()
       }
     },
     toCouponList () {
       if (this.$store.state.userInfo.token === '') {
         this.$router.push('/login')
-        this.$vux.toast.text('请先登录~')
         return
       }
       if (this.$store.state.userInfo.isAuth === true) {
         this.$router.push('/couponList')
       } else {
-        this.$vux.toast.text('请先实名认证哦~')
+        this.toVerfiedPage()
       }
     },
     toSetting () {
       if (this.$store.state.userInfo.token === '') {
         this.$router.push('/login')
-        this.$vux.toast.text('请先登录~')
         return
       }
       this.$router.push('/setting')

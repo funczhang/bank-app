@@ -34,13 +34,12 @@
             .line(class="clearfix") 
               img(class="icon-card fl" src="../../assets/imgs/icon-card.png")
               span(class="fl" style="font-size:14px;color:#333;line-height:37px;") 卡号
-              span(class="fr" style="font-size:14px;color:#333;line-height:37px;") {{creditCardNo === '' ? '--' : creditCardNo}}
+              span(class="fr" style="font-size:14px;color:#333;line-height:37px;") {{creditCardNo.substr(0, creditCardNo.length -5) + ' *****' }}
         .check-contract
           a(href="javascript:void(null)") 查看合同
 </template>
 
 <script>
-// 219 187
 import { ViewBox, XHeader } from 'vux'
 export default {
   components: {
@@ -72,7 +71,7 @@ export default {
           applyId: self.$store.state.applyNo
         }
       }
-      // 初始化我的贷款
+      // 获取批准通过后的信息
       self.$store.dispatch('normalRequest', data).then(data => {
         if (data.response === 'success') {
           self.lineCredit = data.data.lineCredit

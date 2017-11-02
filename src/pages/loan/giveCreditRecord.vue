@@ -1,8 +1,8 @@
 <template lang="pug">
   div(style="height:100%;")
-    view-box(ref="viewBox" body-padding-top="46px" body-padding-bottom="0")
+    view-box(ref="viewBox" body-padding-top="46px" body-padding-bottom="0" bgColor="#fff")
       x-header(slot="header" title="我的授信" :left-options="{showBack:true,backText:''}" style="width:100%;position:absolute;left:0;top:0;z-index:100;background:#fff;")
-        img(class="icon-refresh" src="../../assets/imgs/icon-refresh.png" slot="right") 
+        //- img(class="icon-refresh" src="../../assets/imgs/icon-refresh.png" slot="right") 
       .content
         template(v-for="item in creditList")
           ul(class="record")
@@ -27,9 +27,9 @@
             li(class="clearfix") 
               label 申请状态 
               span {{status}}
-      .content(v-show="creditList.length ===0")
+      .empty-tip(v-show="creditList.length ===0")
         img(class="empty" src="../../assets/imgs/icon-no-apply.png")
-        .tip 您暂无授信记录哦~
+        .tip 您暂无授信记录
 </template>
 
 <script>
@@ -46,9 +46,6 @@ export default {
     }
   },
   computed: {
-    // creditList () {
-    //   return this.$store.state.creditList
-    // },
     status () {
       let applyState = this.$store.state.applyState
       let status = null
@@ -102,9 +99,11 @@ export default {
     height:1rem;
   }
 .content{
+  padding:0.1px;
+  background:#f5f5f5;
   .record{
     padding:0.75rem 1.25rem;
-    margin-top:0.75rem;
+    margin:0.75rem 0;
     border-top:1px solid #ededed;
     border-bottom:1px solid #ededed;
     background:#fff;
@@ -127,7 +126,10 @@ export default {
       }
     }
   }
-  .empty{
+}
+.empty-tip{
+  background:#fff;
+.empty{
     display: block;
     margin:5rem auto 3rem;
     width:10rem;

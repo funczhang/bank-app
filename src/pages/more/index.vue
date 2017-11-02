@@ -49,13 +49,21 @@ export default {
   },
   methods: {
     shareCodePic () {
-       // 分享二维码
+      // 分享二维码
       let self = this
       let data = {
         action: 'jump_qr_dialog'
       }
-      self.$store.dispatch('normalRequest', data).then(res => {
-      })
+      if (this.$store.state.userInfo.token === '') {
+        this.$router.push('/login')
+      } else {
+        if (this.$store.state.userInfo.isAuth === true) {
+          self.$store.dispatch('normalRequest', data).then(res => {
+          })
+        } else {
+          this.toVerfiedPage()
+        }
+      }
     },
     jumpNormalQs () {
       let self = this
@@ -88,10 +96,13 @@ export default {
     toSuggest () {
       if (this.$store.state.userInfo.token === '') {
         this.$router.push('/login')
-        this.$vux.toast.text('请先登录~')
-        return
+      } else {
+        if (this.$store.state.userInfo.isAuth === true) {
+          this.$router.push('/suggest')
+        } else {
+          this.toVerfiedPage()
+        }
       }
-      this.$router.push('/suggest')
     },
     exit () {
       // 退出登录
@@ -111,13 +122,13 @@ export default {
           self.$store.commit('INIT_USER_INFO', res)
           // 隐藏
           this.$vux.loading.hide()
-          this.$vux.toast.text('退出登录成功~')
+          this.$vux.toast.text('退出登录成功')
           self.$router.replace('/my')
           self.$store.state.tabItem = 2
         })
       } else {
         this.$vux.loading.hide()
-        this.$vux.toast.text('您未登录，无法退出哦~')
+        this.$vux.toast.text('您未登录，无法退出')
       }
     }
   }

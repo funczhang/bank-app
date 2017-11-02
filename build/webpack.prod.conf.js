@@ -2,7 +2,7 @@ var path = require('path')
 var utils = require('./utils')
 var webpack = require('webpack')
 var config = require('../config')
-var PrerenderSpaPlugin = require('prerender-spa-plugin')
+// var PrerenderSpaPlugin = require('prerender-spa-plugin')
 var merge = require('webpack-merge')
 var baseWebpackConfig = require('./webpack.base.conf')
 var CopyWebpackPlugin = require('copy-webpack-plugin')
@@ -28,12 +28,12 @@ var webpackConfig = merge(baseWebpackConfig, {
     chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
   },
   plugins: [
-    new PrerenderSpaPlugin(
-      // 输出目录的绝对路径
-      path.join(__dirname, '../dist'),
-      // 预渲染的路由
-      ['/']
-    ),
+    // new PrerenderSpaPlugin(
+    //   // 输出目录的绝对路径
+    //   path.join(__dirname, '../dist'),
+    //   // 预渲染的路由
+    //   ['/']
+    // ),
     // http://vuejs.github.io/vue-loader/en/workflow/production.html
     new webpack.DefinePlugin({
       'process.env': env

@@ -1,6 +1,6 @@
 <template lang="pug">
   div(style="height:100%;")
-    view-box(ref="viewBox" body-padding-top="46px" body-padding-bottom="50px")
+    view-box(ref="viewBox" body-padding-top="46px" body-padding-bottom="50px" bgColor="#fff")
       x-header(slot="header" title="" :left-options="{showBack:false}" style="width:100%;position:absolute;left:0;top:0;z-index:100;background:#fff;")
         img(class="icon-title" src="../../assets/imgs/icon-logo.png" slot="overwrite-title")
         img(class="icon-email" src="../../assets/imgs/icon-email.png" slot="right" @click="jumpTo('inform')")
@@ -63,11 +63,11 @@ export default {
       maxAmount: '',
       creditTerm: '',
       pulldownConfig: { // 下拉配置
-        content: '下拉刷新~',
+        content: '下拉刷新',
         height: 60,
         autoRefresh: true,
-        downContent: '下拉刷新~',
-        upContent: '释放刷新~',
+        downContent: '下拉刷新',
+        upContent: '释放刷新',
         loadingContent: '加载中...',
         clsPrefix: 'xs-plugin-pulldown-'
       },
@@ -106,23 +106,21 @@ export default {
     },
     toInform () {
       // 通知通告
-      let token = this.$store.state.userInfo.token
-      let isAuth = this.$store.state.userInfo.isAuth
-      if (token !== '') {
-        if (isAuth !== '') {
+      if (this.isLogin()) {
+        if (this.isVerfied()) {
           this.$router.push('/inform')
         } else {
-          this.$vux.toast.text('请实名认证后查看公告哦~')
+          this.$vux.toast.text('请实名认证后查看公告')
         }
       } else {
-        this.$vux.toast.text('请登录后查看公告哦~')
+        this.$vux.toast.text('请登录后查看公告')
       }
     },
     jumpTo (page) {
       // 跳转页面
       if (this.isLoginAndVerfied()) {
         switch (page) {
-          case 'inform': this.$router.push('/inform')
+          case 'inform': this.toInform()
             break
           case 'goApply': this.goApply()
             break
@@ -148,7 +146,7 @@ export default {
       // 显示
       this.$vux.toast.show({
         type: 'text',
-        text: '该项暂未开通哦!'
+        text: '暂未开通,敬请期待'
       })
     },
     getBaseInfo () {
@@ -159,13 +157,10 @@ export default {
       }
       // 获取设备信息
       self.$store.dispatch('normalRequest', data).then(res => {
-        // alert('1111' + JSON.stringify(res))
         // 存用户信息
         self.$store.commit('INIT_USER_INFO', res)
         self.applyInfo()
-        // alert('userinfo--' + JSON.stringify(this.$store.state.userInfo))
       })
-      // alert('userinfo--' + JSON.stringify(this.$store.state.userInfo))
     },
     getPicList () {
       // 获取轮播图
@@ -175,11 +170,14 @@ export default {
         action: 'init_request',
         path: path
       }
-      self.$store.dispatch('initRequest', data).then(res => {
-        // alert(res)
+      // 这里后台数据有问题 用json.parse无法正常解析
+      self.$store.dispatch('initRequest', data).then(data => {
+        // alert('')
+        // alert('data----' + JSON.stringify(data))
+        // alert('00000000----' + JSON.stringify(res))
         // 这里使用json.parse无法处理 ？？？
         let arr = []
-        let data = eval('(' + res + ')')
+        // let data = eval('(' + res + ')')
         if (data.response === 'success') {
           self.imglist = []
           self.minAmount = data.data.minAmount
@@ -200,37 +198,21 @@ export default {
       // 退出进程，给我原生数据库信息
       window.toLogin = (res) => {
         self.getUserInfo()
-        // // alert('tologin---11111111' + JSON.stringify(res))
-        // let data = null
-        // if (typeof res === 'string') {
-        //   data = JSON.parse(JSON.stringify(res))
-        // } else {
-        //   data = res
-        // }
-        // self.$store.state.userInfo.avatar = ''
-        // self.$store.commit('INIT_USER_INFO', data.message)
         self.$router.replace('/login')
       }
       window.setUserInfo = (res) => {
         self.getUserInfo()
-        // let data = null
-        // if (typeof res === 'string') {
-        //   data = JSON.parse(JSON.stringify(res))
-        // } else {
-        //   data = res
-        // }
-        // data.code === 'OK' ? self.$store.commit('INIT_USER_INFO', data.message) : null
         self.$router.replace('/setting')
       }
     },
     goApply () {
       if (this.$store.state.canApply === 1) { // 1可以申请 2不可申请
         this.$router.push('/loan')
-        this.$store.state.tabItem = 1
+        // this.$store.state.tabItem = 1
       } else {
         // 不可申请
         switch (this.$store.state.applyState) {
-          case 0: this.$vux.toast.text('申请相关信息获取失败，请退出重新登录~')
+          case 0: this.applyInfo() // 这里有问题
             break
           case 1: this.$router.push('/quotaEvaluation') // 额度评估
             break
@@ -240,7 +222,7 @@ export default {
             break
           case 4: this.$router.push('/sign') // 签约
             break
-          case 5: this.$vux.toast.text('您有一笔授信申请正在处理中,无法再次申请~') // 签约完成
+          case 5: this.$vux.toast.text('您有一笔授信申请正在处理中,无法再次申请') // 签约完成
             break
           case 6: this.$router.push('/fail') // 签约超时
             break
@@ -257,9 +239,7 @@ export default {
           token: this.$store.state.userInfo.token
         }
       }
-      // alert('params------' + JSON.stringify(data))
-      self.$store.dispatch('initRequest', data).then(res => {
-        let data = JSON.parse(res)
+      self.$store.dispatch('normalRequest', data).then(data => {
         self.$store.state.canApply = data.data.canApply
         self.$store.state.applyNo = data.data.applyNo
         switch (data.data.explain) {
@@ -279,13 +259,12 @@ export default {
       })
     },
     isLoginAndVerfied () {
-      let token = this.$store.state.userInfo.token
-      let isAuth = this.$store.state.userInfo.isAuth
-      if (token !== '') {
-        if (isAuth !== '') {
+      if (this.isLogin()) {
+        if (this.isVerfied()) {
           return true
         } else {
-          this.$router.push('/verfied')
+          // 跳转实名认证
+          this.toVerfiedPage()
         }
       } else {
         this.$router.push('/login')
@@ -294,7 +273,7 @@ export default {
   }
 }
 </script>
-<style lang="less">
+<style lang="less" scoped>
 // 首页tab切换
 html, body {
   width: 100%;
@@ -322,7 +301,7 @@ html, body {
       }
       img{
         position: relative;
-        top:0.1rem;
+        top:0;
         padding:0 0.75rem;
         width:2.5rem;
         height:0.75rem;
@@ -349,7 +328,7 @@ html, body {
     .btn-area {
       background:#fff;
       li {
-        padding-top:1rem;
+        padding-top:0.9rem;
         float:left;
         width:25%;
         text-align: center;
@@ -362,7 +341,7 @@ html, body {
         span {
           display: block;
           margin-top:0.5rem;
-          margin-bottom:1rem;
+          margin-bottom:0.9rem;
           text-align: center;
           font-size:0.65rem;
           color:#666;
@@ -400,7 +379,7 @@ html, body {
         height:1.5rem;
         background:#f32f2f;
         font-size:0.65rem;
-        line-height: 1.6rem;
+        line-height: 1.5rem;
         border-radius: 0.75rem;
         text-align: center;
         color:#fff;
@@ -475,15 +454,16 @@ html, body {
     }
     .icon-title{
       position: relative;
-      top:0.2rem;
+      top: 7px;
       width:100%;
-      height:1.6rem;
+      height:1.1rem;
       vertical-align: middle;
     }
     .icon-email{
+      // top:0.1rem;
       right:0.25rem;
-      width:0.9rem;
-      height:0.7rem;
+      width:1.2rem;
+      height:0.9rem;
     }
   }
 }

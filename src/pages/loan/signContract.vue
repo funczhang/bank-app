@@ -43,8 +43,8 @@ export default {
         path: path,
         params: self.$store.state.signInfo
       }
-      self.$store.dispatch('initRequest', data).then(res => {
-        let data = JSON.parse(res)
+      self.$store.dispatch('normalRequest', data).then(data => {
+        // let data = JSON.parse(res)
         if (data.response === 'success') {
           this.isKnow = true
           this.$router.replace('/')

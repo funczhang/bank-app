@@ -42,7 +42,7 @@
         .option
           group
             popup-picker(title="所在地区" :data="areas" :columns="3" v-model="defaultAddress" placeholder="请选择地址")
-        x-textarea(:max="30" style="font-size:0.75rem; color:#333" v-model="detailAddress" placeholder="请填写详细地址，不少于五个字" row=3)
+        x-textarea(:max="30" style="font-size:0.75rem; color:#333" v-model="detailAddress" placeholder="请填写详细地址" row=3)
         .confirm-area
           check-icon(:value.sync="isConfirm")
           span 我已经阅读并同意
@@ -103,17 +103,17 @@ export default {
           addStr: self.defaultAddress[0] + self.detailAddress
         }
       }
-      if (self.detailAddress.trim().length >= 5) {
+      if (self.detailAddress.trim().length > 0) {
         self.$store.dispatch('normalRequest', data).then(res => {
           if (res.response === 'success') {
-            this.$vux.toast.text('担保成功~')
+            this.$vux.toast.text('担保成功')
             this.$router.replace('/myGurantee')
           } else {
             this.$vux.toast.text(res.data)
           }
         })
       } else {
-        this.$vux.toast.text('请输入大于五个字的详细地址~')
+        this.$vux.toast.text('请输入详细地址')
       }
     },
     cancleAuth () {
@@ -154,7 +154,7 @@ export default {
           self.guaranteeInfo.applyIdCard = res.data.applyIdCard
           self.guaranteeInfo.applyPhone = res.data.applyPhone
         } else {
-          this.$vux.toast.text('担保信息获取失败，请退出重试~')
+          this.$vux.toast.text('担保信息获取失败，请退出重试')
         }
       })
     }

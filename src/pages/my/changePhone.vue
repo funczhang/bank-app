@@ -88,7 +88,7 @@ export default {
           self.$store.dispatch('normalRequest', data).then(response => {
             // let response = JSON.parse(res)
             if (response.response === 'success') {
-              self.$vux.toast.text('手机号码更换成功，请重新登录~')
+              self.$vux.toast.text('手机号码更换成功，请重新登录')
               self.phone = ''
               self.code = ''
               self.$router.replace('/login')
@@ -98,7 +98,7 @@ export default {
             self.$vux.loading.hide()
           })
         } else {
-          self.$vux.toast.text('验证码不为空')
+          self.$vux.toast.text('请输入验证码')
         }
       }
     }

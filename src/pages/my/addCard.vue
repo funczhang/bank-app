@@ -7,7 +7,7 @@
         group
           x-input(title="持卡人" placeholder="请输入持卡人" style="border-bottom:none;font-size:0.75rem" v-model="name" type="text" disabled=true readonly=true)
           x-input(title="卡号" placeholder="请输入银行卡号" type="number" v-model="cardNum" :show-clear="false" style="font-size:0.75rem")
-            img(src="../../assets/imgs/icon-camera.png" style="width:0.9rem;height:0.7rem;" slot="right" @click="")
+            img(src="../../assets/imgs/icon-camera.png" style="width:0.9rem;height:0.7rem;" slot="right" @click="scanCard")
         .btn-add(@click="addCard") 提交
 </template>
 
@@ -44,6 +44,17 @@ export default {
   methods: {
     init () {
       this.name = this.$store.state.userInfo.name
+    },
+    scanCard () {
+      let self = this
+      let data = {
+        action: 'jump_bankcard_get'
+      }
+      self.$store.dispatch('normalRequest', data).then(res => {
+        if (res.response === 'success') {
+          self.cardNum = res.cardNo
+        }
+      })
     },
     addCard () {
       let self = this

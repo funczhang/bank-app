@@ -31,6 +31,12 @@ export const initRequest = ({ commit }, data) => {
       callback: true,
       args: [{'path': data.path, 'params': data.params}]
     }).done(response => {
+      if (typeof response === 'string') {
+        let data = eval('(' + response + ')')
+        resolve(data)
+      } else {
+        resolve(response)
+      }
       resolve(response)
     }).fail(response => {
       reject(response)

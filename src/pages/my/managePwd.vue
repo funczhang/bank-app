@@ -94,7 +94,7 @@ export default {
             // 修改密码
             self.$store.dispatch('normalRequest', data).then(response => {
               if (response.response === 'success') {
-                this.$vux.toast.text('密码更换成功，请重新登录~')
+                this.$vux.toast.text('密码更换成功，请重新登录')
                 self.$store.state.userInfo.token = ''
                 self.$store.state.userInfo.cellphone = ''
                 this.$router.replace('/login')
@@ -104,7 +104,7 @@ export default {
               this.$vux.loading.hide()
             })
           } else {
-            this.$vux.toast.text('两次新密码输入不一致')
+            this.$vux.toast.text('新密码两次输入不一致')
           }
         }
         // else {
@@ -122,7 +122,7 @@ export default {
         action: 'jump_ges_update'
       }
       self.$store.dispatch('normalRequest', data).then(res => {
-        this.$vux.toast.text('修改手势密码成功~')
+        this.$vux.toast.text('修改手势密码成功')
       })
     },
     openGesture () {
@@ -132,12 +132,10 @@ export default {
         action: 'jump_ges_lock'
       }
       self.$store.dispatch('normalRequest', data).then(data => {
-        // let data = JSON.parse(res)
         if (data.isOpenGesture) {
           this.$store.state.isOpenGesture = true
         } else {
           this.$store.state.isOpenGesture = false
-          // this.$vux.toast.text('开启手势密码失败~')
         }
       })
     },
@@ -148,7 +146,7 @@ export default {
         action: 'jump_ges_close'
       }
       self.$store.dispatch('normalRequest', data).then(res => {
-        this.$vux.toast.text('关闭手势密码成功~')
+        this.$vux.toast.text('关闭手势密码成功')
       })
     }
   }

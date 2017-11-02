@@ -82,7 +82,7 @@ export default {
         if (this.opinion !== '') {
           self.$store.dispatch('normalRequest', data).then(res => {
             if (res.response === 'success') {
-              this.$vux.toast.text('意见反馈成功~')
+              this.$vux.toast.text('意见反馈成功')
               this.$router.replace('/more')
               this.$store.state.tabItem = 3
             } else {
@@ -92,10 +92,10 @@ export default {
             this.$vux.loading.hide()
           })
         } else {
-          this.$vux.toast.text('请填写意见内容~')
+          this.$vux.toast.text('请填写意见内容')
         }
       } else {
-        this.$vux.toast.text('请选择一种意见类型~')
+        this.$vux.toast.text('请选择一种意见类型')
       }
       this.$vux.loading.hide()
     }

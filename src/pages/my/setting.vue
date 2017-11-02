@@ -45,7 +45,6 @@ export default {
       }
       // 获取设备信息
       self.$store.dispatch('normalRequest', data).then(res => {
-        alert('2222222' + JSON.stringify(res))
         // 存用户信息
         self.$store.commit('INIT_USER_INFO', res)
       })

@@ -31,12 +31,7 @@ export default {
       }
     }
     Vue.prototype.isVerfied = function () {
-      let isAuth = this.$store.state.userInfo.isAuth
-      if (isAuth !== '') {
-        return true
-      } else {
-        return false
-      }
+      return this.$store.state.userInfo.isAuth
     }
     Vue.prototype.isPhoneCorrect = function (phoneNum) {
       let mPattern = /^(^0\d{3,4}-\d{7,8})$|^(^0\d{3,4}\d{7,8})$|^(1(3|4|5|7|8)[0-9]\d{8})$/
@@ -88,6 +83,13 @@ export default {
       self.$store.dispatch('normalRequest', data).then(res => {
         // 存用户信息
         self.$store.commit('INIT_USER_INFO', res)
+      })
+    }
+    Vue.prototype.toVerfiedPage = function () {
+      let data = {
+        action: 'jump_id_auth'
+      }
+      this.$store.dispatch('normalRequest', data).then(res => {
       })
     }
   }

@@ -1,34 +1,9 @@
 ﻿/*-------------- reset.css --------------------*/
-html,
-body,
-div,
-dl,
-dt,
-dd,
-ul,
-ol,
-li,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-pre,
-form,
-fieldset,
-input,
-lable,
-textarea,
-p,
-blockquote,
-img,
-th,
-td {
+html,body,div,ul,ol,li,h1,h2,h3,h4,h5,h6,form,input,lable,textarea,p,img{
     margin: 0;
     padding: 0; 
-    -webkit-user-select: none;/*禁用手机浏览器的用户选择功能 */
-  -moz-user-select: none; 
+    /* -webkit-user-select: none; */
+  /* -moz-user-select: none;  */
 }
 html,body{
     height:100%;
@@ -38,12 +13,9 @@ img {
     border: none;
     float: none;
 }
-
 fieldset {
     border: 0;
 }
-
-ol,
 ul {
     list-style: none;
 }
@@ -52,7 +24,6 @@ a {
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     cursor: pointer;
 }
-
 select,
 input {
     vertical-align: middle;
@@ -62,12 +33,10 @@ input {
 label {
     cursor: hand;
 }
-
 abbr,
 acronym {
     border: 0;
 }
-
 button {
     margin:0;
     padding:0;
@@ -75,8 +44,6 @@ button {
     outline: 0;
     background:#fff;
 }
-
-
 /*去除边框虚线*/
 
 iframe {
@@ -173,7 +140,7 @@ input:-moz-placeholder {
     /* font-size:0.7rem; */
 }
 .weui-tab .weui-cell_access .weui-cell__ft:after{
-    border-color:#666;
+    border-color:#acacac;
 }
 .weui-label,
 .weui-cells:after{
@@ -300,7 +267,7 @@ input:-moz-placeholder {
     /* width:none;
     padding:0.5rem; */
     padding:0.5rem 0;
-    text-indent: 0.5rem;
+    text-indent: 0.75rem;
   }
   #app .vux-popup-picker-placeholder{
     font-size:0.7rem;
@@ -332,4 +299,11 @@ input:-moz-placeholder {
   }
   #app .box vux-no-group-title{
     border-top:none;
+  }
+  #app .vux-header-title-area, .vux-header .vux-header-title{
+      margin: 0 70px;
+  }
+  #app .weui-cell__ft{
+      color:#333;
+      font-size:0.7rem;
   }

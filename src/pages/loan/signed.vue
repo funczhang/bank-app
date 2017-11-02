@@ -67,7 +67,7 @@
               .line(@click="showBindCard = true" class="clearfix" style="padding:0.3rem 0;") 
                 img(class="icon-card" src="../../assets/imgs/icon-card.png" @click="showBindCard = false")
                 span(v-show="hasBindCardNo === ''" style="font-size:14px;color:#333;") 绑定银行卡
-                span(v-show="hasBindCardNo !== ''" style="font-size:14px;color:#333;") {{hasBindCardNo}}
+                span(v-show="hasBindCardNo !== ''" style="font-size:14px;color:#333;float:right;margin-right:1rem") **** **** **** {{hasBindCardNo.substr(hasBindCardNo.length - 4, hasBindCardNo.length)}}
           .btn-area(v-show="!isHandlerAssure" class="clearfix")
             a(href="javascript:void(null)" class="btn-submit fl" @click="sign") 签约
             a(href="javascript:void(null)" class="btn-cancel fr" @click="nextTimeSign") 下次再说
@@ -433,7 +433,7 @@ export default {
             self.couponList.push({ name: element.couponAmount, value: element.couponCode, parent: 0 })
           })
           data.data.bankcardList.forEach(function (element) {
-            self.radio.push({ key: element.bankcardNo, value: element.bankcardNo })
+            self.radio.push({ key: '**** **** **** '+element.bankcardNo.substr(element.bankcardNo.length-4, element.bankcardNo.length), value: element.bankcardNo })
           })
         } else {
           this.$vux.toast.text(data.data)

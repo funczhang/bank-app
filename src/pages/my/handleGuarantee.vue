@@ -79,7 +79,8 @@ export default {
       },
       areas: areas.areas,
       defaultAddress: ['江苏省泰州市兴化市'],
-      detailAddress: ''
+      detailAddress: '',
+      isReadPerson: '1'
     }
   },
   mounted () {
@@ -88,6 +89,7 @@ export default {
   methods: {
     jumpWeb () {
       let url = this.$store.state.baseUrl + '/app/xsyd/credit.html?userToken=' + this.$store.state.userInfo.token
+      this.isReadPerson = '2'
       this.jumpWebShowContent('个人授权协议书', url)
     },
     agreeAuth () {
@@ -104,6 +106,10 @@ export default {
         }
       }
       if (self.detailAddress.trim().length > 0) {
+        if (this.isReadPerson === '1') {
+          this.$vux.toast.text('请先查阅个人授权协议书')
+          return
+        }
         self.$store.dispatch('normalRequest', data).then(res => {
           if (res.response === 'success') {
             this.$vux.toast.text('担保成功')

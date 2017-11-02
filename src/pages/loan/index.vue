@@ -82,7 +82,9 @@ export default {
       listad: [],
       loanUseList: [],
       applyTerm: '',
-      idCard: ''
+      idCard: '',
+      isReadPerson: '1',
+      isReadAddress: '1'
     }
   },
   mounted () {
@@ -92,9 +94,11 @@ export default {
     jumpWeb (type) {
       if (type === 1) {
         let url = this.$store.state.baseUrl + '/app/xsyd/credit.html?userToken=' + this.$store.state.userInfo.token
+        this.isReadPerson = '2'
         this.jumpWebShowContent('个人授权协议书', url)
       } else {
         let url = this.$store.state.baseUrl + '/app/xsyd/lawAddress.html?userToken=' + this.$store.state.userInfo.token
+        this.isReadAddress = '2'
         this.jumpWebShowContent('法律文书送达地址确认书', url)
       }
     },
@@ -150,6 +154,14 @@ export default {
       }
       if (data.params.usedFor !== '') {
         if (this.detailAddress.trim().length > 0) {
+          if (this.isReadPerson === '1') {
+            this.$vux.toast.text('请先查阅个人授权协议书')
+            return
+          }
+          if (this.isReadAddress === '1') {
+            this.$vux.toast.text('请先查阅法律文书送达地址确认书')
+            return
+          }
           self.$store.dispatch('normalRequest', data).then(data => {
             if (data.response === 'success') {
               this.$router.replace('/quotaEvaluation')

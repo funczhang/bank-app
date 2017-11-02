@@ -87,7 +87,7 @@ export default {
       }
       if (token !== '' && token !== undefined) {
         self.$store.dispatch('normalRequest', data).then(res => {
-          res.response === 'success' ? self.$store.commit('INIT_HEAD_IMG', res.data) : self.$vux.toast.text('头像信息获取失败')
+          res.response === 'success' ? self.$store.commit('INIT_HEAD_IMG', res.data) : null
         })
       } else {
         self.$vux.toast.text('请先登录')

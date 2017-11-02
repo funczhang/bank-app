@@ -132,6 +132,7 @@ export default {
       index: 0,
       isAddStatus: '1',
       radio: [],
+      radioCopy: [],
       newRate: '',
       isConfirmShow: false,
       isSignTipShow: false,
@@ -257,13 +258,19 @@ export default {
        // 绑定银行卡
       let self = this
       let path = self.$store.state.baseUrl + '/app/xsyd/chooseBankCard.do'
+      let cardNoCopy = ''
+      for (var i = 0; i < self.radioCopy.length; i++) {
+        if (self.radioCopy[i].key === self.bindCardNo.substr(self.bindCardNo - 4, self.bindCardNo)) {
+          cardNoCopy = self.radioCopy[i].value
+        }
+      }
       let data = {
         action: 'init_request',
         path: path,
         params: {
           token: self.$store.state.userInfo.token,
           applyId: self.$store.state.applyNo,
-          bankCardNo: self.bindCardNo
+          bankCardNo: cardNoCopy
         }
       }
       if (self.bindCardNo !== '') {
@@ -435,7 +442,8 @@ export default {
             self.couponList.push({ name: element.couponAmount, value: element.couponCode, parent: 0 })
           })
           data.data.bankcardList.forEach(function (element) {
-            self.radio.push({ key: '**** **** **** ' + element.bankcardNo.substr(element.bankcardNo.length - 4, element.bankcardNo.length), value: element.bankcardNo })
+            self.radioCopy.push({key: element.bankcardNo.substr(element.bankcardNo.length - 4, element.bankcardNo.length), value: element.bankcardNo})
+            self.radio.push({key: element.bankcardNo.substr(element.bankcardNo.length - 4, element.bankcardNo.length), value: '**** **** **** ' + element.bankcardNo.substr(element.bankcardNo.length - 4, element.bankcardNo.length)})
           })
         } else {
           this.$vux.toast.text(data.data)

@@ -67,7 +67,7 @@
               .line(@click="showBindCard = true" class="clearfix" style="padding:0.3rem 0;") 
                 img(class="icon-card" src="../../assets/imgs/icon-card.png" @click="showBindCard = false")
                 span(v-show="hasBindCardNo === ''" style="font-size:14px;color:#333;") 绑定银行卡
-                span(v-show="hasBindCardNo !== ''" style="font-size:14px;color:#333;float:right;margin-right:1rem") **** **** **** {{hasBindCardNo.substr(hasBindCardNo.length - 4, hasBindCardNo.length)}}
+                span(v-show="hasBindCardNo !== ''" style="font-size:14px;color:#333;float:right;padding: 0.5rem 1rem 0 0;") **** **** **** {{hasBindCardNo.substr(hasBindCardNo.length - 4, hasBindCardNo.length)}}
           .btn-area(v-show="!isHandlerAssure" class="clearfix")
             a(href="javascript:void(null)" class="btn-submit fl" @click="sign") 签约
             a(href="javascript:void(null)" class="btn-cancel fr" @click="nextTimeSign") 下次再说
@@ -165,7 +165,8 @@ export default {
   },
   computed: {
     step () {
-      return this.$store.state.applyState
+      return 3
+      // return this.$store.state.applyState
     },
     isHandlerAssure () {
       return this.$store.state.applyState === 3
@@ -319,17 +320,18 @@ export default {
           name: '签约授权'
         }
       }
-      if (data.params.cardNo !== '') {
-        self.$store.dispatch('normalRequest', data).then(res => {
-          if (res.response === 'success') {
-            this.isSignTipShow = true
-            // this.$router.replace('/checkLoan')
-            // this.$store.state.tabItem = 1
-          }
-        })
-      } else {
-        this.$vux.toast.text('请先绑定银行卡')
-      }
+      alert(JSON.stringify(data.params))
+      // if (data.params.cardNo !== '') {
+      //   self.$store.dispatch('normalRequest', data).then(res => {
+      //     if (res.response === 'success') {
+      //       this.isSignTipShow = true
+      //       // this.$router.replace('/checkLoan')
+      //       // this.$store.state.tabItem = 1
+      //     }
+      //   })
+      // } else {
+      //   this.$vux.toast.text('请先绑定银行卡')
+      // }
     },
     bindCard () {
       self.showBindCard = false

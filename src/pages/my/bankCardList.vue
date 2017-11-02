@@ -153,6 +153,7 @@ export default {
         background-size:100% 100%;
       }
       .item-content{
+        padding:0.3rem 0;
         img{
           position: absolute;
           left:0.5rem;
@@ -160,7 +161,7 @@ export default {
           width:2rem;
           height:2rem;
         }
-        padding-left:2.5rem;
+        padding-left:3rem;
         // background:url(../../assets/imgs/bank-logo.png);
         border-radius: 8px;
         background:-webkit-gradient(linear,100% 0%, 50% 0%, from(#378CF4), to(#2B7DE2));

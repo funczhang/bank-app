@@ -440,12 +440,8 @@ export default {
             self.couponList.push({ name: element.couponAmount, value: element.couponCode, parent: 0 })
           })
           data.data.bankcardList.forEach(function (element) {
-<<<<<<< HEAD
             self.radioCopy.push({key: element.bankcardNo.substr(element.bankcardNo.length - 4, element.bankcardNo.length), value: element.bankcardNo})
             self.radio.push({key: element.bankcardNo.substr(element.bankcardNo.length - 4, element.bankcardNo.length), value: '**** **** **** ' + element.bankcardNo.substr(element.bankcardNo.length - 4, element.bankcardNo.length)})
-=======
-            self.radio.push({ key: '**** **** **** ' + element.bankcardNo.substr(element.bankcardNo.length - 4, element.bankcardNo.length), value: element.bankcardNo })
->>>>>>> 5777546a3884d93d0f5285d43d331b43a406a0fb
           })
         } else {
           this.$vux.toast.text(data.data)

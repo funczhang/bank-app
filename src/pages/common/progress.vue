@@ -1,5 +1,5 @@
 <template lang="pug">
-.template
+.template(:style="{position:position, top: top}")
   .progerss(v-if="state === 1")  
     //-  1-待准入 额度评估
     img(src="../../assets/imgs/progress01.png")
@@ -59,11 +59,13 @@
 </template>
 <script>
   export default {
-    props: ['state']
+    props: ['state', 'position', 'top']
   }
 </script>
 <style lang="less">
 .progerss{
+  // position: relative;
+  // top:46px;
   padding:0.5rem 0.75rem;
   height:2.5rem;
   background:#257eeb;

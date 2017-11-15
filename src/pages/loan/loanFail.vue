@@ -1,6 +1,6 @@
 <template lang="pug">
   div(style="height:100%;")
-    view-box(ref="viewBox" body-padding-top="46px" body-padding-bottom="50px")
+    view-box(ref="viewBox" body-padding-top="46px" body-padding-bottom="0" bgColor="#fff")
       x-header(slot="header" title="申请失败" :left-options="{showBack:true,backText:''}" style="width:100%;position:absolute;left:0;top:0;z-index:100;background:#fff;color:#000;")
       .content
         rate(:state="state")  
@@ -44,12 +44,10 @@ export default {
         path: path,
         params: {
           token: this.$store.state.userInfo.token
-          // token: 'e2e9e2dc-07c6-41f0-9b80-0486a1c0f5b4'
         }
       }
       // 初始化我的贷款
       self.$store.dispatch('normalRequest', data).then(data => {
-        // let data = JSON.parse(res)
         if (data.response === 'success') {
           if (data.data.explain === '6') {
             self.tip = '未签约（签约超时）'
@@ -66,37 +64,38 @@ export default {
 </script>
 <style lang="less" scoped>
 .content{
+  // position: relative;
   padding:0.1px;
   background:#f5f5f5;
-  .progerss{
-    position: absolute;
-    margin-top:0.75rem;
-    padding:0.5rem 0.75rem;
-    height:2.5rem;
-    background:#257eeb;
-    img{
-      padding-bottom:0.25rem;
-      width:100%;
-    }
-    span{
-      float:left;
-      width:30%;
-      text-align: center;
-      font-size:0.7rem;
-      color:#fff;
-    }
-    .first{
-      width:20%;
-      text-align: left;
-    }
-    .last{
-      width:20%;
-      text-align: right;
-    }
-  }
+  // .progerss{
+  //   position: absolute;
+  //   margin-top:0.75rem;
+  //   padding:0.5rem 0.75rem;
+  //   height:2.5rem;
+  //   background:#257eeb;
+  //   img{
+  //     padding-bottom:0.25rem;
+  //     width:100%;
+  //   }
+  //   span{
+  //     float:left;
+  //     width:30%;
+  //     text-align: center;
+  //     font-size:0.7rem;
+  //     color:#fff;
+  //   }
+  //   .first{
+  //     width:20%;
+  //     text-align: left;
+  //   }
+  //   .last{
+  //     width:20%;
+  //     text-align: right;
+  //   }
+  // }
   .tip{
     position: absolute;
-    top:6.5rem;
+    top:6rem;
     bottom:0;
     background:#fff;
     img{

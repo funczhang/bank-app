@@ -158,7 +158,8 @@ export default {
       getAssurePhone: '', // 已担保人姓名
       getAssureName: '', // 已担保人姓名
       getAssureIdCard: '', // 已担保人姓名
-      assureIdcard: '' // 担保人身份证
+      assureIdcard: '', // 担保人身份证
+      cardNoCopy: ''
     }
   },
   mounted () {
@@ -166,8 +167,8 @@ export default {
   },
   computed: {
     step () {
-      return 3
-      // return this.$store.state.applyState
+      // return 3
+      return this.$store.state.applyState
     },
     isHandlerAssure () {
       return this.$store.state.applyState === 3
@@ -258,10 +259,9 @@ export default {
        // 绑定银行卡
       let self = this
       let path = self.$store.state.baseUrl + '/app/xsyd/chooseBankCard.do'
-      let cardNoCopy = ''
       for (var i = 0; i < self.radioCopy.length; i++) {
-        if (self.radioCopy[i].key === self.bindCardNo.substr(self.bindCardNo - 4, self.bindCardNo)) {
-          cardNoCopy = self.radioCopy[i].value
+        if (self.radioCopy[i].key === self.bindCardNo) {
+          self.cardNoCopy = self.radioCopy[i].value
         }
       }
       let data = {
@@ -270,7 +270,7 @@ export default {
         params: {
           token: self.$store.state.userInfo.token,
           applyId: self.$store.state.applyNo,
-          bankCardNo: cardNoCopy
+          bankCardNo: self.cardNoCopy
         }
       }
       if (self.bindCardNo !== '') {
@@ -322,23 +322,22 @@ export default {
           type: '1', // 1申请人 2担保人
           couponId: self.couponId,
           newRate: self.newRate,
-          cardNo: self.bindCardNo,
+          cardNo: self.cardNoCopy,
           url: self.$store.state.baseUrl + '/app/xsyd/signContract.do',
           name: '签约授权'
         }
       }
-      alert(JSON.stringify(data.params))
-      // if (data.params.cardNo !== '') {
-      //   self.$store.dispatch('normalRequest', data).then(res => {
-      //     if (res.response === 'success') {
-      //       this.isSignTipShow = true
-      //       // this.$router.replace('/checkLoan')
-      //       // this.$store.state.tabItem = 1
-      //     }
-      //   })
-      // } else {
-      //   this.$vux.toast.text('请先绑定银行卡')
-      // }
+      if (data.params.cardNo !== '') {
+        self.$store.dispatch('normalRequest', data).then(res => {
+          if (res.response === 'success') {
+            this.isSignTipShow = true
+            // this.$router.replace('/checkLoan')
+            // this.$store.state.tabItem = 1
+          }
+        })
+      } else {
+        this.$vux.toast.text('请先绑定银行卡')
+      }
     },
     bindCard () {
       self.showBindCard = false
@@ -489,31 +488,32 @@ export default {
 <style lang="less" scoped>
 .content{
   padding:0.1px;
-  .progerss{
-    margin-top:0.75rem;
-    padding:0.5rem 0.75rem;
-    height:2.5rem;
-    background:#257eeb;
-    img{
-      padding-bottom:0.25rem;
-      width:100%;
-    }
-    span{
-      float:left;
-      width:30%;
-      text-align: center;
-      font-size:0.7rem;
-      color:#fff;
-    }
-    .first{
-      width:20%;
-      text-align: left;
-    }
-    .last{
-      width:20%;
-      text-align: right;
-    }
-  }
+  // padding-top:3.5rem;
+  // .progerss{
+  //   margin-top:0.75rem;
+  //   padding:0.5rem 0.75rem;
+  //   height:2.5rem;
+  //   background:#257eeb;
+  //   img{
+  //     padding-bottom:0.25rem;
+  //     width:100%;
+  //   }
+  //   span{
+  //     float:left;
+  //     width:30%;
+  //     text-align: center;
+  //     font-size:0.7rem;
+  //     color:#fff;
+  //   }
+  //   .first{
+  //     width:20%;
+  //     text-align: left;
+  //   }
+  //   .last{
+  //     width:20%;
+  //     text-align: right;
+  //   }
+  // }
   .tip{
     background:#fff;
     img{

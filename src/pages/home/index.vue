@@ -202,7 +202,7 @@ export default {
       }
       window.setUserInfo = (res) => {
         self.getUserInfo()
-        self.$router.replace('/setting')
+        self.$router.replace('/myData')
       }
     },
     goApply () {

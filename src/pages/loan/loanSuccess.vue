@@ -1,6 +1,6 @@
 <template lang="pug">
   div(style="height:100%;")
-    view-box(ref="viewBox" body-padding-top="46px" body-padding-bottom="0")
+    view-box(ref="viewBox" body-padding-top="46px" body-padding-bottom="0" bgColor="#fff")
       x-header(slot="header" title="签约完成" :left-options="{showBack:true,backText:''}" style="width:100%;position:absolute;left:0;top:0;z-index:100;background:#fff;color:#000;")
       .content  
         .progerss
@@ -88,6 +88,7 @@ export default {
 </script>
 <style lang="less" scoped>
 .content{
+  background:#f5f5f5;
   padding:0.1px;
   .progerss{
     margin-top:0.75rem;
@@ -148,6 +149,8 @@ export default {
       color:#333;
     }
   .module-content{
+    border-top:1px solid #ededed;
+    border-bottom:1px solid #ededed;
     background:#fff;
     ul{
       padding:0.75rem 0;
@@ -184,7 +187,7 @@ export default {
     .line{
       margin:0 auto;
       width:94%;
-      border-bottom:1px solid #ededed;
+      // border-bottom:1px solid #ededed;
     }
   }
   .check-contract{

@@ -1,15 +1,16 @@
 <template lang="pug">
   div(style="height:100%;")
-    view-box(ref="viewBox" body-padding-top="46px" body-padding-bottom="0")
+    view-box(ref="viewBox" body-padding-top="46px" body-padding-bottom="0" bgColor="#fff")
       x-header(slot="header" title="授信申请" :left-options="{showBack:true,backText:''}" style="width:100%;position:absolute;left:0;top:0;z-index:100;background:#fff;")
-      .content  
-        .progerss
-          img(src="../../assets/imgs/progress01.png")
-          div
-            span(class="first") 待申请
-            span 待审批
-            span 待签约
-            span(class="last") 待完成
+      .content
+        .template  
+          .progerss
+            img(src="../../assets/imgs/progress01.png")
+            div
+              span(class="first") 待申请
+              span 待审批
+              span 待签约
+              span(class="last") 待完成
         .module
           .module-head 借款人信息
           ul(class="module-content")
@@ -186,9 +187,16 @@ export default {
 <style lang="less" scoped>
 html, body {
   .content{
-    // position: relative;
+    position: relative;
+    // padding-top:4.25rem;
+    background:#f5f5f5;
+    .template{
+      // position: fixed;
+      // top:46px;
+      background:#f5f5f5;
+      padding-top:0.75rem;
+    }
     .progerss{
-      margin-top:0.75rem;
       padding:0.5rem 0.75rem;
       height:2.5rem;
       background:#1f76e2;
